@@ -1,0 +1,40 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'com.diffplug.spotless' version '6.23.3'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation("commons-io:commons-io:2.15.1")
+}
+
+gradlePlugin {
+    plugins {
+         gradleAvrohugger {
+            id = 'io.kivanval.gradle-avrohugger'
+            implementationClass = 'io.kivanval.GradleAvrohuggerPlugin'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+spotless {
+    java {
+        importOrder()
+        removeUnusedImports()
+        cleanthat()
+        googleJavaFormat()
+        formatAnnotations()
+    }
+}
