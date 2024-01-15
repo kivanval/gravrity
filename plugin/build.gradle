@@ -1,26 +1,27 @@
 plugins {
     id 'java-gradle-plugin'
+
+    id 'java'
+    id 'groovy'
+
     id 'com.diffplug.spotless' version '6.23.3'
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation("commons-io:commons-io:2.15.1")
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
 }
 
 gradlePlugin {
     plugins {
          gradleAvrohugger {
-            id = 'io.kivanval.gradle-avrohugger'
-            implementationClass = 'io.kivanval.GradleAvrohuggerPlugin'
+            id = 'io.sofa.avrohugger'
+            implementationClass = 'io.sofa.gradle.AvrohuggerPlugin'
         }
     }
 }
@@ -36,5 +37,11 @@ spotless {
         cleanthat()
         googleJavaFormat()
         formatAnnotations()
+    }
+    groovy {
+        importOrder()
+        removeSemicolons()
+        greclipse()
+        excludeJava()
     }
 }
