@@ -15,8 +15,8 @@ class AvrohuggerBasePluginTest extends Specification {
 		when:
 		project.with {
 			pluginManager.with {
-				apply(AvrohuggerPlugin)
 				apply(JavaBasePlugin)
+				apply(AvrohuggerPlugin)
 			}
 			extensions.getByType(SourceSetContainer)
 		}

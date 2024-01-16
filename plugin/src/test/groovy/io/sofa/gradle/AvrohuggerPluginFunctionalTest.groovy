@@ -15,11 +15,14 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 		buildFile = new File(projectDir, "build.gradle")
 		buildFile << """
            plugins {
+               id('java')
                id('io.sofa.avrohugger')
            }
            sourceSets {
                main {
-                   avro {}
+                   avro {
+                   	 srcDir ''
+                   }
                }
            }
            """

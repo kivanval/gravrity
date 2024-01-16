@@ -47,3 +47,10 @@ spotless {
         greclipse()
     }
 }
+
+sourceSets{
+    main {
+        java {
+        }
+    }
+}
