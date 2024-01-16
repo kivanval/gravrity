@@ -5,6 +5,7 @@ plugins {
     id 'groovy'
 
     id 'com.diffplug.spotless' version '6.23.3'
+    id 'io.freefair.lombok' version '4.1.6'
 }
 
 repositories {
@@ -14,7 +15,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation('org.spockframework:spock-core:2.3-groovy-2.5') {
+        exclude group: 'org.codehaus.groovy'
+    }
 }
 
 gradlePlugin {
@@ -42,6 +45,5 @@ spotless {
         importOrder()
         removeSemicolons()
         greclipse()
-        excludeJava()
     }
 }
