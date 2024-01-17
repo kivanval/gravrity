@@ -17,8 +17,8 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-core
     implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.2'
-    // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-core
-    implementation 'com.julianpeeters:avrohugger-filter_2.13:2.8.2'
+    // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-filesorter
+    implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.2'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-2.5') {
         exclude group: 'org.codehaus.groovy'

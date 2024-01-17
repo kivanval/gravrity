@@ -10,6 +10,7 @@ public class AvrohuggerPlugin implements Plugin<Project> {
   @Override
   public void apply(Project project) {
     project.getPluginManager().apply(AvrohuggerBasePlugin.class);
+    project.getTasks().create("generateScalaAvro");
     // TODO
   }
 }
