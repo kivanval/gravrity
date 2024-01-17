@@ -3,7 +3,6 @@ package io.sofa.gradle;
 import static org.gradle.util.ConfigureUtil.configure;
 
 import groovy.lang.Closure;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.gradle.api.Action;
 import org.gradle.api.file.SourceDirectorySet;
