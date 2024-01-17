@@ -35,7 +35,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
         .all(
             sourceSet -> {
               var displayName =
-                  (String) InvokerHelper.invokeMethod(sourceSet, "getDisplayName", null);
+                  (String) InvokerHelper.getProperty(sourceSet, "displayName");
               var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
               convention.getPlugins().put("avro", new DefaultAvroSourceSet(displayName, objects));
             });
