@@ -1,5 +1,4 @@
 package io.sofa.gradle;
 
-//TODO
-public interface AvrohuggerExtension {
-}
+// TODO
+public interface AvrohuggerExtension {}
