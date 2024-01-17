@@ -40,12 +40,13 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
               var avroSourceSet = new DefaultAvroSourceSet(displayName, objects);
               convention.getPlugins().put("avro", avroSourceSet);
 
+              //TODO remove in DefaultAvroSourceSet
               var avroDirectorySet = avroSourceSet.getAvro();
               var suffix = sourceSet.getName() + "/avro";
               avroDirectorySet.srcDir("src/" + suffix);
               avroDirectorySet
                   .getDestinationDirectory()
-                  .dir(project.getBuildDir().getPath() + "/generated/avrohugger/" + suffix);
+                  .dir(project.getBuildDir().getPath() + "/generated/sources/avrohugger/" + suffix);
               sourceSet.getAllSource().source(avroDirectorySet);
               sourceSet.getResources().source(avroDirectorySet);
             });
