@@ -23,6 +23,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
   @Override
   public void apply(Project project) {
     project.getPluginManager().apply(ScalaBasePlugin.class);
+
     configureSourceSetDefaults(project, objects);
   }
 
@@ -34,10 +35,19 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
         .getSourceSets()
         .all(
             sourceSet -> {
-              var displayName =
-                  (String) InvokerHelper.getProperty(sourceSet, "displayName");
+              var displayName = (String) InvokerHelper.getProperty(sourceSet, "displayName");
               var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
-              convention.getPlugins().put("avro", new DefaultAvroSourceSet(displayName, objects));
+              var avroSourceSet = new DefaultAvroSourceSet(displayName, objects);
+              convention.getPlugins().put("avro", avroSourceSet);
+
+              var avroDirectorySet = avroSourceSet.getAvro();
+              var suffix = sourceSet.getName() + "/avro";
+              avroDirectorySet.srcDir("src/" + suffix);
+              avroDirectorySet
+                  .getDestinationDirectory()
+                  .dir(project.getBuildDir().getPath() + "/generated/avrohugger/" + suffix);
+              sourceSet.getAllSource().source(avroDirectorySet);
+              sourceSet.getResources().source(avroDirectorySet);
             });
   }
 }

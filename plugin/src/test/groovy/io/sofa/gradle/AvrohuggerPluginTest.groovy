@@ -8,7 +8,7 @@ import spock.lang.Specification
 class AvrohuggerPluginTest extends Specification {
 	def "plugin applies base plugin"() {
 		given:
-		Project project = ProjectBuilder.builder().build()
+		def project = ProjectBuilder.builder().build()
 
 		when:
 		project.pluginManager.apply(AvrohuggerPlugin)
@@ -19,7 +19,7 @@ class AvrohuggerPluginTest extends Specification {
 
 	def "plugin resisters generateAvroScala task"() {
 		given:
-		Project project = ProjectBuilder.builder().build()
+		def project = ProjectBuilder.builder().build()
 
 		when:
 		project.pluginManager.apply(AvrohuggerPlugin)
