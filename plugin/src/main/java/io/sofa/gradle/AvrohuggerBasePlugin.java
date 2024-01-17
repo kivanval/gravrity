@@ -40,7 +40,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
               var avroSourceSet = new DefaultAvroSourceSet(displayName, objects);
               convention.getPlugins().put("avro", avroSourceSet);
 
-              // TODO remove in DefaultAvroSourceSet
+              // TODO move in DefaultAvroSourceSet
               var avroDirectorySet = avroSourceSet.getAvro();
               var suffix = sourceSet.getName() + "/avro";
               avroDirectorySet.srcDir("src/" + suffix);

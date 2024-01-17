@@ -12,7 +12,6 @@ import org.gradle.api.reflect.HasPublicType;
 import org.gradle.api.reflect.TypeOf;
 
 @Getter
-@AllArgsConstructor
 public class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType {
   private final SourceDirectorySet avro;
 
@@ -30,7 +29,7 @@ public class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType {
   @Override
   public AvroSourceSet avro(Action<? super SourceDirectorySet> configureAction) {
     configureAction.execute(getAvro());
-    return null;
+    return this;
   }
 
   @Override
