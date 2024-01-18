@@ -8,8 +8,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.Convention;
-import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.plugins.scala.ScalaBasePlugin;
+import org.gradle.api.tasks.SourceSetContainer;
 
 @ExtensionMethod(Objects.class)
 public class AvrohuggerBasePlugin implements Plugin<Project> {
@@ -30,9 +30,8 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
   private static void configureSourceSetDefaults(
       final Project project, final ObjectFactory objects) {
     project
-        .getConvention()
-        .findPlugin(JavaPluginConvention.class)
-        .getSourceSets()
+        .getExtensions()
+        .getByType(SourceSetContainer.class)
         .all(
             sourceSet -> {
               var displayName = (String) InvokerHelper.getProperty(sourceSet, "displayName");
@@ -44,9 +43,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
               var avroDirectorySet = avroSourceSet.getAvro();
               var suffix = sourceSet.getName() + "/avro";
               avroDirectorySet.srcDir("src/" + suffix);
-              avroDirectorySet
-                  .getDestinationDirectory()
-                  .dir(project.getBuildDir().getPath() + "/generated/sources/avrohugger/" + suffix);
+
               sourceSet.getAllSource().source(avroDirectorySet);
               sourceSet.getResources().source(avroDirectorySet);
             });

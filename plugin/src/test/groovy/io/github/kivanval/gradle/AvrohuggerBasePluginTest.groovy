@@ -1,26 +1,28 @@
 package io.github.kivanval.gradle
 
-import org.gradle.api.UnknownDomainObjectException
-import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.tasks.SourceSetContainer
+import groovy.transform.CompileDynamic
+import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
+@CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
-	def "plugin always has extension with type SourceSetContainer"() {
+	def "plugin has avro directories by default using ScalaPlugin"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
 		when:
-		project.with {
-			pluginManager.with {
-				apply(JavaBasePlugin)
-				apply(AvrohuggerPlugin)
-			}
-			extensions.getByType(SourceSetContainer)
+		project.pluginManager.with {
+			apply(ScalaPlugin)
+			apply(AvrohuggerPlugin)
 		}
 
 		then:
-		notThrown(UnknownDomainObjectException)
+		project.sourceSets.getByName(sourceSet).avro.srcDirs.collect{ it.toString() } == [
+			"${project.projectDir}/src/$sourceSet/avro"
+		]
+
+		where:
+		sourceSet << ['main', 'test']
 	}
 }

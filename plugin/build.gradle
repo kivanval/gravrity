@@ -25,6 +25,8 @@ dependencies {
     }
 }
 
+group = "io.github.kivanval"
+
 gradlePlugin {
     plugins {
          gradleAvrohugger {
