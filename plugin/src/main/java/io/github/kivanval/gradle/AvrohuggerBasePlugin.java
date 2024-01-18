@@ -1,4 +1,4 @@
-package io.sofa.gradle;
+package io.github.kivanval.gradle;
 
 import java.util.Objects;
 import javax.inject.Inject;
@@ -37,10 +37,10 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
             sourceSet -> {
               var displayName = (String) InvokerHelper.getProperty(sourceSet, "displayName");
               var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
-              var avroSourceSet = new DefaultAvroSourceSet(displayName, objects);
+              var avroSourceSet =
+                  objects.newInstance(DefaultAvroSourceSet.class, displayName, objects);
               convention.getPlugins().put("avro", avroSourceSet);
 
-              // TODO move in DefaultAvroSourceSet
               var avroDirectorySet = avroSourceSet.getAvro();
               var suffix = sourceSet.getName() + "/avro";
               avroDirectorySet.srcDir("src/" + suffix);

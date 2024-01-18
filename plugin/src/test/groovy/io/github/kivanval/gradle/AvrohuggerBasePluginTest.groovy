@@ -1,4 +1,4 @@
-package io.sofa.gradle
+package io.github.kivanval.gradle
 
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.plugins.JavaBasePlugin

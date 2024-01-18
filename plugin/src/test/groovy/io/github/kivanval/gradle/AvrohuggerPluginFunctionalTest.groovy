@@ -1,4 +1,4 @@
-package io.sofa.gradle
+package io.github.kivanval.gradle
 
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Shared
