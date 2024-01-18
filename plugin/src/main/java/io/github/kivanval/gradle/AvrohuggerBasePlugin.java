@@ -29,23 +29,36 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private static void configureSourceSetDefaults(
       final Project project, final ObjectFactory objects) {
-    project
-        .getExtensions()
-        .getByType(SourceSetContainer.class)
-        .all(
-            sourceSet -> {
-              var displayName = (String) InvokerHelper.getProperty(sourceSet, "displayName");
-              var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
-              var avroSourceSet =
-                  objects.newInstance(DefaultAvroSourceSet.class, displayName, objects);
-              convention.getPlugins().put("avro", avroSourceSet);
 
-              var avroDirectorySet = avroSourceSet.getAvro();
-              var suffix = sourceSet.getName() + "/avro";
-              avroDirectorySet.srcDir("src/" + suffix);
+    final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
+    sourceSets.all(
+        sourceSet -> {
+          var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
+          var avroSourceSet =
+              objects.newInstance(DefaultAvroSourceSet.class, sourceSet.getName(), objects);
+          convention.getPlugins().put("avro", avroSourceSet);
 
-              sourceSet.getAllSource().source(avroDirectorySet);
-              sourceSet.getResources().source(avroDirectorySet);
-            });
+          var avroDirectorySet = avroSourceSet.getAvro();
+          var suffix = sourceSet.getName() + "/avro";
+          avroDirectorySet.srcDir("src/" + suffix);
+
+          sourceSet.getAllSource().source(avroDirectorySet);
+          sourceSet.getResources().source(avroDirectorySet);
+        });
+
+    addExtensions(project, objects);
+  }
+
+  private static DefaultAvrohuggerExtension addExtensions(
+      final Project project, final ObjectFactory objects) {
+    return (DefaultAvrohuggerExtension)
+        project
+            .getExtensions()
+            .create(
+                AvrohuggerExtension.class,
+                "avrohugger",
+                DefaultAvrohuggerExtension.class,
+                project,
+                objects);
   }
 }

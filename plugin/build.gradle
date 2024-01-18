@@ -4,8 +4,8 @@ plugins {
     id 'java'
     id 'groovy'
 
-    id 'com.diffplug.spotless' version '6.23.3'
-    id 'io.freefair.lombok' version '4.1.6'
+    id 'com.diffplug.spotless' version '6.24.0'
+    id 'io.freefair.lombok' version '6.3.0'
 }
 
 repositories {
@@ -20,7 +20,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-filesorter
     implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.2'
 
-    testImplementation('org.spockframework:spock-core:2.3-groovy-2.5') {
+    testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }
 }

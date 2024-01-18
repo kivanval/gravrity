@@ -5,5 +5,5 @@ import org.gradle.api.NamedDomainObjectContainer;
 
 @Incubating
 public interface AvrohuggerExtension {
-  NamedDomainObjectContainer<AvroSourceSet> getNamedObjectContainer();
+  NamedDomainObjectContainer<AvroSourceSet> getSourceSets();
 }
