@@ -1,5 +1,6 @@
-package io.sofa.gradle
+package io.github.kivanval.gradle
 
+import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Shared
 import spock.lang.Specification
@@ -13,19 +14,7 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 
 	def setupSpec() {
 		buildFile = new File(projectDir, "build.gradle")
-		buildFile << """
-           plugins {
-               id('java')
-               id('io.sofa.avrohugger')
-           }
-           sourceSets {
-               main {
-                   avro {
-                   	 srcDir ''
-                   }
-               }
-           }
-           """
+		buildFile << ResourceHelper.read("sample.gradle")
 		settingsFile = new File(projectDir, "settings.gradle")
 		settingsFile << ""
 	}

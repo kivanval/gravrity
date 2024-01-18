@@ -1,4 +1,4 @@
-package io.sofa.gradle;
+package io.github.kivanval.gradle;
 
 import org.gradle.api.Incubating;
 import org.gradle.api.NamedDomainObjectContainer;

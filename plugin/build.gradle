@@ -25,11 +25,13 @@ dependencies {
     }
 }
 
+group = "io.github.kivanval"
+
 gradlePlugin {
     plugins {
          gradleAvrohugger {
-            id = 'io.sofa.avrohugger'
-            implementationClass = 'io.sofa.gradle.AvrohuggerPlugin'
+            id = 'io.github.kivanval.avrohugger'
+            implementationClass = 'io.github.kivanval.gradle.AvrohuggerPlugin'
         }
     }
 }
