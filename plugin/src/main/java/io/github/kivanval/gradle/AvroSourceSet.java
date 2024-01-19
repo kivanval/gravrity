@@ -7,6 +7,8 @@ import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.plugins.ExtensionAware;
 
 public interface AvroSourceSet extends ExtensionAware {
+  String getName();
+
   SourceDirectorySet getAvro();
 
   AvroSourceSet avro(
