@@ -8,7 +8,22 @@ import spock.lang.Unroll
 
 @CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
-	def "plugin has avro directories by default using ScalaPlugin"() {
+	@Unroll
+	def "plugin should have extension with #sourceSet sourceSets"() {
+		given:
+		def project = ProjectBuilder.builder().build()
+
+		when:
+		project.pluginManager.apply(AvrohuggerPlugin)
+
+		then:
+		project.avrohugger.sourceSets.getByName(sourceSetName) != null
+
+		where:
+		sourceSetName << ['main', 'test']
+	}
+
+	def "plugin should have avro default settings in sourceSets using ScalaPlugin"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
@@ -29,23 +44,5 @@ class AvrohuggerBasePluginTest extends Specification {
 
 		where:
 		sourceSetName << ['main', 'test']
-	}
-
-	@Unroll
-	def "plugin has extension with #sourceSet sourceSets"() {
-		given:
-		def project = ProjectBuilder.builder().build()
-
-		when:
-		project.pluginManager.with {
-			apply(ScalaPlugin)
-			apply(AvrohuggerPlugin)
-		}
-
-		then:
-		project.avrohugger.sourceSets.getByName(sourceSet) != null
-
-		where:
-		sourceSet << ['main', 'test']
 	}
 }

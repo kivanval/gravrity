@@ -46,7 +46,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
           sourceSet.getAllSource().source(avroDirectorySet);
           sourceSet.getResources().source(avroDirectorySet);
 
-          //TODO Move in task creating step
+          // TODO Maybe, move in task creating step
           final var output = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
           final var avroScalaGeneratedPath =
               "generated/sources/avrohugger/scala/" + sourceSet.getName();
