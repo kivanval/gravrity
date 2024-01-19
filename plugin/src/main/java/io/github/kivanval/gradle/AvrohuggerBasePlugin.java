@@ -6,7 +6,7 @@ import lombok.experimental.ExtensionMethod;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.internal.file.DefaultSourceDirectorySet;
+import org.gradle.api.internal.tasks.DefaultSourceSetOutput;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.scala.ScalaBasePlugin;
@@ -27,6 +27,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     project.getPluginManager().apply(ScalaBasePlugin.class);
 
     configureSourceSetDefaults(project, objects);
+    addExtension(project, objects);
   }
 
   private static void configureSourceSetDefaults(
@@ -40,19 +41,22 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
               objects.newInstance(DefaultAvroSourceSet.class, sourceSet.getName(), objects);
           convention.getPlugins().put("avro", avroSourceSet);
 
-          final var avroDirectorySet =
-              Cast.cast(DefaultSourceDirectorySet.class, avroSourceSet.getAvro());
-          final var suffix = sourceSet.getName() + "/avro";
-          avroDirectorySet.srcDir("src/" + suffix);
-
+          final var avroDirectorySet = avroSourceSet.getAvro();
+          avroDirectorySet.srcDir("src/" + sourceSet.getName() + "/" + avroDirectorySet.getName());
           sourceSet.getAllSource().source(avroDirectorySet);
           sourceSet.getResources().source(avroDirectorySet);
-        });
 
-    addExtensions(project, objects);
+          //TODO Move in task creating step
+          final var output = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
+          final var avroScalaGeneratedPath =
+              "generated/sources/avrohugger/scala/" + sourceSet.getName();
+          output
+              .getGeneratedSourcesDirs()
+              .from(project.getLayout().getBuildDirectory().dir(avroScalaGeneratedPath));
+        });
   }
 
-  private static void addExtensions(final Project project, final ObjectFactory objects) {
+  private static void addExtension(final Project project, final ObjectFactory objects) {
     project
         .getExtensions()
         .create(

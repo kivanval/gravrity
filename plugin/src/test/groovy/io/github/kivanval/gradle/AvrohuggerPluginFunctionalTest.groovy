@@ -1,6 +1,5 @@
 package io.github.kivanval.gradle
 
-import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Shared
 import spock.lang.Specification

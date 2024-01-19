@@ -52,5 +52,6 @@ spotless {
         importOrder()
         removeSemicolons()
         greclipse()
+        excludeJava()
     }
 }

@@ -18,7 +18,7 @@ class AvrohuggerPluginTest extends Specification {
 	}
 
 	@Ignore
-	def "plugin resisters generateAvroScala task"() {
+	def "plugin registers generateAvroScala task"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 

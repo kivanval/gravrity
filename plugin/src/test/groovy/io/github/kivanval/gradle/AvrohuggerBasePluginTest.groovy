@@ -19,12 +19,16 @@ class AvrohuggerBasePluginTest extends Specification {
 		}
 
 		then:
-		project.sourceSets.getByName(sourceSet).avro.srcDirs.collect { it.toString() } == [
-				"${project.projectDir}/src/$sourceSet/avro"
+		def sourceSet = project.sourceSets.getByName(sourceSetName)
+		sourceSet.avro.srcDirs.collect { it.toString() } == [
+			"${project.projectDir}/src/$sourceSetName/avro"
 		]
+		sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(
+		"${project.layout.buildDirectory}/generated/sources/avrohugger/scala/$sourceSetName"
+		)
 
 		where:
-		sourceSet << ['main', 'test']
+		sourceSetName << ['main', 'test']
 	}
 
 	@Unroll

@@ -5,11 +5,11 @@ import lombok.Getter;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 import org.gradle.api.model.ObjectFactory;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.SourceSet;
 
-@Getter
 public class DefaultAvrohuggerExtension implements AvrohuggerExtension {
-
+  @Getter(onMethod_ = {@Input})
   private final NamedDomainObjectContainer<AvroSourceSet> sourceSets;
 
   @Inject
