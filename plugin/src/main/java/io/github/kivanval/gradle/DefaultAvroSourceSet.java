@@ -6,6 +6,7 @@ import groovy.lang.Closure;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.gradle.api.Action;
+import org.gradle.api.Describable;
 import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.reflect.HasPublicType;
@@ -15,7 +16,7 @@ import org.gradle.api.tasks.SourceSet;
 import org.gradle.util.internal.GUtil;
 
 @Getter
-public abstract class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType {
+public abstract class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType, Describable {
   private final String name;
   private final String baseName;
   private final String displayName;

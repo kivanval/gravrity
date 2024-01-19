@@ -9,7 +9,7 @@ import spock.lang.Unroll
 @CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
 	@Unroll
-	def "plugin should have extension with #sourceSet sourceSets"() {
+	def "plugin should have extension with #sourceSetName sourceSets"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
