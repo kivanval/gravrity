@@ -6,10 +6,12 @@ import lombok.experimental.ExtensionMethod;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.internal.file.DefaultSourceDirectorySet;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.scala.ScalaBasePlugin;
 import org.gradle.api.tasks.SourceSetContainer;
+import org.gradle.internal.Cast;
 
 @ExtensionMethod(Objects.class)
 public class AvrohuggerBasePlugin implements Plugin<Project> {
@@ -33,13 +35,14 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
     sourceSets.all(
         sourceSet -> {
-          var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
-          var avroSourceSet =
+          final var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
+          final var avroSourceSet =
               objects.newInstance(DefaultAvroSourceSet.class, sourceSet.getName(), objects);
           convention.getPlugins().put("avro", avroSourceSet);
 
-          var avroDirectorySet = avroSourceSet.getAvro();
-          var suffix = sourceSet.getName() + "/avro";
+          final var avroDirectorySet =
+              Cast.cast(DefaultSourceDirectorySet.class, avroSourceSet.getAvro());
+          final var suffix = sourceSet.getName() + "/avro";
           avroDirectorySet.srcDir("src/" + suffix);
 
           sourceSet.getAllSource().source(avroDirectorySet);
@@ -49,16 +52,14 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     addExtensions(project, objects);
   }
 
-  private static DefaultAvrohuggerExtension addExtensions(
-      final Project project, final ObjectFactory objects) {
-    return (DefaultAvrohuggerExtension)
-        project
-            .getExtensions()
-            .create(
-                AvrohuggerExtension.class,
-                "avrohugger",
-                DefaultAvrohuggerExtension.class,
-                project,
-                objects);
+  private static void addExtensions(final Project project, final ObjectFactory objects) {
+    project
+        .getExtensions()
+        .create(
+            AvrohuggerExtension.class,
+            "avrohugger",
+            DefaultAvrohuggerExtension.class,
+            project,
+            objects);
   }
 }

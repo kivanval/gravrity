@@ -19,8 +19,8 @@ class AvrohuggerBasePluginTest extends Specification {
 		}
 
 		then:
-		project.sourceSets.getByName(sourceSet).avro.srcDirs.collect{ it.toString() } == [
-			"${project.projectDir}/src/$sourceSet/avro"
+		project.sourceSets.getByName(sourceSet).avro.srcDirs.collect { it.toString() } == [
+				"${project.projectDir}/src/$sourceSet/avro"
 		]
 
 		where:

@@ -11,7 +11,7 @@ import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.reflect.HasPublicType;
 import org.gradle.api.reflect.TypeOf;
 import org.gradle.api.tasks.SourceSet;
-import org.gradle.util.GUtil;
+import org.gradle.util.internal.GUtil;
 
 @Getter
 public abstract class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType {
@@ -21,12 +21,12 @@ public abstract class DefaultAvroSourceSet implements AvroSourceSet, HasPublicTy
   private final String displayName;
 
   @Inject
-  public DefaultAvroSourceSet(String name, ObjectFactory objects) {
+  public DefaultAvroSourceSet(final String name, final ObjectFactory objects) {
     this.name = name;
     this.baseName = name.equals(SourceSet.MAIN_SOURCE_SET_NAME) ? "" : GUtil.toCamelCase(name);
-    displayName = GUtil.toWords(this.name);
-    avro = objects.sourceDirectorySet("avro", displayName + " Avro source");
-    avro.getFilter().include("**/*.avro", "**/*.avsc", "**/*.avpr", "**/*.avdl");
+    this.displayName = GUtil.toWords(name);
+    this.avro = objects.sourceDirectorySet("avro", displayName + " Avro source");
+    this.avro.getFilter().include("**/*.avro", "**/*.avsc", "**/*.avpr", "**/*.avdl");
   }
 
   @Override
