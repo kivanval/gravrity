@@ -1,5 +1,6 @@
 package io.github.kivanval.gradle;
 
+import io.github.kivanval.gradle.source.DefaultAvroSourceSet;
 import java.util.Objects;
 import javax.inject.Inject;
 import lombok.experimental.ExtensionMethod;
@@ -10,12 +11,13 @@ import org.gradle.api.internal.tasks.DefaultSourceSetOutput;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.scala.ScalaBasePlugin;
+import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.internal.Cast;
 
 @ExtensionMethod(Objects.class)
 public class AvrohuggerBasePlugin implements Plugin<Project> {
-  final ObjectFactory objects;
+  private final ObjectFactory objects;
 
   @Inject
   public AvrohuggerBasePlugin(ObjectFactory objects) {
@@ -27,7 +29,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     project.getPluginManager().apply(ScalaBasePlugin.class);
 
     configureSourceSetDefaults(project, objects);
-    addExtension(project, objects);
+    configureExtension(project, objects);
   }
 
   private static void configureSourceSetDefaults(
@@ -56,14 +58,23 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
         });
   }
 
-  private static void addExtension(final Project project, final ObjectFactory objects) {
-    project
-        .getExtensions()
-        .create(
-            AvrohuggerExtension.class,
-            "avrohugger",
-            DefaultAvrohuggerExtension.class,
-            project,
-            objects);
+  private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger";
+
+  private static void configureExtension(final Project project, final ObjectFactory objects) {
+
+    var extension =
+        project
+            .getExtensions()
+            .create(
+                AvrohuggerExtension.class,
+                AVROHUGGER_EXTENSION_NAME,
+                DefaultAvrohuggerExtension.class,
+                objects);
+
+    extension.getSourceSets().create(SourceSet.MAIN_SOURCE_SET_NAME);
+    extension.getSourceSets().create(SourceSet.TEST_SOURCE_SET_NAME);
+
+    extension.getFormatSettings().create(SourceSet.MAIN_SOURCE_SET_NAME);
+    extension.getFormatSettings().create(SourceSet.TEST_SOURCE_SET_NAME);
   }
 }

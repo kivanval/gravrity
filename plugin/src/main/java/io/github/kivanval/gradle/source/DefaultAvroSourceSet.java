@@ -1,4 +1,4 @@
-package io.github.kivanval.gradle;
+package io.github.kivanval.gradle.source;
 
 import static org.gradle.util.internal.ConfigureUtil.configure;
 
@@ -6,17 +6,15 @@ import groovy.lang.Closure;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.gradle.api.Action;
-import org.gradle.api.Describable;
 import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.model.ObjectFactory;
-import org.gradle.api.reflect.HasPublicType;
 import org.gradle.api.reflect.TypeOf;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.util.internal.GUtil;
 
 @Getter
-public abstract class DefaultAvroSourceSet implements AvroSourceSet, HasPublicType, Describable {
+public abstract class DefaultAvroSourceSet implements AvroSourceSet {
   private final String name;
   private final String baseName;
   private final String displayName;
