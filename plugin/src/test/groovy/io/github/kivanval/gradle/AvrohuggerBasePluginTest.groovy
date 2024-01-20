@@ -8,21 +8,6 @@ import spock.lang.Unroll
 
 @CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
-	@Unroll
-	def "plugin should have extension with #sourceSetName sourceSets"() {
-		given:
-		def project = ProjectBuilder.builder().build()
-
-		when:
-		project.pluginManager.apply(AvrohuggerPlugin)
-
-		then:
-		project.avrohugger.sourceSets.getByName(sourceSetName) != null
-
-		where:
-		sourceSetName << ['main', 'test']
-	}
-
 	def "plugin should have avro default settings in sourceSets using ScalaPlugin"() {
 		given:
 		def project = ProjectBuilder.builder().build()

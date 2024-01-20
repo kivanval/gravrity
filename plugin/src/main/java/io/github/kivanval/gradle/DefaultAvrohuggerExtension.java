@@ -1,22 +1,18 @@
 package io.github.kivanval.gradle;
 
-import io.github.kivanval.gradle.format.DefaultFormatSettingsContainer;
-import io.github.kivanval.gradle.format.FormatSettingsContainer;
-import io.github.kivanval.gradle.source.AvroSourceSetContainer;
-import io.github.kivanval.gradle.source.DefaultAvroSourceSetContainer;
+import io.github.kivanval.gradle.format.SourceFormat;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.gradle.api.model.ObjectFactory;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 
 @Getter(onMethod_ = {@Input})
-public class DefaultAvrohuggerExtension implements AvrohuggerExtension {
-  private final AvroSourceSetContainer sourceSets;
-  private final FormatSettingsContainer formatSettings;
+public abstract class DefaultAvrohuggerExtension implements AvrohuggerExtension {
+  private final Property<SourceFormat> format;
 
   @Inject
-  public DefaultAvrohuggerExtension(final ObjectFactory objects) {
-    this.sourceSets = objects.newInstance(DefaultAvroSourceSetContainer.class);
-    this.formatSettings = objects.newInstance(DefaultFormatSettingsContainer.class);
+  public DefaultAvrohuggerExtension(ObjectFactory objects) {
+    this.format = objects.property(SourceFormat.class).convention(SourceFormat.STANDARD);
   }
 }

@@ -1,19 +1,17 @@
 package io.github.kivanval.gradle;
 
-import io.github.kivanval.gradle.source.DefaultAvroSourceSet;
 import java.util.Objects;
 import javax.inject.Inject;
 import lombok.experimental.ExtensionMethod;
-import org.codehaus.groovy.runtime.InvokerHelper;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.file.SourceDirectorySet;
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput;
 import org.gradle.api.model.ObjectFactory;
-import org.gradle.api.plugins.Convention;
 import org.gradle.api.plugins.scala.ScalaBasePlugin;
-import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.internal.Cast;
+import org.gradle.util.internal.GUtil;
 
 @ExtensionMethod(Objects.class)
 public class AvrohuggerBasePlugin implements Plugin<Project> {
@@ -29,7 +27,7 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     project.getPluginManager().apply(ScalaBasePlugin.class);
 
     configureSourceSetDefaults(project, objects);
-    configureExtension(project, objects);
+    configureExtension(project);
   }
 
   private static void configureSourceSetDefaults(
@@ -38,15 +36,13 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
     final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
     sourceSets.all(
         sourceSet -> {
-          final var convention = (Convention) InvokerHelper.getProperty(sourceSet, "convention");
-          final var avroSourceSet =
-              objects.newInstance(DefaultAvroSourceSet.class, sourceSet.getName(), objects);
-          convention.getPlugins().put("avro", avroSourceSet);
+          final var displayName = GUtil.toWords(sourceSet.getName()) + " Avro source";
+          final var avro = objects.sourceDirectorySet("avro", displayName);
+          sourceSet.getExtensions().add(SourceDirectorySet.class, "avro", avro);
+          avro.srcDir("src/" + sourceSet.getName() + "/" + avro.getName());
 
-          final var avroDirectorySet = avroSourceSet.getAvro();
-          avroDirectorySet.srcDir("src/" + sourceSet.getName() + "/" + avroDirectorySet.getName());
-          sourceSet.getAllSource().source(avroDirectorySet);
-          sourceSet.getResources().source(avroDirectorySet);
+          sourceSet.getAllSource().source(avro);
+          sourceSet.getResources().source(avro);
 
           // TODO Maybe, move in task creating step
           final var output = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
@@ -60,21 +56,10 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger";
 
-  private static void configureExtension(final Project project, final ObjectFactory objects) {
-
-    var extension =
-        project
-            .getExtensions()
-            .create(
-                AvrohuggerExtension.class,
-                AVROHUGGER_EXTENSION_NAME,
-                DefaultAvrohuggerExtension.class,
-                objects);
-
-    extension.getSourceSets().create(SourceSet.MAIN_SOURCE_SET_NAME);
-    extension.getSourceSets().create(SourceSet.TEST_SOURCE_SET_NAME);
-
-    extension.getFormatSettings().create(SourceSet.MAIN_SOURCE_SET_NAME);
-    extension.getFormatSettings().create(SourceSet.TEST_SOURCE_SET_NAME);
+  private static void configureExtension(final Project project) {
+    project
+        .getExtensions()
+        .create(
+            AvrohuggerExtension.class, AVROHUGGER_EXTENSION_NAME, DefaultAvrohuggerExtension.class);
   }
 }
