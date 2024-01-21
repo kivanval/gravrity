@@ -1,8 +1,8 @@
 package io.github.kivanval.gradle;
 
-import java.util.Objects;
 import javax.inject.Inject;
-import lombok.experimental.ExtensionMethod;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.file.SourceDirectorySet;
@@ -13,8 +13,8 @@ import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.internal.Cast;
 import org.gradle.util.internal.GUtil;
 
-@ExtensionMethod(Objects.class)
 public class AvrohuggerBasePlugin implements Plugin<Project> {
+  @Getter(AccessLevel.NONE)
   private final ObjectFactory objects;
 
   @Inject
@@ -32,7 +32,6 @@ public class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private static void configureSourceSetDefaults(
       final Project project, final ObjectFactory objects) {
-
     final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
     sourceSets.all(
         sourceSet -> {

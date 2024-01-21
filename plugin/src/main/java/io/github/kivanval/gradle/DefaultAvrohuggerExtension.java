@@ -1,6 +1,7 @@
 package io.github.kivanval.gradle;
 
-import io.github.kivanval.gradle.format.SourceFormat;
+import io.github.kivanval.gradle.format.AvroSourceFormat;
+import io.github.kivanval.gradle.format.Standard;
 import javax.inject.Inject;
 import lombok.Getter;
 import org.gradle.api.model.ObjectFactory;
@@ -9,10 +10,11 @@ import org.gradle.api.tasks.Input;
 
 @Getter(onMethod_ = {@Input})
 public abstract class DefaultAvrohuggerExtension implements AvrohuggerExtension {
-  private final Property<SourceFormat> format;
+  private final Property<AvroSourceFormat> format;
 
   @Inject
   public DefaultAvrohuggerExtension(ObjectFactory objects) {
-    this.format = objects.property(SourceFormat.class).convention(SourceFormat.STANDARD);
+    this.format =
+        objects.property(AvroSourceFormat.class).convention(objects.newInstance(Standard.class));
   }
 }

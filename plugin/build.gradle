@@ -27,7 +27,7 @@ dependencies {
 }
 
 group = "io.github.kivanval"
-version = "1.0.7-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
