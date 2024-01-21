@@ -1,10 +1,10 @@
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileDynamic
+import java.nio.file.Paths
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
-import spock.lang.Unroll
 
 @CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
@@ -20,11 +20,13 @@ class AvrohuggerBasePluginTest extends Specification {
 
 		then:
 		def sourceSet = project.sourceSets.getByName(sourceSetName)
-		sourceSet.avro.srcDirs.collect { "$it" } == [
-			"${project.projectDir}/src/$sourceSetName/avro"
+		sourceSet.avro.srcDirs.collect { it.toString() } == [
+			Paths.get(project.projectDir.toString(), "src", sourceSetName, "avro").toString()
 		]
-		sourceSet.output.generatedSourcesDirs.collect { "$it" }.contains(
-		"${project.layout.buildDirectory.asFile.get()}/generated/sources/avrohugger/scala/$sourceSetName"
+
+
+		sourceSet.output.generatedSourcesDirs.collect {it.toString() }.contains(
+		Paths.get(project.layout.buildDirectory.asFile.get().toString(), "generated", "sources", "avrohugger", "scala", sourceSetName).toString()
 		)
 
 		where:
