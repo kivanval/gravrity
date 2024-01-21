@@ -5,57 +5,57 @@ import org.gradle.api.provider.Property;
 
 public interface AvroScalaTypes {
 
-  // primitive
+	// primitive
 
-  Property<AvroScalaNumberType> getIntType();
+	Property<AvroScalaNumberType> getIntType();
 
-  Property<AvroScalaNumberType> getLongType();
+	Property<AvroScalaNumberType> getLongType();
 
-  Property<AvroScalaNumberType> getFloatType();
+	Property<AvroScalaNumberType> getFloatType();
 
-  Property<AvroScalaNumberType> getDoubleType();
+	Property<AvroScalaNumberType> getDoubleType();
 
-  Property<AvroScalaBooleanType> getBooleanType();
+	Property<AvroScalaBooleanType> getBooleanType();
 
-  Property<AvroScalaStringType> getStringType();
+	Property<AvroScalaStringType> getStringType();
 
-  Property<AvroScalaNullType> getNullType();
+	Property<AvroScalaNullType> getNullType();
 
-  Property<AvroScalaBytesType> getBytesType();
+	Property<AvroScalaBytesType> getBytesType();
 
-  // complex
+	// complex
 
-  Property<AvroScalaFixedType> getFixedType();
+	Property<AvroScalaFixedType> getFixedType();
 
-  Property<AvroScalaRecordType> getRecordType();
+	Property<AvroScalaRecordType> getRecordType();
 
-  Property<AvroScalaEnumType> getEnumType();
+	Property<AvroScalaEnumType> getEnumType();
 
-  Property<AvroScalaUnionType> getUnionType();
+	Property<AvroScalaUnionType> getUnionType();
 
-  Property<AvroScalaArrayType> getArrayType();
+	Property<AvroScalaArrayType> getArrayType();
 
-  Property<AvroScalaMapType> getMapType();
+	Property<AvroScalaMapType> getMapType();
 
-  Property<AvroScalaProtocolType> getProtocolType();
+	Property<AvroScalaProtocolType> getProtocolType();
 
-  // logical
+	// logical
 
-  Property<AvroScalaDecimalType> getDecimalType();
+	Property<AvroScalaDecimalType> getDecimalType();
 
-  Property<AvroScalaDateType> getDateType();
+	Property<AvroScalaDateType> getDateType();
 
-  Property<AvroScalaTimestampMillisType> getTimestampMillisType();
+	Property<AvroScalaTimestampMillisType> getTimestampMillisType();
 
-  Property<AvroScalaTimeMillisType> getTimeMillisType();
+	Property<AvroScalaTimeMillisType> getTimeMillisType();
 
-  Property<AvroScalaTimeType> getTimeMicrosType();
+	Property<AvroScalaTimeType> getTimeMicrosType();
 
-  Property<AvroScalaTimestampType> getTimestampMicrosType();
+	Property<AvroScalaTimestampType> getTimestampMicrosType();
 
-  Property<AvroScalaLocalTimestampType> getLocalTimestampMillisType();
+	Property<AvroScalaLocalTimestampType> getLocalTimestampMillisType();
 
-  Property<AvroScalaLocalTimestampType> getLocalTimestampMicrosType();
+	Property<AvroScalaLocalTimestampType> getLocalTimestampMicrosType();
 
-  Property<AvroUuidType> getUuidType();
+	Property<AvroUuidType> getUuidType();
 }

@@ -47,7 +47,7 @@ spotless {
         importOrder()
         removeUnusedImports()
         cleanthat()
-        googleJavaFormat()
+        eclipse()
         formatAnnotations()
     }
     groovy {

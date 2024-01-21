@@ -12,28 +12,20 @@ import org.gradle.api.tasks.Input;
 
 @Getter(onMethod_ = {@Input})
 public class SpecificRecord implements AvroSourceFormat {
-  private final Provider<SourceFormat> sourceFormat;
-  private final Provider<AvroScalaTypes> defaultTypes;
-  private final Property<AvroScalaTypes> types;
+	private final Provider<SourceFormat> sourceFormat;
+	private final Property<AvroScalaTypes> types;
 
-  @Inject
-  public SpecificRecord(ObjectFactory objects) {
-    this.sourceFormat = objects.property(SourceFormat.class).convention(SpecificRecord$.MODULE$);
-    this.defaultTypes = defaultTypesProperty(objects);
-    this.types = defaultTypesProperty(objects);
-  }
+	@Inject
+	public SpecificRecord(ObjectFactory objects) {
+		this.sourceFormat = objects.property(SourceFormat.class).convention(SpecificRecord$.MODULE$);
+		this.types = defaultTypesProperty(objects);
+	}
 
-  static Property<AvroScalaTypes> defaultTypesProperty(ObjectFactory objects) {
-    return objects
-        .property(AvroScalaTypes.class)
-        .value(
-            objects
-                .property(AvroScalaTypes.class)
-                .value(objects.newInstance(DefaultAvroScalaTypes.class))
-                .map(
-                    avroScalaTypes -> {
-                      avroScalaTypes.getEnumType().set(JavaEnum$.MODULE$);
-                      return avroScalaTypes;
-                    }));
-  }
+	static Property<AvroScalaTypes> defaultTypesProperty(ObjectFactory objects) {
+		return objects.property(AvroScalaTypes.class).value(objects.property(AvroScalaTypes.class)
+				.value(objects.newInstance(DefaultAvroScalaTypes.class)).map(avroScalaTypes -> {
+					avroScalaTypes.getEnumType().set(JavaEnum$.MODULE$);
+					return avroScalaTypes;
+				}));
+	}
 }

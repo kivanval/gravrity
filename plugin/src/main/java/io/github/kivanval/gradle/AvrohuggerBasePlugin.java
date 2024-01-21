@@ -14,51 +14,44 @@ import org.gradle.internal.Cast;
 import org.gradle.util.internal.GUtil;
 
 public class AvrohuggerBasePlugin implements Plugin<Project> {
-  @Getter(AccessLevel.NONE)
-  private final ObjectFactory objects;
+	@Getter(AccessLevel.NONE)
+	private final ObjectFactory objects;
 
-  @Inject
-  public AvrohuggerBasePlugin(ObjectFactory objects) {
-    this.objects = objects;
-  }
+	@Inject
+	public AvrohuggerBasePlugin(ObjectFactory objects) {
+		this.objects = objects;
+	}
 
-  @Override
-  public void apply(Project project) {
-    project.getPluginManager().apply(ScalaBasePlugin.class);
+	@Override
+	public void apply(Project project) {
+		project.getPluginManager().apply(ScalaBasePlugin.class);
 
-    configureSourceSetDefaults(project, objects);
-    configureExtension(project);
-  }
+		configureSourceSetDefaults(project, objects);
+		configureExtension(project);
+	}
 
-  private static void configureSourceSetDefaults(
-      final Project project, final ObjectFactory objects) {
-    final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
-    sourceSets.all(
-        sourceSet -> {
-          final var displayName = GUtil.toWords(sourceSet.getName()) + " Avro source";
-          final var avro = objects.sourceDirectorySet("avro", displayName);
-          sourceSet.getExtensions().add(SourceDirectorySet.class, "avro", avro);
-          avro.srcDir("src/" + sourceSet.getName() + "/" + avro.getName());
+	private static void configureSourceSetDefaults(final Project project, final ObjectFactory objects) {
+		final var sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
+		sourceSets.all(sourceSet -> {
+			final var displayName = GUtil.toWords(sourceSet.getName()) + " Avro source";
+			final var avro = objects.sourceDirectorySet("avro", displayName);
+			sourceSet.getExtensions().add(SourceDirectorySet.class, "avro", avro);
+			avro.srcDir("src/" + sourceSet.getName() + "/" + avro.getName());
 
-          sourceSet.getAllSource().source(avro);
-          sourceSet.getResources().source(avro);
+			sourceSet.getAllSource().source(avro);
+			sourceSet.getResources().source(avro);
 
-          // TODO Maybe, move in task creating step
-          final var output = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
-          final var avroScalaGeneratedPath =
-              "generated/sources/avrohugger/scala/" + sourceSet.getName();
-          output
-              .getGeneratedSourcesDirs()
-              .from(project.getLayout().getBuildDirectory().dir(avroScalaGeneratedPath));
-        });
-  }
+			// TODO Maybe, move in task creating step
+			final var output = Cast.cast(DefaultSourceSetOutput.class, sourceSet.getOutput());
+			final var avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.getName();
+			output.getGeneratedSourcesDirs().from(project.getLayout().getBuildDirectory().dir(avroScalaGeneratedPath));
+		});
+	}
 
-  private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger";
+	private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger";
 
-  private static void configureExtension(final Project project) {
-    project
-        .getExtensions()
-        .create(
-            AvrohuggerExtension.class, AVROHUGGER_EXTENSION_NAME, DefaultAvrohuggerExtension.class);
-  }
+	private static void configureExtension(final Project project) {
+		project.getExtensions().create(AvrohuggerExtension.class, AVROHUGGER_EXTENSION_NAME,
+				DefaultAvrohuggerExtension.class);
+	}
 }

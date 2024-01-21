@@ -11,20 +11,16 @@ import org.gradle.api.tasks.Input;
 
 @Getter(onMethod_ = {@Input})
 public class Standard implements AvroSourceFormat {
-  private final Provider<SourceFormat> sourceFormat;
-  private final Provider<AvroScalaTypes> defaultTypes;
-  private final Property<AvroScalaTypes> types;
+	private final Provider<SourceFormat> sourceFormat;
+	private final Property<AvroScalaTypes> types;
 
-  @Inject
-  public Standard(ObjectFactory objects) {
-    this.sourceFormat = objects.property(SourceFormat.class).value(Standard$.MODULE$);
-    this.defaultTypes = defaultTypesProperty(objects);
-    this.types = defaultTypesProperty(objects);
-  }
+	@Inject
+	public Standard(ObjectFactory objects) {
+		this.sourceFormat = objects.property(SourceFormat.class).value(Standard$.MODULE$);
+		this.types = defaultTypesProperty(objects);
+	}
 
-  static Property<AvroScalaTypes> defaultTypesProperty(ObjectFactory objects) {
-    return objects
-        .property(AvroScalaTypes.class)
-        .value(objects.newInstance(DefaultAvroScalaTypes.class));
-  }
+	static Property<AvroScalaTypes> defaultTypesProperty(ObjectFactory objects) {
+		return objects.property(AvroScalaTypes.class).value(objects.newInstance(DefaultAvroScalaTypes.class));
+	}
 }
