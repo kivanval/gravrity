@@ -49,13 +49,13 @@ spotless {
         cleanthat()
         eclipse()
         formatAnnotations()
-        licenseHeaderFile(rootProject.file('spotless/copyright.java'))
+        licenseHeaderFile(rootProject.file('copyright.txt'))
     }
     groovy {
         importOrder()
         removeSemicolons()
         greclipse()
         excludeJava()
-        licenseHeaderFile(rootProject.file('spotless/copyright.java'))
+        licenseHeaderFile(rootProject.file('copyright.txt'))
     }
 }
