@@ -13,9 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.gradle.format
 
-import io.github.kivanval.gradle.format.PrimitiveAvroScalaTypes
+import avrohugger.types.AvroScalaNumberType
+import avrohugger.types.ScalaInt$
 
-trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvrohuggerExtensionOperations, PrimitiveAvroScalaTypes {
+trait PrimitiveAvroScalaTypes {
+	AvroScalaNumberType scalaInt() {
+		ScalaInt$.MODULE$
+	}
 }

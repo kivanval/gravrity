@@ -24,7 +24,7 @@ import org.gradle.api.Action
 import org.gradle.api.provider.Provider
 
 @CompileStatic
-trait AvrohuggerExtensionOperations implements AvrohuggerExtension {
+trait AvrohuggerExtensionOperations implements AvrohuggerExtensionBase {
 	Provider<AvroSourceFormat> standard(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
 		sourceFormat(standard, configureClosure)
 	}
