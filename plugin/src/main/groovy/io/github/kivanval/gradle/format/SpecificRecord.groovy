@@ -37,7 +37,7 @@ class SpecificRecord implements AvroSourceFormat {
 		this.objects = objects
 		this.sourceFormat = SpecificRecord$.MODULE$
 		this.types = objects.property(AvroScalaTypes)
-				.value(objects.<DefaultAvroScalaTypes>newInstance(DefaultAvroScalaTypes)
+				.value(objects.<DefaultAvroScalaTypes> newInstance(DefaultAvroScalaTypes)
 				.initBy(sourceFormat.defaultTypes()))
 	}
 
