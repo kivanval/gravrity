@@ -46,5 +46,6 @@ spotless {
         removeSemicolons()
         greclipse()
         excludeJava()
+        licenseHeaderFile(rootProject.file('copyright.txt'))
     }
 }
