@@ -28,14 +28,12 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 
 @CompileStatic
-class DefaultAvrohuggerExtension implements AvrohuggerExtensionOperations {
+class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 	@Input
 	Property<AvroSourceFormat> format
 
 	final Provider<AvroSourceFormat> standard
 	final Provider<AvroSourceFormat> specificRecord
-
-	final Provider<AvroScalaNumberType> scalaInt
 
 	private final ObjectFactory objects
 
@@ -47,8 +45,6 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtensionOperations {
 
 		this.standard = getProperty(AvroSourceFormat, objects.<Standard>newInstance(Standard))
 		this.specificRecord = getProperty(AvroSourceFormat, objects.<SpecificRecord>newInstance(SpecificRecord))
-
-		this.scalaInt = getProperty(AvroScalaNumberType, ScalaInt$.MODULE$)
 	}
 
 	private <T> Property<T> getProperty(Class<T> target, T value) {

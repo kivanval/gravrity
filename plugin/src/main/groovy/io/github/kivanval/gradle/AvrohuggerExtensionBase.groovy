@@ -15,7 +15,15 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-import io.github.kivanval.gradle.format.PrimitiveAvroScalaTypes
+import avrohugger.types.AvroScalaNumberType
+import io.github.kivanval.gradle.format.AvroSourceFormat
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 
-trait AvrohuggerExtension extends AvrohuggerExtensionOperations, PrimitiveAvroScalaTypes implements AvrohuggerExtensionBase {
+interface AvrohuggerExtensionBase {
+	Property<AvroSourceFormat> getFormat()
+
+	Provider<AvroSourceFormat> getStandard()
+
+	Provider<AvroSourceFormat> getSpecificRecord()
 }
