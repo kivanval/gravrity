@@ -13,16 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format;
+package io.github.kivanval.gradle
 
-import avrohugger.format.abstractions.SourceFormat;
-import org.gradle.api.provider.Property;
-import org.gradle.api.provider.Provider;
+import avrohugger.types.AvroScalaNumberType
+import io.github.kivanval.gradle.format.AvroSourceFormat
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 
-public interface AvroSourceFormat {
-	Provider<SourceFormat> getSourceFormat();
+interface AvrohuggerExtension {
+	Property<AvroSourceFormat> getFormat()
 
-	Property<AvroScalaTypes> getTypes();
+	Provider<AvroSourceFormat> getStandard()
 
-	AvroSourceFormat getCopy();
+	Provider<AvroSourceFormat> getSpecificRecord()
+
+	Provider<AvroScalaNumberType> getScalaInt()
 }

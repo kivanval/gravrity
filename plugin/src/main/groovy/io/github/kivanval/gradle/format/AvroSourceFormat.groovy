@@ -13,14 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.gradle.format
 
-import java.nio.file.Files
-import java.nio.file.Paths
-import org.gradle.internal.impldep.com.google.common.io.Resources
+import avrohugger.format.abstractions.SourceFormat
+import org.gradle.api.provider.Property
 
-class ResourceHelper {
-	static String read(String resourceName) {
-		Files.readString(Paths.get(Resources.getResource(resourceName).toURI()))
-	}
+interface AvroSourceFormat {
+	Property<AvroScalaTypes> getTypes()
+
+	SourceFormat getSourceFormat()
+
+	AvroSourceFormat getCopy()
 }
