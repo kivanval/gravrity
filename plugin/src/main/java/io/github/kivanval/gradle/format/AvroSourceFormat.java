@@ -23,4 +23,6 @@ public interface AvroSourceFormat {
 	Provider<SourceFormat> getSourceFormat();
 
 	Property<AvroScalaTypes> getTypes();
+
+	AvroSourceFormat getCopy();
 }

@@ -55,7 +55,7 @@ public interface AvrohuggerExtension {
 
 	private Provider<AvroSourceFormat> sourceFormat(Provider<AvroSourceFormat> avroSourceFormat,
 			Closure<?> configureClosure) {
-		return avroSourceFormat.map(sourceFormat -> {
+		return avroSourceFormat.map(AvroSourceFormat::getCopy).map(sourceFormat -> {
 			sourceFormat.getTypes()
 					.set(sourceFormat.getTypes().map(avroScalaTypes -> configure(configureClosure, avroScalaTypes)));
 			return sourceFormat;
@@ -64,7 +64,7 @@ public interface AvrohuggerExtension {
 
 	private Provider<AvroSourceFormat> sourceFormat(Provider<AvroSourceFormat> avroSourceFormat,
 			Action<? super AvroScalaTypes> configureAction) {
-		return avroSourceFormat.map(sourceFormat -> {
+		return avroSourceFormat.map(AvroSourceFormat::getCopy).map(sourceFormat -> {
 			sourceFormat.getTypes().set(sourceFormat.getTypes().map(avroScalaTypes -> {
 				configureAction.execute(avroScalaTypes);
 				return avroScalaTypes;
