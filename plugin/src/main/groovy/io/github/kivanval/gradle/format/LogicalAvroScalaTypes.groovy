@@ -20,39 +20,39 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 trait LogicalAvroScalaTypes {
-    JavaSqlDate$ getJavaSqlDate() {
-        JavaSqlDate$.MODULE$
-    }
+	JavaSqlDate$ getJavaSqlDate() {
+		JavaSqlDate$.MODULE$
+	}
 
-    JavaTimeLocalDate$ getJavaTimeLocalDate() {
-        JavaTimeLocalDate$.MODULE$
-    }
+	JavaTimeLocalDate$ getJavaTimeLocalDate() {
+		JavaTimeLocalDate$.MODULE$
+	}
 
-    JavaSqlTimestamp$ getJavaSqlTimestamp() {
-        JavaSqlTimestamp$.MODULE$
-    }
+	JavaSqlTimestamp$ getJavaSqlTimestamp() {
+		JavaSqlTimestamp$.MODULE$
+	}
 
-    JavaTimeInstant$ getJavaTimeInstant() {
-        JavaTimeInstant$.MODULE$
-    }
+	JavaTimeInstant$ getJavaTimeInstant() {
+		JavaTimeInstant$.MODULE$
+	}
 
-    JavaUuid$ getJavaUuid() {
-        JavaUuid$.MODULE$
-    }
+	JavaUuid$ getJavaUuid() {
+		JavaUuid$.MODULE$
+	}
 
-    JavaSqlTime$ getJavaSqlTime() {
-        JavaSqlTime$.MODULE$
-    }
+	JavaSqlTime$ getJavaSqlTime() {
+		JavaSqlTime$.MODULE$
+	}
 
-    JavaTimeLocalTime$ getJavaTimeLocalTime() {
-        JavaTimeLocalTime$.MODULE$
-    }
+	JavaTimeLocalTime$ getJavaTimeLocalTime() {
+		JavaTimeLocalTime$.MODULE$
+	}
 
-    JavaTimeZonedDateTime$ getJavaTimeZonedDateTime() {
-        JavaTimeZonedDateTime$.MODULE$
-    }
+	JavaTimeZonedDateTime$ getJavaTimeZonedDateTime() {
+		JavaTimeZonedDateTime$.MODULE$
+	}
 
-    JavaTimeLocalDateTime$ getJavaTimeLocalDateTime() {
-        JavaTimeLocalDateTime$.MODULE$
-    }
+	JavaTimeLocalDateTime$ getJavaTimeLocalDateTime() {
+		JavaTimeLocalDateTime$.MODULE$
+	}
 }
