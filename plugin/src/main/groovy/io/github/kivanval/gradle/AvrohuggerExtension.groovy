@@ -17,5 +17,5 @@ package io.github.kivanval.gradle
 
 import io.github.kivanval.gradle.format.AllAvroScalaTypes
 
-trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvrohuggerExtensionOperations, AllAvroScalaTypes {
+trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvroSourceFormatOperations, AllAvroScalaTypes {
 }

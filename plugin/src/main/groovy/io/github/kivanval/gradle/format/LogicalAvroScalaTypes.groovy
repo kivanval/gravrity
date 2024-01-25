@@ -16,4 +16,5 @@ limitations under the License.
 package io.github.kivanval.gradle.format
 
 trait LogicalAvroScalaTypes {
+
 }
