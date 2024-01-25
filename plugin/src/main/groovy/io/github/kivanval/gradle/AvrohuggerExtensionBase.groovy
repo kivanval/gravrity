@@ -15,15 +15,13 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.Provider
 
 interface AvrohuggerExtensionBase {
 	Property<AvroSourceFormat> getFormat()
 
-	Provider<AvroSourceFormat> getStandard()
+	AvroSourceFormat getStandard()
 
-	Provider<AvroSourceFormat> getSpecificRecord()
+	AvroSourceFormat getSpecificRecord()
 }
