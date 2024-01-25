@@ -15,50 +15,38 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
-import avrohugger.types.AvroScalaBooleanType
-import avrohugger.types.AvroScalaBytesType
-import avrohugger.types.AvroScalaNullType
-import avrohugger.types.AvroScalaNumberType
-import avrohugger.types.AvroScalaStringType
-import avrohugger.types.ScalaBoolean$
-import avrohugger.types.ScalaByteArray$
-import avrohugger.types.ScalaDouble$
-import avrohugger.types.ScalaFloat$
-import avrohugger.types.ScalaInt$
-import avrohugger.types.ScalaLong$
-import avrohugger.types.ScalaNull$
-import avrohugger.types.ScalaString$
+import avrohugger.types.*
 
 trait PrimitiveAvroScalaTypes {
 	AvroScalaNumberType getScalaInt() {
 		ScalaInt$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaLong(){
+	AvroScalaNumberType getScalaLong() {
 		ScalaLong$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaFloat(){
+	AvroScalaNumberType getScalaFloat() {
 		ScalaFloat$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaDouble(){
+	AvroScalaNumberType getScalaDouble() {
 		ScalaDouble$.MODULE$
 	}
 
-	AvroScalaBooleanType getScalaBoolean(){
+	AvroScalaBooleanType getScalaBoolean() {
 		ScalaBoolean$.MODULE$
 	}
 
-	AvroScalaStringType getScalaString(){
+	AvroScalaStringType getScalaString() {
 		ScalaString$.MODULE$
 	}
 
-	AvroScalaNullType getScalaNull(){
+	AvroScalaNullType getScalaNull() {
 		ScalaNull$.MODULE$
 	}
 
-	AvroScalaBytesType getScalaByteArray(){
+	AvroScalaBytesType getScalaByteArray() {
 		ScalaByteArray$.MODULE$
 	}
 }

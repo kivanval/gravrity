@@ -15,7 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-import avrohugger.types.AvroScalaNumberType
+
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider

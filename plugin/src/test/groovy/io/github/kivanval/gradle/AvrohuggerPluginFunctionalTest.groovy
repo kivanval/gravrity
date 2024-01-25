@@ -22,9 +22,13 @@ import spock.lang.TempDir
 
 
 class AvrohuggerPluginFunctionalTest extends Specification {
-	@Shared @TempDir File projectDir
-	@Shared File buildFile
-	@Shared File settingsFile
+	@Shared
+	@TempDir
+	File projectDir
+	@Shared
+	File buildFile
+	@Shared
+	File settingsFile
 
 	def setupSpec() {
 		buildFile = new File(projectDir, "build.gradle")

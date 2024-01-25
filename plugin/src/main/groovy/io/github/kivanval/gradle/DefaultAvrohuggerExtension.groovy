@@ -15,8 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-import avrohugger.types.AvroScalaNumberType
-import avrohugger.types.ScalaInt$
+
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.SpecificRecord
@@ -41,10 +40,10 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 	DefaultAvrohuggerExtension(ObjectFactory objects) {
 		this.objects = objects
 
-		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard>newInstance(Standard))
+		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-		this.standard = getProperty(AvroSourceFormat, objects.<Standard>newInstance(Standard))
-		this.specificRecord = getProperty(AvroSourceFormat, objects.<SpecificRecord>newInstance(SpecificRecord))
+		this.standard = getProperty(AvroSourceFormat, objects.<Standard> newInstance(Standard))
+		this.specificRecord = getProperty(AvroSourceFormat, objects.<SpecificRecord> newInstance(SpecificRecord))
 	}
 
 	private <T> Property<T> getProperty(Class<T> target, T value) {

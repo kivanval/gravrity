@@ -15,109 +15,85 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
-import avrohugger.types.AvroScalaArrayType
-import avrohugger.types.AvroScalaEnumType
-import avrohugger.types.AvroScalaFixedType
-import avrohugger.types.AvroScalaMapType
-import avrohugger.types.AvroScalaProtocolType
-import avrohugger.types.AvroScalaRecordType
-import avrohugger.types.AvroScalaUnionType
-import avrohugger.types.EnumAsScalaString$
-import avrohugger.types.JavaEnum$
-import avrohugger.types.NoTypeGenerated$
-import avrohugger.types.OptionEitherShapelessCoproduct$
-import avrohugger.types.OptionShapelessCoproduct$
-import avrohugger.types.OptionalShapelessCoproduct$
-import avrohugger.types.ScalaADT$
-import avrohugger.types.ScalaArray$
-import avrohugger.types.ScalaCaseClass$
-import avrohugger.types.ScalaCaseClassWithSchema$
-import avrohugger.types.ScalaCaseClassWrapper$
-import avrohugger.types.ScalaCaseClassWrapperWithSchema$
-import avrohugger.types.ScalaCaseObjectEnum$
-import avrohugger.types.ScalaEnumeration$
-import avrohugger.types.ScalaList$
-import avrohugger.types.ScalaMap$
-import avrohugger.types.ScalaSeq$
-import avrohugger.types.ScalaVector$
+import avrohugger.types.*
 
 trait ComplexAvroScalaTypes {
 	// fixed
-	AvroScalaFixedType getScalaCaseClassWrapper(){
+	AvroScalaFixedType getScalaCaseClassWrapper() {
 		ScalaCaseClassWrapper$.MODULE$
 	}
 
-	AvroScalaFixedType getScalaCaseClassWrapperWithSchema(){
+	AvroScalaFixedType getScalaCaseClassWrapperWithSchema() {
 		ScalaCaseClassWrapperWithSchema$.MODULE$
 	}
 
 	// record
-	AvroScalaRecordType getScalaCaseClass(){
+	AvroScalaRecordType getScalaCaseClass() {
 		ScalaCaseClass$.MODULE$
 	}
 
-	AvroScalaRecordType getScalaCaseClassWithSchema(){
+	AvroScalaRecordType getScalaCaseClassWithSchema() {
 		ScalaCaseClassWithSchema$.MODULE$
 	}
 
 	// enum
-	AvroScalaEnumType getScalaEnumeration(){
+	AvroScalaEnumType getScalaEnumeration() {
 		ScalaEnumeration$.MODULE$
 	}
 
-	AvroScalaEnumType getJavaEnum(){
+	AvroScalaEnumType getJavaEnum() {
 		JavaEnum$.MODULE$
 	}
 
-	AvroScalaEnumType getScalaCaseObjectEnum(){
+	AvroScalaEnumType getScalaCaseObjectEnum() {
 		ScalaCaseObjectEnum$.MODULE$
 	}
 
-	AvroScalaEnumType getEnumAsScalaString(){
+	AvroScalaEnumType getEnumAsScalaString() {
 		EnumAsScalaString$.MODULE$
 	}
 
 	// union
-	AvroScalaUnionType getOptionalShapelessCoproduct(){
+	AvroScalaUnionType getOptionalShapelessCoproduct() {
 		OptionalShapelessCoproduct$.MODULE$
 	}
 
-	AvroScalaUnionType getOptionShapelessCoproduct(){
+	AvroScalaUnionType getOptionShapelessCoproduct() {
 		OptionShapelessCoproduct$.MODULE$
 	}
 
-	AvroScalaUnionType getOptionEitherShapelessCoproduct(){
+	AvroScalaUnionType getOptionEitherShapelessCoproduct() {
 		OptionEitherShapelessCoproduct$.MODULE$
 	}
 
 	// array
-	AvroScalaArrayType getScalaArray(){
+	AvroScalaArrayType getScalaArray() {
 		ScalaArray$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaList(){
+	AvroScalaArrayType getScalaList() {
 		ScalaList$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaSeq(){
+	AvroScalaArrayType getScalaSeq() {
 		ScalaSeq$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaVector(){
+	AvroScalaArrayType getScalaVector() {
 		ScalaVector$.MODULE$
 	}
 
 	// map
-	AvroScalaMapType getScalaMap(){
+	AvroScalaMapType getScalaMap() {
 		ScalaMap$.MODULE$
 	}
 
 	// protocol
-	AvroScalaProtocolType getScalaADT(){
+	AvroScalaProtocolType getScalaADT() {
 		ScalaADT$.MODULE$
 	}
 
-	AvroScalaProtocolType getNoTypeGenerated(){
+	AvroScalaProtocolType getNoTypeGenerated() {
 		NoTypeGenerated$.MODULE$
 	}
 }

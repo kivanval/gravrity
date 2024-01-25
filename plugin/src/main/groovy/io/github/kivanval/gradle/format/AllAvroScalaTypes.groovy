@@ -15,5 +15,5 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
-trait AllAvroScalaTypes implements PrimitiveAvroScalaTypes, ComplexAvroScalaTypes, LogicalAvroScalaTypes{
+trait AllAvroScalaTypes implements PrimitiveAvroScalaTypes, ComplexAvroScalaTypes, LogicalAvroScalaTypes {
 }
