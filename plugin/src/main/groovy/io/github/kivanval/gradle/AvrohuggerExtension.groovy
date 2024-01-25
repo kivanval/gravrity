@@ -15,7 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-import io.github.kivanval.gradle.format.PrimitiveAvroScalaTypes
+import io.github.kivanval.gradle.format.AllAvroScalaTypes
 
-trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvrohuggerExtensionOperations, PrimitiveAvroScalaTypes {
+trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvrohuggerExtensionOperations, AllAvroScalaTypes{
 }

@@ -15,11 +15,50 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
+import avrohugger.types.AvroScalaBooleanType
+import avrohugger.types.AvroScalaBytesType
+import avrohugger.types.AvroScalaNullType
 import avrohugger.types.AvroScalaNumberType
+import avrohugger.types.AvroScalaStringType
+import avrohugger.types.ScalaBoolean$
+import avrohugger.types.ScalaByteArray$
+import avrohugger.types.ScalaDouble$
+import avrohugger.types.ScalaFloat$
 import avrohugger.types.ScalaInt$
+import avrohugger.types.ScalaLong$
+import avrohugger.types.ScalaNull$
+import avrohugger.types.ScalaString$
 
 trait PrimitiveAvroScalaTypes {
-	AvroScalaNumberType scalaInt() {
+	AvroScalaNumberType getScalaInt() {
 		ScalaInt$.MODULE$
+	}
+
+	AvroScalaNumberType getScalaLong(){
+		ScalaLong$.MODULE$
+	}
+
+	AvroScalaNumberType getScalaFloat(){
+		ScalaFloat$.MODULE$
+	}
+
+	AvroScalaNumberType getScalaDouble(){
+		ScalaDouble$.MODULE$
+	}
+
+	AvroScalaBooleanType getScalaBoolean(){
+		ScalaBoolean$.MODULE$
+	}
+
+	AvroScalaStringType getScalaString(){
+		ScalaString$.MODULE$
+	}
+
+	AvroScalaNullType getScalaNull(){
+		ScalaNull$.MODULE$
+	}
+
+	AvroScalaBytesType getScalaByteArray(){
+		ScalaByteArray$.MODULE$
 	}
 }
