@@ -15,5 +15,44 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
+import avrohugger.types.*
+import groovy.transform.CompileStatic
+
+@CompileStatic
 trait LogicalAvroScalaTypes {
+    JavaSqlDate$ getJavaSqlDate() {
+        JavaSqlDate$.MODULE$
+    }
+
+    JavaTimeLocalDate$ getJavaTimeLocalDate() {
+        JavaTimeLocalDate$.MODULE$
+    }
+
+    JavaSqlTimestamp$ getJavaSqlTimestamp() {
+        JavaSqlTimestamp$.MODULE$
+    }
+
+    JavaTimeInstant$ getJavaTimeInstant() {
+        JavaTimeInstant$.MODULE$
+    }
+
+    JavaUuid$ getJavaUuid() {
+        JavaUuid$.MODULE$
+    }
+
+    JavaSqlTime$ getJavaSqlTime() {
+        JavaSqlTime$.MODULE$
+    }
+
+    JavaTimeLocalTime$ getJavaTimeLocalTime() {
+        JavaTimeLocalTime$.MODULE$
+    }
+
+    JavaTimeZonedDateTime$ getJavaTimeZonedDateTime() {
+        JavaTimeZonedDateTime$.MODULE$
+    }
+
+    JavaTimeLocalDateTime$ getJavaTimeLocalDateTime() {
+        JavaTimeLocalDateTime$.MODULE$
+    }
 }

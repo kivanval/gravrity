@@ -15,5 +15,8 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 trait AllAvroScalaTypes implements PrimitiveAvroScalaTypes, ComplexAvroScalaTypes, LogicalAvroScalaTypes {
 }
