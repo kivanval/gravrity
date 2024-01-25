@@ -40,7 +40,7 @@ class AvrohuggerBasePluginTest extends Specification {
 		]
 
 
-		sourceSet.output.generatedSourcesDirs.collect {it.toString() }.contains(
+		sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(
 		Paths.get(project.layout.buildDirectory.asFile.get().toString(), "generated", "sources", "avrohugger", "scala", sourceSetName).toString()
 		)
 
