@@ -20,23 +20,23 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class AvrohuggerTypesTest extends Specification {
-    def "checking reference for primitive types"() {
-        given:
-        def project = ProjectBuilder.builder().build()
+	def "checking reference for primitive types"() {
+		given:
+		def project = ProjectBuilder.builder().build()
 
-        when:
-        project.pluginManager.with {
-            apply(AvrohuggerPlugin)
-        }
+		when:
+		project.pluginManager.with {
+			apply(AvrohuggerPlugin)
+		}
 
-        then:
-        project.avrohugger.scalaInt == ScalaInt$.MODULE$
-        project.avrohugger.scalaLong == ScalaLong$.MODULE$
-        project.avrohugger.scalaFloat == ScalaFloat$.MODULE$
-        project.avrohugger.scalaDouble == ScalaDouble$.MODULE$
-        project.avrohugger.scalaBoolean == ScalaBoolean$.MODULE$
-        project.avrohugger.scalaString == ScalaString$.MODULE$
-        project.avrohugger.scalaNull == ScalaNull$.MODULE$
-        project.avrohugger.scalaByteArray == ScalaByteArray$.MODULE$
-    }
+		then:
+		project.avrohugger.scalaInt == ScalaInt$.MODULE$
+		project.avrohugger.scalaLong == ScalaLong$.MODULE$
+		project.avrohugger.scalaFloat == ScalaFloat$.MODULE$
+		project.avrohugger.scalaDouble == ScalaDouble$.MODULE$
+		project.avrohugger.scalaBoolean == ScalaBoolean$.MODULE$
+		project.avrohugger.scalaString == ScalaString$.MODULE$
+		project.avrohugger.scalaNull == ScalaNull$.MODULE$
+		project.avrohugger.scalaByteArray == ScalaByteArray$.MODULE$
+	}
 }
