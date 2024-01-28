@@ -16,37 +16,39 @@ limitations under the License.
 package io.github.kivanval.gradle.format
 
 import avrohugger.types.*
+import groovy.transform.CompileStatic
 
+@CompileStatic
 trait PrimitiveAvroScalaTypes {
-	AvroScalaNumberType getScalaInt() {
+	ScalaInt$ getScalaInt() {
 		ScalaInt$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaLong() {
+	ScalaLong$ getScalaLong() {
 		ScalaLong$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaFloat() {
+	ScalaFloat$ getScalaFloat() {
 		ScalaFloat$.MODULE$
 	}
 
-	AvroScalaNumberType getScalaDouble() {
+	ScalaDouble$ getScalaDouble() {
 		ScalaDouble$.MODULE$
 	}
 
-	AvroScalaBooleanType getScalaBoolean() {
+	ScalaBoolean$ getScalaBoolean() {
 		ScalaBoolean$.MODULE$
 	}
 
-	AvroScalaStringType getScalaString() {
+	ScalaString$ getScalaString() {
 		ScalaString$.MODULE$
 	}
 
-	AvroScalaNullType getScalaNull() {
+	ScalaNull$ getScalaNull() {
 		ScalaNull$.MODULE$
 	}
 
-	AvroScalaBytesType getScalaByteArray() {
+	ScalaByteArray$ getScalaByteArray() {
 		ScalaByteArray$.MODULE$
 	}
 }

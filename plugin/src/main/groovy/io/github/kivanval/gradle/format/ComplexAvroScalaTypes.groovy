@@ -16,84 +16,86 @@ limitations under the License.
 package io.github.kivanval.gradle.format
 
 import avrohugger.types.*
+import groovy.transform.CompileStatic
 
+@CompileStatic
 trait ComplexAvroScalaTypes {
 	// fixed
-	AvroScalaFixedType getScalaCaseClassWrapper() {
+	ScalaCaseClassWrapper$ getScalaCaseClassWrapper() {
 		ScalaCaseClassWrapper$.MODULE$
 	}
 
-	AvroScalaFixedType getScalaCaseClassWrapperWithSchema() {
+	ScalaCaseClassWrapperWithSchema$ getScalaCaseClassWrapperWithSchema() {
 		ScalaCaseClassWrapperWithSchema$.MODULE$
 	}
 
 	// record
-	AvroScalaRecordType getScalaCaseClass() {
+	ScalaCaseClass$ getScalaCaseClass() {
 		ScalaCaseClass$.MODULE$
 	}
 
-	AvroScalaRecordType getScalaCaseClassWithSchema() {
+	ScalaCaseClassWithSchema$ getScalaCaseClassWithSchema() {
 		ScalaCaseClassWithSchema$.MODULE$
 	}
 
 	// enum
-	AvroScalaEnumType getScalaEnumeration() {
+	ScalaEnumeration$ getScalaEnumeration() {
 		ScalaEnumeration$.MODULE$
 	}
 
-	AvroScalaEnumType getJavaEnum() {
+	JavaEnum$ getJavaEnum() {
 		JavaEnum$.MODULE$
 	}
 
-	AvroScalaEnumType getScalaCaseObjectEnum() {
+	ScalaCaseObjectEnum$ getScalaCaseObjectEnum() {
 		ScalaCaseObjectEnum$.MODULE$
 	}
 
-	AvroScalaEnumType getEnumAsScalaString() {
+	EnumAsScalaString$ getEnumAsScalaString() {
 		EnumAsScalaString$.MODULE$
 	}
 
 	// union
-	AvroScalaUnionType getOptionalShapelessCoproduct() {
+	OptionalShapelessCoproduct$ getOptionalShapelessCoproduct() {
 		OptionalShapelessCoproduct$.MODULE$
 	}
 
-	AvroScalaUnionType getOptionShapelessCoproduct() {
+	OptionShapelessCoproduct$ getOptionShapelessCoproduct() {
 		OptionShapelessCoproduct$.MODULE$
 	}
 
-	AvroScalaUnionType getOptionEitherShapelessCoproduct() {
+	OptionEitherShapelessCoproduct$ getOptionEitherShapelessCoproduct() {
 		OptionEitherShapelessCoproduct$.MODULE$
 	}
 
 	// array
-	AvroScalaArrayType getScalaArray() {
+	ScalaArray$ getScalaArray() {
 		ScalaArray$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaList() {
+	ScalaList$ getScalaList() {
 		ScalaList$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaSeq() {
+	ScalaSeq$ getScalaSeq() {
 		ScalaSeq$.MODULE$
 	}
 
-	AvroScalaArrayType getScalaVector() {
+	ScalaVector$ getScalaVector() {
 		ScalaVector$.MODULE$
 	}
 
 	// map
-	AvroScalaMapType getScalaMap() {
+	ScalaMap$ getScalaMap() {
 		ScalaMap$.MODULE$
 	}
 
 	// protocol
-	AvroScalaProtocolType getScalaADT() {
+	ScalaADT$ getScalaADT() {
 		ScalaADT$.MODULE$
 	}
 
-	AvroScalaProtocolType getNoTypeGenerated() {
+	NoTypeGenerated$ getNoTypeGenerated() {
 		NoTypeGenerated$.MODULE$
 	}
 }

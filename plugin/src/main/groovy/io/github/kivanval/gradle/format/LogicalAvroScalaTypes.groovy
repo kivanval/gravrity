@@ -15,5 +15,67 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.format
 
+import avrohugger.types.*
+import groovy.transform.CompileStatic
+import scala.Enumeration
+import scala.Option
+import scala.math.BigDecimal
+
+@CompileStatic
 trait LogicalAvroScalaTypes {
+	ScalaBigDecimal getScalaBigDecimal() {
+		new ScalaBigDecimal(Option.empty())
+	}
+
+	ScalaBigDecimal scalaBigDecimal(Enumeration.Value roundingMode) {
+		new ScalaBigDecimal(Option.apply(roundingMode))
+	}
+
+	ScalaBigDecimalWithPrecision getScalaBigDecimalWithPrecision() {
+		new ScalaBigDecimalWithPrecision(Option.empty())
+	}
+
+	ScalaBigDecimalWithPrecision scalaBigDecimalWithPrecision(Enumeration.Value roundingMode) {
+		new ScalaBigDecimalWithPrecision(Option.apply(roundingMode))
+	}
+
+	BigDecimal.RoundingMode$ getRoundingMode() {
+		BigDecimal.RoundingMode$.MODULE$
+	}
+
+	JavaSqlDate$ getJavaSqlDate() {
+		JavaSqlDate$.MODULE$
+	}
+
+	JavaTimeLocalDate$ getJavaTimeLocalDate() {
+		JavaTimeLocalDate$.MODULE$
+	}
+
+	JavaSqlTimestamp$ getJavaSqlTimestamp() {
+		JavaSqlTimestamp$.MODULE$
+	}
+
+	JavaTimeInstant$ getJavaTimeInstant() {
+		JavaTimeInstant$.MODULE$
+	}
+
+	JavaUuid$ getJavaUuid() {
+		JavaUuid$.MODULE$
+	}
+
+	JavaSqlTime$ getJavaSqlTime() {
+		JavaSqlTime$.MODULE$
+	}
+
+	JavaTimeLocalTime$ getJavaTimeLocalTime() {
+		JavaTimeLocalTime$.MODULE$
+	}
+
+	JavaTimeZonedDateTime$ getJavaTimeZonedDateTime() {
+		JavaTimeZonedDateTime$.MODULE$
+	}
+
+	JavaTimeLocalDateTime$ getJavaTimeLocalDateTime() {
+		JavaTimeLocalDateTime$.MODULE$
+	}
 }
