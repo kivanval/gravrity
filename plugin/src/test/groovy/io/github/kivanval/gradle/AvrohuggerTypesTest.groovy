@@ -15,35 +15,28 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-import avrohugger.types.ScalaBoolean$
-import avrohugger.types.ScalaByteArray$
-import avrohugger.types.ScalaDouble$
-import avrohugger.types.ScalaFloat$
-import avrohugger.types.ScalaInt$
-import avrohugger.types.ScalaLong$
-import avrohugger.types.ScalaNull$
-import avrohugger.types.ScalaString$
+import avrohugger.types.*
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class AvrohuggerTypesTest extends Specification{
-	def "checking reference for primitive types"(){
-		given:
-		def project = ProjectBuilder.builder().build()
+class AvrohuggerTypesTest extends Specification {
+    def "checking reference for primitive types"() {
+        given:
+        def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.with {
-			apply(AvrohuggerPlugin)
-		}
+        when:
+        project.pluginManager.with {
+            apply(AvrohuggerPlugin)
+        }
 
-		then:
-		project.avrohugger.scalaInt == ScalaInt$.MODULE$
-		project.avrohugger.scalaLong == ScalaLong$.MODULE$
-		project.avrohugger.scalaFloat == ScalaFloat$.MODULE$
-		project.avrohugger.scalaDouble == ScalaDouble$.MODULE$
-		project.avrohugger.scalaBoolean == ScalaBoolean$.MODULE$
-		project.avrohugger.scalaString == ScalaString$.MODULE$
-		project.avrohugger.scalaNull == ScalaNull$.MODULE$
-		project.avrohugger.scalaByteArray == ScalaByteArray$.MODULE$
-	}
+        then:
+        project.avrohugger.scalaInt == ScalaInt$.MODULE$
+        project.avrohugger.scalaLong == ScalaLong$.MODULE$
+        project.avrohugger.scalaFloat == ScalaFloat$.MODULE$
+        project.avrohugger.scalaDouble == ScalaDouble$.MODULE$
+        project.avrohugger.scalaBoolean == ScalaBoolean$.MODULE$
+        project.avrohugger.scalaString == ScalaString$.MODULE$
+        project.avrohugger.scalaNull == ScalaNull$.MODULE$
+        project.avrohugger.scalaByteArray == ScalaByteArray$.MODULE$
+    }
 }
