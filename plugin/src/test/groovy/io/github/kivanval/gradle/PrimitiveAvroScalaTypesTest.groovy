@@ -19,8 +19,8 @@ import avrohugger.types.*
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class AvrohuggerTypesTest extends Specification {
-	def "checking reference for primitive types"() {
+class PrimitiveAvroScalaTypesTest extends Specification {
+	def "primitive types relation to library value"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
@@ -30,13 +30,15 @@ class AvrohuggerTypesTest extends Specification {
 		}
 
 		then:
-		project.avrohugger.scalaInt == ScalaInt$.MODULE$
-		project.avrohugger.scalaLong == ScalaLong$.MODULE$
-		project.avrohugger.scalaFloat == ScalaFloat$.MODULE$
-		project.avrohugger.scalaDouble == ScalaDouble$.MODULE$
-		project.avrohugger.scalaBoolean == ScalaBoolean$.MODULE$
-		project.avrohugger.scalaString == ScalaString$.MODULE$
-		project.avrohugger.scalaNull == ScalaNull$.MODULE$
-		project.avrohugger.scalaByteArray == ScalaByteArray$.MODULE$
+		with(project.avrohugger) {
+			scalaInt == ScalaInt$.MODULE$
+			scalaLong == ScalaLong$.MODULE$
+			scalaFloat == ScalaFloat$.MODULE$
+			scalaDouble == ScalaDouble$.MODULE$
+			scalaBoolean == ScalaBoolean$.MODULE$
+			scalaString == ScalaString$.MODULE$
+			scalaNull == ScalaNull$.MODULE$
+			scalaByteArray == ScalaByteArray$.MODULE$
+		}
 	}
 }
