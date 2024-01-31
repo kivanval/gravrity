@@ -20,7 +20,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class PrimitiveAvroScalaTypesTest extends Specification {
-	def "primitive types relation to library value"() {
+	def "primitive types matches to values in avrohugger library"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 

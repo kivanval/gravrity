@@ -22,7 +22,7 @@ import scala.math.BigDecimal
 import spock.lang.Specification
 
 class LogicalAvroScalaTypesTest extends Specification {
-	def "logical types relation to library value"() {
+	def "logical types matches to values in avrohugger library"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 

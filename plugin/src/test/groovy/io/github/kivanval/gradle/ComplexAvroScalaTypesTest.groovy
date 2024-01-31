@@ -20,7 +20,7 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class ComplexAvroScalaTypesTest extends Specification {
-	def "complex types relation to library value"() {
+	def "complex types matches to values in avrohugger library"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
