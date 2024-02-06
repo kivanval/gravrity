@@ -18,5 +18,5 @@ package io.github.kivanval.gradle.format
 import groovy.transform.CompileStatic
 
 @CompileStatic
-trait AllAvroScalaTypes implements PrimitiveAvroScalaTypes, ComplexAvroScalaTypes, LogicalAvroScalaTypes {
+trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues {
 }

@@ -19,7 +19,7 @@ import avrohugger.types.*
 import groovy.transform.CompileStatic
 
 @CompileStatic
-trait PrimitiveAvroScalaTypes {
+trait PrimitiveAvroScalaTypeValues {
 	ScalaInt$ getScalaInt() {
 		ScalaInt$.MODULE$
 	}

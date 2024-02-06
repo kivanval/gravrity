@@ -21,7 +21,7 @@ import scala.Option
 import scala.math.BigDecimal
 import spock.lang.Specification
 
-class LogicalAvroScalaTypesTest extends Specification {
+class LogicalAvroScalaTypeValuesTest extends Specification {
 	def "logical types matches to values in avrohugger library"() {
 		given:
 		def project = ProjectBuilder.builder().build()

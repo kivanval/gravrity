@@ -19,7 +19,7 @@ import avrohugger.types.*
 import groovy.transform.CompileStatic
 
 @CompileStatic
-trait ComplexAvroScalaTypes {
+trait ComplexAvroScalaTypeValues {
 	// fixed
 	ScalaCaseClassWrapper$ getScalaCaseClassWrapper() {
 		ScalaCaseClassWrapper$.MODULE$

@@ -22,7 +22,7 @@ import scala.Option
 import scala.math.BigDecimal
 
 @CompileStatic
-trait LogicalAvroScalaTypes {
+trait LogicalAvroScalaTypeValues {
 	ScalaBigDecimal getScalaBigDecimal() {
 		new ScalaBigDecimal(Option.empty())
 	}

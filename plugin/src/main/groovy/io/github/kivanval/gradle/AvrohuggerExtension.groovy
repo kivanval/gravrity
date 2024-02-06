@@ -16,8 +16,8 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.gradle.format.AllAvroScalaTypes
+import io.github.kivanval.gradle.format.AllAvroScalaTypeValues
 
 @CompileStatic
-trait AvrohuggerExtension implements AvrohuggerExtensionBase, AvroSourceFormatOperations, AllAvroScalaTypes {
+trait AvrohuggerExtension implements AvroSourceFormatOperations, AllAvroScalaTypeValues {
 }
