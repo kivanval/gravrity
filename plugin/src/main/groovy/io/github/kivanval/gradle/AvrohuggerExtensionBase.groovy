@@ -16,6 +16,7 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import io.github.kivanval.gradle.format.AvroSourceFormat
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 
 interface AvrohuggerExtensionBase {
@@ -24,4 +25,8 @@ interface AvrohuggerExtensionBase {
 	AvroSourceFormat getStandard()
 
 	AvroSourceFormat getSpecificRecord()
+
+	MapProperty<String, String> getNamespaceMapping()
+
+	Property<Boolean> getRestrictedFieldNumber()
 }

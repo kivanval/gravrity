@@ -22,18 +22,25 @@ import io.github.kivanval.gradle.format.SpecificRecord
 import io.github.kivanval.gradle.format.Standard
 import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 
 @CompileStatic
 class DefaultAvrohuggerExtension implements AvrohuggerExtension {
+	private final ObjectFactory objects
+
 	@Input
 	Property<AvroSourceFormat> format
 
 	final AvroSourceFormat standard
 	final AvroSourceFormat specificRecord
 
-	private final ObjectFactory objects
+	@Input
+	MapProperty<String, String> namespaceMapping
+
+	@Input
+	Property<Boolean> restrictedFieldNumber
 
 	@Inject
 	DefaultAvrohuggerExtension(ObjectFactory objects) {
@@ -43,5 +50,9 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 
 		this.standard = objects.<Standard> newInstance(Standard)
 		this.specificRecord = objects.<SpecificRecord> newInstance(SpecificRecord)
+
+		this.namespaceMapping = objects.mapProperty(String, String)
+
+		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
 	}
 }
