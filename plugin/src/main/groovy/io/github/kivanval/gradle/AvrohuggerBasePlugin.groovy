@@ -16,6 +16,14 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
+import io.github.kivanval.gradle.tasks.GenerateAvroTask
+import org.gradle.api.internal.ConventionMapping
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.internal.JvmPluginsHelper
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.jvm.toolchain.JavaToolchainService
+
 import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -55,6 +63,10 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
 			sourceSet.allSource.source(avro)
 			sourceSet.resources.source(avro)
+			TaskProvider<GenerateAvroTask> avroTask = this.createGenerateAvroTask(sourceSet, avro, project);
+//			this.createClassesTask(sourceSet, project);
+//			this.configureLibraryElements(compileTask, sourceSet, configurations, project.getObjects());
+//			this.configureTargetPlatform(compileTask, sourceSet, configurations);
 
 			// TODO Maybe, move in task creating step
 			final def output = Cast.cast(DefaultSourceSetOutput, sourceSet.output)
@@ -68,5 +80,15 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 	private static void configureExtension(final Project project) {
 		project.extensions.create(AvrohuggerExtension, AVROHUGGER_EXTENSION_NAME,
 				DefaultAvrohuggerExtension)
+	}
+
+	private TaskProvider<GenerateAvroTask> createGenerateAvroTask(SourceSet sourceSet, SourceDirectorySet sourceDirectorySet, Project target) {
+		return target.getTasks().register(sourceSet.name, GenerateAvroTask.class, (avroTask) -> {
+			avroTask.setDescription("Compiles " + sourceDirectorySet + ".");
+			avroTask.setSource(sourceDirectorySet);
+			ConventionMapping conventionMapping = avroTask.getConventionMapping();
+			Objects.requireNonNull(sourceSet);
+			conventionMapping.map("classpath", sourceSet::getCompileClasspath);
+			String generatedHeadersDir = "generated/sources/headers/" + sourceDirectorySet.getName() + "/" + sourceSet.getName();
 	}
 }
