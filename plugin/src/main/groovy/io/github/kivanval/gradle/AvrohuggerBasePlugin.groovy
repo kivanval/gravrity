@@ -17,23 +17,24 @@ package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.tasks.GenerateAvroTask
-import org.gradle.api.internal.ConventionMapping
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.plugins.internal.JvmPluginsHelper
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.jvm.toolchain.JavaToolchainService
-
 import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
 import org.gradle.api.file.SourceDirectorySet
+import org.gradle.api.internal.ConventionMapping
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.internal.JvmPluginsHelper
 import org.gradle.api.plugins.scala.ScalaBasePlugin
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.internal.Cast
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -63,15 +64,12 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
 			sourceSet.allSource.source(avro)
 			sourceSet.resources.source(avro)
-			TaskProvider<GenerateAvroTask> avroTask = this.createGenerateAvroTask(sourceSet, avro, project);
-//			this.createClassesTask(sourceSet, project);
-//			this.configureLibraryElements(compileTask, sourceSet, configurations, project.getObjects());
-//			this.configureTargetPlatform(compileTask, sourceSet, configurations);
 
-			// TODO Maybe, move in task creating step
 			final def output = Cast.cast(DefaultSourceSetOutput, sourceSet.output)
 			final def avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.name
-			output.generatedSourcesDirs.from(project.layout.buildDirectory.dir(avroScalaGeneratedPath))
+			final def outputDir = project.layout.buildDirectory.dir(avroScalaGeneratedPath)
+			output.generatedSourcesDirs.from(outputDir)
+			final def avroTask = createGenerateAvroTask(sourceSet, avro, project, outputDir)
 		}
 	}
 
@@ -82,13 +80,12 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 				DefaultAvrohuggerExtension)
 	}
 
-	private TaskProvider<GenerateAvroTask> createGenerateAvroTask(SourceSet sourceSet, SourceDirectorySet sourceDirectorySet, Project target) {
-		return target.getTasks().register(sourceSet.name, GenerateAvroTask.class, (avroTask) -> {
-			avroTask.setDescription("Compiles " + sourceDirectorySet + ".");
-			avroTask.setSource(sourceDirectorySet);
-			ConventionMapping conventionMapping = avroTask.getConventionMapping();
-			Objects.requireNonNull(sourceSet);
-			conventionMapping.map("classpath", sourceSet::getCompileClasspath);
-			String generatedHeadersDir = "generated/sources/headers/" + sourceDirectorySet.getName() + "/" + sourceSet.getName();
+	private static TaskProvider<GenerateAvroTask> createGenerateAvroTask(final SourceSet sourceSet, final SourceDirectorySet sourceDirectorySet, final Project project, final Provider<Directory> outputBaseDir) {
+		return project.tasks.register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroTask) {
+			// TODO Create a better description
+			it.description = "Generates " + sourceDirectorySet + "."
+			it.source = sourceDirectorySet
+			it.outputDir.convention(outputBaseDir)
+		}
 	}
 }
