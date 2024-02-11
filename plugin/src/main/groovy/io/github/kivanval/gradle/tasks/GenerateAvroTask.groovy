@@ -19,17 +19,17 @@ import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.Standard
 import javax.inject.Inject
+import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.SourceTask
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 
 @CompileStatic
+@CacheableTask
 class GenerateAvroTask extends SourceTask {
+	private final Project project
 	private final ObjectFactory objects
 	@Input
 	final Property<AvroSourceFormat> format
@@ -41,7 +41,8 @@ class GenerateAvroTask extends SourceTask {
 	final DirectoryProperty outputDir
 
 	@Inject
-	GenerateAvroTask(ObjectFactory objects) {
+	GenerateAvroTask(Project project, ObjectFactory objects) {
+		this.project = project
 		this.objects = objects
 
 		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
@@ -53,6 +54,6 @@ class GenerateAvroTask extends SourceTask {
 	}
 
 	@TaskAction
-	void generate() {
+	generate() {
 	}
 }

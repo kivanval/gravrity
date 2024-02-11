@@ -15,7 +15,6 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.SpecificRecord
@@ -31,16 +30,16 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 	private final ObjectFactory objects
 
 	@Input
-	Property<AvroSourceFormat> format
+	final Property<AvroSourceFormat> format
 
 	final AvroSourceFormat standard
 	final AvroSourceFormat specificRecord
 
 	@Input
-	MapProperty<String, String> namespaceMapping
+	final MapProperty<String, String> namespaceMapping
 
 	@Input
-	Property<Boolean> restrictedFieldNumber
+	final Property<Boolean> restrictedFieldNumber
 
 	@Inject
 	DefaultAvrohuggerExtension(ObjectFactory objects) {
