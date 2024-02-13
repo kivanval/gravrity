@@ -32,9 +32,6 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 	@Input
 	final Property<AvroSourceFormat> format
 
-	final AvroSourceFormat standard
-	final AvroSourceFormat specificRecord
-
 	@Input
 	final MapProperty<String, String> namespaceMapping
 
@@ -47,11 +44,18 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 
 		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-		this.standard = objects.<Standard> newInstance(Standard)
-		this.specificRecord = objects.<SpecificRecord> newInstance(SpecificRecord)
-
 		this.namespaceMapping = objects.mapProperty(String, String)
 
 		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
+	}
+
+	@Override
+	AvroSourceFormat getStandard() {
+		return objects.<Standard> newInstance(Standard)
+	}
+
+	@Override
+	AvroSourceFormat getSpecificRecord() {
+		return objects.<SpecificRecord> newInstance(SpecificRecord)
 	}
 }

@@ -38,11 +38,6 @@ class SpecificRecord implements AvroSourceFormat {
 		this.sourceFormat = SpecificRecord$.MODULE$
 		this.types = objects.property(AvroScalaTypes)
 				.value(objects.<DefaultAvroScalaTypes> newInstance(DefaultAvroScalaTypes)
-				.initBy(sourceFormat.defaultTypes()))
-	}
-
-	@Override
-	SpecificRecord getCopy() {
-		new SpecificRecord(objects)
+				.setValuesFrom(sourceFormat.defaultTypes()))
 	}
 }

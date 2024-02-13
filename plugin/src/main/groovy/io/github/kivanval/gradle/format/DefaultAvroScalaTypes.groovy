@@ -104,7 +104,7 @@ class DefaultAvroScalaTypes implements AvroScalaTypes {
 		uuidType = objects.property(AvroUuidType)
 	}
 
-	AvroScalaTypes initBy(avrohugger.types.AvroScalaTypes avroScalaTypes) {
+	AvroScalaTypes setValuesFrom(avrohugger.types.AvroScalaTypes avroScalaTypes) {
 		intType.convention(avroScalaTypes.int())
 		longType.convention(avroScalaTypes.long())
 		floatType.convention(avroScalaTypes.float())

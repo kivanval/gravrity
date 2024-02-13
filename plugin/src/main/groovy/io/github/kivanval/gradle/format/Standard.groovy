@@ -38,11 +38,6 @@ class Standard implements AvroSourceFormat {
 		this.sourceFormat = Standard$.MODULE$
 		this.types = objects.property(AvroScalaTypes)
 				.value(objects.<DefaultAvroScalaTypes> newInstance(DefaultAvroScalaTypes)
-				.initBy(sourceFormat.defaultTypes()))
-	}
-
-	@Override
-	Standard getCopy() {
-		new Standard(objects)
+				.setValuesFrom(sourceFormat.defaultTypes()))
 	}
 }
