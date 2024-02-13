@@ -28,7 +28,7 @@ class Standard implements AvroSourceFormat {
 	final SourceFormat sourceFormat
 
 	@Input
-	Property<AvroScalaTypes> types
+	final Property<AvroScalaTypes> types
 
 	private final ObjectFactory objects
 

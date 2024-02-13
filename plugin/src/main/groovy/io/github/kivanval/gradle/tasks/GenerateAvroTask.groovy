@@ -13,45 +13,47 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.gradle.tasks
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
-import io.github.kivanval.gradle.format.SpecificRecord
 import io.github.kivanval.gradle.format.Standard
 import javax.inject.Inject
+import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.*
 
 @CompileStatic
-class DefaultAvrohuggerExtension implements AvrohuggerExtension {
+@CacheableTask
+class GenerateAvroTask extends SourceTask {
+	private final Project project
 	private final ObjectFactory objects
-
 	@Input
 	final Property<AvroSourceFormat> format
-
-	final AvroSourceFormat standard
-	final AvroSourceFormat specificRecord
-
-	@Input
-	final MapProperty<String, String> namespaceMapping
-
 	@Input
 	final Property<Boolean> restrictedFieldNumber
+	@Input
+	final MapProperty<String, String> namespaceMapping
+	@OutputDirectory
+	final DirectoryProperty outputDir
 
 	@Inject
-	DefaultAvrohuggerExtension(ObjectFactory objects) {
+	GenerateAvroTask(Project project, ObjectFactory objects) {
+		this.project = project
 		this.objects = objects
 
 		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-		this.standard = objects.<Standard> newInstance(Standard)
-		this.specificRecord = objects.<SpecificRecord> newInstance(SpecificRecord)
-
 		this.namespaceMapping = objects.mapProperty(String, String)
 
 		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
+		this.outputDir = objects.directoryProperty()
+	}
+
+	@TaskAction
+	generate() {
 	}
 }
