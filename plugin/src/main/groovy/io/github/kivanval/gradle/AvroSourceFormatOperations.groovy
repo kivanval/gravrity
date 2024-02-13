@@ -40,9 +40,8 @@ trait AvroSourceFormatOperations implements AvrohuggerExtensionBase {
 		sourceFormat(specificRecord, configureAction)
 	}
 
-	private AvroSourceFormat sourceFormat(AvroSourceFormat avroSourceFormat,
+	private AvroSourceFormat sourceFormat(AvroSourceFormat sourceFormat,
 			Closure<?> configureClosure) {
-		def sourceFormat = avroSourceFormat.copy
 		sourceFormat.types.set(sourceFormat.types
 				.map { avroScalaTypes ->
 					configure(configureClosure, avroScalaTypes)
@@ -50,9 +49,8 @@ trait AvroSourceFormatOperations implements AvrohuggerExtensionBase {
 		sourceFormat
 	}
 
-	private AvroSourceFormat sourceFormat(AvroSourceFormat avroSourceFormat,
+	private AvroSourceFormat sourceFormat(AvroSourceFormat sourceFormat,
 			Action<? super AvroScalaTypes> configureAction) {
-		def sourceFormat = avroSourceFormat.copy
 		sourceFormat.types.set(sourceFormat.types
 				.map { avroScalaTypes ->
 					configureAction.execute(avroScalaTypes)

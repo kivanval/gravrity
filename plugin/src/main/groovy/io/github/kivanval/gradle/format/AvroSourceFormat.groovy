@@ -22,6 +22,4 @@ interface AvroSourceFormat {
 	Property<AvroScalaTypes> getTypes()
 
 	SourceFormat getSourceFormat()
-
-	AvroSourceFormat getCopy()
 }
