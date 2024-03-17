@@ -15,6 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.tasks
 
+
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.Standard
@@ -55,5 +56,8 @@ class GenerateAvroTask extends SourceTask {
 
 	@TaskAction
 	generate() {
+		def format = format.get()
+		//		new Generator(format,
+		//		)
 	}
 }
