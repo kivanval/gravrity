@@ -17,11 +17,10 @@ package io.github.kivanval.gradle.format
 
 import avrohugger.types.*
 import groovy.transform.CompileStatic
+import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-
-import javax.inject.Inject
 
 @CompileStatic
 class AvroScalaTypes {
