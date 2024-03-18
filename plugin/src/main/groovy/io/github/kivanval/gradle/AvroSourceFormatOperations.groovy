@@ -20,42 +20,37 @@ import static org.gradle.util.internal.ConfigureUtil.configure
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroScalaTypes
 import io.github.kivanval.gradle.format.AvroSourceFormat
+import io.github.kivanval.gradle.format.SpecificRecord
+import io.github.kivanval.gradle.format.Standard
 import org.gradle.api.Action
 
 @CompileStatic
-trait AvroSourceFormatOperations implements AvrohuggerExtensionBase {
+trait AvroSourceFormatOperations {
+	AvroSourceFormat getStandard() {
+		Standard.EMPTY
+	}
+
+	AvroSourceFormat getSpecificRecord() {
+		SpecificRecord.EMPTY
+	}
+
 	AvroSourceFormat standard(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
-		sourceFormat(standard, configureClosure)
+		configure(configureClosure, standard.types)
+		standard
 	}
 
 	AvroSourceFormat standard(Action<? super AvroScalaTypes> configureAction) {
-		sourceFormat(standard, configureAction)
+		configureAction.execute(standard.types)
+		standard
 	}
 
 	AvroSourceFormat specificRecord(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
-		sourceFormat(specificRecord, configureClosure)
+		configure(configureClosure, specificRecord.types)
+		specificRecord
 	}
 
 	AvroSourceFormat specificRecord(Action<? super AvroScalaTypes> configureAction) {
-		sourceFormat(specificRecord, configureAction)
-	}
-
-	private AvroSourceFormat sourceFormat(AvroSourceFormat sourceFormat,
-			Closure<?> configureClosure) {
-		sourceFormat.types.set(sourceFormat.types
-				.map { avroScalaTypes ->
-					configure(configureClosure, avroScalaTypes)
-				})
-		sourceFormat
-	}
-
-	private AvroSourceFormat sourceFormat(AvroSourceFormat sourceFormat,
-			Action<? super AvroScalaTypes> configureAction) {
-		sourceFormat.types.set(sourceFormat.types
-				.map { avroScalaTypes ->
-					configureAction.execute(avroScalaTypes)
-					avroScalaTypes
-				})
-		sourceFormat
+		configureAction.execute(specificRecord.types)
+		specificRecord
 	}
 }

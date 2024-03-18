@@ -48,14 +48,4 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
 
 		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
 	}
-
-	@Override
-	AvroSourceFormat getStandard() {
-		return objects.<Standard> newInstance(Standard)
-	}
-
-	@Override
-	AvroSourceFormat getSpecificRecord() {
-		return objects.<SpecificRecord> newInstance(SpecificRecord)
-	}
 }

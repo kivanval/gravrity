@@ -15,10 +15,12 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.tasks
 
-
+import avrohugger.Generator
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.Standard
+import scala.Option
+
 import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
@@ -50,14 +52,21 @@ class GenerateAvroTask extends SourceTask {
 
 		this.namespaceMapping = objects.mapProperty(String, String)
 
-		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
+		this.restrictedFieldNumber = objects.property(Boolean).convention(false) // TODO
 		this.outputDir = objects.directoryProperty()
 	}
 
 	@TaskAction
 	generate() {
 		def format = format.get()
-		//		new Generator(format,
-		//		)
+
+//		new Generator(
+//				format.sourceFormat,
+//				Option.apply(format.types.origin),
+//				namespaceMapping.get(),
+//				restrictedFieldNumber.get(),
+//				Thread.currentThread().contextClassLoader,
+//				scalaVersion
+//				)
 	}
 }

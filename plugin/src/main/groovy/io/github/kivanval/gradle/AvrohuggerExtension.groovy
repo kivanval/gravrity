@@ -17,7 +17,15 @@ package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AllAvroScalaTypeValues
+import io.github.kivanval.gradle.format.AvroSourceFormat
+import org.gradle.api.provider.MapProperty
+import org.gradle.api.provider.Property
 
 @CompileStatic
 trait AvrohuggerExtension implements AvroSourceFormatOperations, AllAvroScalaTypeValues {
+	abstract Property<AvroSourceFormat> getFormat()
+
+	abstract MapProperty<String, String> getNamespaceMapping()
+
+	abstract Property<Boolean> getRestrictedFieldNumber()
 }

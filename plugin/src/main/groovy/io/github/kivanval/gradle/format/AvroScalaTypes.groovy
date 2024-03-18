@@ -16,90 +16,96 @@ limitations under the License.
 package io.github.kivanval.gradle.format
 
 import avrohugger.types.*
+import avrohugger.types.AvroScalaTypes as AvrohuggerAvroScalaTypes
 import groovy.transform.CompileStatic
 import javax.inject.Inject
-import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
 
 @CompileStatic
 class AvroScalaTypes {
-	@Input
-	final Property<AvroScalaNumberType> intType
-	@Input
-	final Property<AvroScalaNumberType> longType
-	@Input
-	final Property<AvroScalaNumberType> floatType
-	@Input
-	final Property<AvroScalaNumberType> doubleType
-	@Input
-	final Property<AvroScalaBooleanType> booleanType
-	@Input
-	final Property<AvroScalaStringType> stringType
-	@Input
-	final Property<AvroScalaNullType> nullType
-	@Input
-	final Property<AvroScalaBytesType> bytesType
-	@Input
-	final Property<AvroScalaFixedType> fixedType
-	@Input
-	final Property<AvroScalaRecordType> recordType
-	@Input
-	final Property<AvroScalaEnumType> enumType
-	@Input
-	final Property<AvroScalaUnionType> unionType
-	@Input
-	final Property<AvroScalaArrayType> arrayType
-	@Input
-	final Property<AvroScalaMapType> mapType
-	@Input
-	final Property<AvroScalaProtocolType> protocolType
-	@Input
-	final Property<AvroScalaDecimalType> decimalType
-	@Input
-	final Property<AvroScalaDateType> dateType
-	@Input
-	final Property<AvroScalaTimestampMillisType> timestampMillisType
-	@Input
-	final Property<AvroScalaTimeMillisType> timeMillisType
-	@Input
-	final Property<AvroScalaTimeType> timeMicrosType
-	@Input
-	final Property<AvroScalaTimestampType> timestampMicrosType
-	@Input
-	final Property<AvroScalaLocalTimestampType> localTimestampMillisType
-	@Input
-	final Property<AvroScalaLocalTimestampType> localTimestampMicrosType
-	@Input
-	final Property<AvroUuidType> uuidType
+	AvroScalaNumberType intType
+	AvroScalaNumberType longType
+	AvroScalaNumberType floatType
+	AvroScalaNumberType doubleType
+	AvroScalaBooleanType booleanType
+	AvroScalaStringType stringType
+	AvroScalaNullType nullType
+	AvroScalaBytesType bytesType
+	AvroScalaFixedType fixedType
+	AvroScalaRecordType recordType
+	AvroScalaEnumType enumType
+	AvroScalaUnionType unionType
+	AvroScalaArrayType arrayType
+	AvroScalaMapType mapType
+	AvroScalaProtocolType protocolType
+	AvroScalaDecimalType decimalType
+	AvroScalaDateType dateType
+	AvroScalaTimestampMillisType timestampMillisType
+	AvroScalaTimeMillisType timeMillisType
+	AvroScalaTimeType timeMicrosType
+	AvroScalaTimestampType timestampMicrosType
+	AvroScalaLocalTimestampType localTimestampMillisType
+	AvroScalaLocalTimestampType localTimestampMicrosType
+	AvroUuidType uuidType
 
 	@Inject
-	AvroScalaTypes(ObjectFactory objects, avrohugger.types.AvroScalaTypes avroScalaTypes) {
-		intType = objects.property(AvroScalaNumberType).convention(avroScalaTypes.int())
-		longType = objects.property(AvroScalaNumberType).convention(avroScalaTypes.long())
-		floatType = objects.property(AvroScalaNumberType).convention(avroScalaTypes.float())
-		doubleType = objects.property(AvroScalaNumberType).convention(avroScalaTypes.double())
-		booleanType = objects.property(AvroScalaBooleanType).convention(avroScalaTypes.boolean())
-		stringType = objects.property(AvroScalaStringType).convention(avroScalaTypes.string())
-		nullType = objects.property(AvroScalaNullType).convention(avroScalaTypes.null())
-		bytesType = objects.property(AvroScalaBytesType).convention(avroScalaTypes.bytes())
+	AvroScalaTypes(AvrohuggerAvroScalaTypes avroScalaTypes) {
+		intType = avroScalaTypes.int()
+		longType = avroScalaTypes.long()
+		floatType = avroScalaTypes.float()
+		doubleType = avroScalaTypes.double()
+		booleanType = avroScalaTypes.boolean()
+		stringType = avroScalaTypes.string()
+		nullType = avroScalaTypes.null()
+		bytesType = avroScalaTypes.bytes()
 
-		fixedType = objects.property(AvroScalaFixedType).convention(avroScalaTypes.fixed())
-		recordType = objects.property(AvroScalaRecordType).convention(avroScalaTypes.record())
-		enumType = objects.property(AvroScalaEnumType).convention(avroScalaTypes.enum())
-		unionType = objects.property(AvroScalaUnionType).convention(avroScalaTypes.union())
-		arrayType = objects.property(AvroScalaArrayType).convention(avroScalaTypes.array())
-		mapType = objects.property(AvroScalaMapType).convention(avroScalaTypes.map())
-		protocolType = objects.property(AvroScalaProtocolType).convention(avroScalaTypes.protocol())
+		fixedType = avroScalaTypes.fixed()
+		recordType = avroScalaTypes.record()
+		enumType = avroScalaTypes.enum()
+		unionType = avroScalaTypes.union()
+		arrayType = avroScalaTypes.array()
+		mapType = avroScalaTypes.map()
+		protocolType = avroScalaTypes.protocol()
 
-		decimalType = objects.property(AvroScalaDecimalType).convention(avroScalaTypes.decimal())
-		dateType = objects.property(AvroScalaDateType).convention(avroScalaTypes.date())
-		timestampMillisType = objects.property(AvroScalaTimestampMillisType).convention(avroScalaTypes.timestampMillis())
-		timeMillisType = objects.property(AvroScalaTimeMillisType).convention(avroScalaTypes.timeMillis())
-		timeMicrosType = objects.property(AvroScalaTimeType).convention(avroScalaTypes.timeMicros())
-		timestampMicrosType = objects.property(AvroScalaTimestampType).convention(avroScalaTypes.timestampMicros())
-		localTimestampMillisType = objects.property(AvroScalaLocalTimestampType).convention(avroScalaTypes.localTimestampMillis())
-		localTimestampMicrosType = objects.property(AvroScalaLocalTimestampType).convention(avroScalaTypes.localTimestampMicros())
-		uuidType = objects.property(AvroUuidType).convention(avroScalaTypes.uuid())
+		decimalType = avroScalaTypes.decimal()
+		dateType = avroScalaTypes.date()
+		timestampMillisType = avroScalaTypes.timestampMillis()
+		timeMillisType = avroScalaTypes.timeMillis()
+		timeMicrosType = avroScalaTypes.timeMicros()
+		timestampMicrosType = avroScalaTypes.timestampMicros()
+		localTimestampMillisType = avroScalaTypes.localTimestampMillis()
+		localTimestampMicrosType = avroScalaTypes.localTimestampMicros()
+		uuidType = avroScalaTypes.uuid()
+	}
+
+	AvrohuggerAvroScalaTypes getOrigin() {
+		new AvrohuggerAvroScalaTypes(
+				// primitive
+				intType,
+				longType,
+				floatType,
+				doubleType,
+				booleanType,
+				stringType,
+				nullType,
+				bytesType,
+				// complex
+				fixedType,
+				recordType,
+				enumType,
+				unionType,
+				arrayType,
+				mapType,
+				protocolType,
+				// logical
+				decimalType,
+				dateType,
+				timestampMillisType,
+				timeMillisType,
+				timeMicrosType,
+				timestampMicrosType,
+				localTimestampMillisType,
+				localTimestampMicrosType,
+				uuidType
+				)
 	}
 }

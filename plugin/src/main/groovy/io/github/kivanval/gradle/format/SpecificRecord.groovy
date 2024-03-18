@@ -18,25 +18,16 @@ package io.github.kivanval.gradle.format
 import avrohugger.format.SpecificRecord$
 import avrohugger.format.abstractions.SourceFormat
 import groovy.transform.CompileStatic
-import javax.inject.Inject
-import org.gradle.api.model.ObjectFactory
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
 
 @CompileStatic
 class SpecificRecord implements AvroSourceFormat {
 	final SourceFormat sourceFormat
+	AvroScalaTypes types
 
-	@Input
-	final Property<AvroScalaTypes> types
-
-	private final ObjectFactory objects
-
-	@Inject
-	SpecificRecord(ObjectFactory objects) {
-		this.objects = objects
+	SpecificRecord() {
 		this.sourceFormat = SpecificRecord$.MODULE$
-		this.types = objects.property(AvroScalaTypes)
-				.value(objects.<AvroScalaTypes> newInstance(AvroScalaTypes, objects, sourceFormat.defaultTypes()))
+		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
 	}
+
+	static SpecificRecord EMPTY = new SpecificRecord()
 }
