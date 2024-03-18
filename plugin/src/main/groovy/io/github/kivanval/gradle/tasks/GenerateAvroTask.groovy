@@ -19,8 +19,6 @@ import avrohugger.Generator
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.Standard
-import scala.Option
-
 import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
@@ -28,6 +26,7 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import scala.Option
 
 @CompileStatic
 @CacheableTask
@@ -60,13 +59,13 @@ class GenerateAvroTask extends SourceTask {
 	generate() {
 		def format = format.get()
 
-//		new Generator(
-//				format.sourceFormat,
-//				Option.apply(format.types.origin),
-//				namespaceMapping.get(),
-//				restrictedFieldNumber.get(),
-//				Thread.currentThread().contextClassLoader,
-//				scalaVersion
-//				)
+		//		new Generator(
+		//				format.sourceFormat,
+		//				Option.apply(format.types.origin),
+		//				namespaceMapping.get(),
+		//				restrictedFieldNumber.get(),
+		//				Thread.currentThread().contextClassLoader,
+		//				scalaVersion
+		//				)
 	}
 }
