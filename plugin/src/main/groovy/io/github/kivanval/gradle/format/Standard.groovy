@@ -29,6 +29,4 @@ class Standard implements AvroSourceFormat {
 		this.sourceFormat = Standard$.MODULE$
 		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
 	}
-
-	static Standard EMPTY = new Standard()
 }

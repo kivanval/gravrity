@@ -27,11 +27,11 @@ import org.gradle.api.Action
 @CompileStatic
 trait AvroSourceFormatOperations {
 	AvroSourceFormat getStandard() {
-		Standard.EMPTY
+		new Standard()
 	}
 
 	AvroSourceFormat getSpecificRecord() {
-		SpecificRecord.EMPTY
+		new SpecificRecord()
 	}
 
 	AvroSourceFormat standard(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {

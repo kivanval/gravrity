@@ -28,6 +28,4 @@ class SpecificRecord implements AvroSourceFormat {
 		this.sourceFormat = SpecificRecord$.MODULE$
 		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
 	}
-
-	static SpecificRecord EMPTY = new SpecificRecord()
 }
