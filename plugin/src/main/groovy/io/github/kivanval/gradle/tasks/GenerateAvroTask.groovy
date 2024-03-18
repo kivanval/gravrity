@@ -15,7 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.tasks
 
-import avrohugger.Generator
+
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.format.AvroSourceFormat
 import io.github.kivanval.gradle.format.Standard
@@ -26,7 +26,6 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
-import scala.Option
 
 @CompileStatic
 @CacheableTask
