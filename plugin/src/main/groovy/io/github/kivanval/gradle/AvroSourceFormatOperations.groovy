@@ -18,10 +18,10 @@ package io.github.kivanval.gradle
 import static org.gradle.util.internal.ConfigureUtil.configure
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.gradle.format.AvroScalaTypes
-import io.github.kivanval.gradle.format.AvroSourceFormat
-import io.github.kivanval.gradle.format.SpecificRecord
-import io.github.kivanval.gradle.format.Standard
+import io.github.kivanval.avrohugger.format.SpecificRecord
+import io.github.kivanval.avrohugger.format.Standard
+import io.github.kivanval.avrohugger.type.AvroScalaTypes
+import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import org.gradle.api.Action
 
 @CompileStatic

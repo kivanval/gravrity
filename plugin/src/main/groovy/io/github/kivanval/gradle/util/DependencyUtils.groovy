@@ -13,42 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format
+package io.github.kivanval.gradle.util
 
-import avrohugger.types.*
+
 import groovy.transform.CompileStatic
+import javax.annotation.Nullable
+import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPlugin
 
 @CompileStatic
-trait PrimitiveAvroScalaTypeValues {
-	ScalaInt$ getScalaInt() {
-		ScalaInt$.MODULE$
-	}
+class DependencyUtils {
+	static final SCALA_GROUP = 'org.scala-lang'
+	static final SCALA_ARTIFACT = 'scala-library'
 
-	ScalaLong$ getScalaLong() {
-		ScalaLong$.MODULE$
-	}
 
-	ScalaFloat$ getScalaFloat() {
-		ScalaFloat$.MODULE$
-	}
-
-	ScalaDouble$ getScalaDouble() {
-		ScalaDouble$.MODULE$
-	}
-
-	ScalaBoolean$ getScalaBoolean() {
-		ScalaBoolean$.MODULE$
-	}
-
-	ScalaString$ getScalaString() {
-		ScalaString$.MODULE$
-	}
-
-	ScalaNull$ getScalaNull() {
-		ScalaNull$.MODULE$
-	}
-
-	ScalaByteArray$ getScalaByteArray() {
-		ScalaByteArray$.MODULE$
+	@Nullable
+	static String findScalaVersion(Project project) {
+		project
+				.configurations
+				.named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
+				.map { it.allDependencies }
+				.getOrElse(null)
+				?.find { SCALA_GROUP == it.group && SCALA_ARTIFACT == it.name }
+				?.version
 	}
 }

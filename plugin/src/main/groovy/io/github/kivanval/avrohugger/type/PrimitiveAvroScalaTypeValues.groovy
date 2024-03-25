@@ -13,19 +13,42 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format
+package io.github.kivanval.avrohugger.type
 
-import avrohugger.format.SpecificRecord$
-import avrohugger.format.abstractions.SourceFormat
+import avrohugger.types.*
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class SpecificRecord implements AvroSourceFormat {
-	final SourceFormat sourceFormat
-	AvroScalaTypes types
+trait PrimitiveAvroScalaTypeValues {
+	ScalaInt$ getScalaInt() {
+		ScalaInt$.MODULE$
+	}
 
-	SpecificRecord() {
-		this.sourceFormat = SpecificRecord$.MODULE$
-		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
+	ScalaLong$ getScalaLong() {
+		ScalaLong$.MODULE$
+	}
+
+	ScalaFloat$ getScalaFloat() {
+		ScalaFloat$.MODULE$
+	}
+
+	ScalaDouble$ getScalaDouble() {
+		ScalaDouble$.MODULE$
+	}
+
+	ScalaBoolean$ getScalaBoolean() {
+		ScalaBoolean$.MODULE$
+	}
+
+	ScalaString$ getScalaString() {
+		ScalaString$.MODULE$
+	}
+
+	ScalaNull$ getScalaNull() {
+		ScalaNull$.MODULE$
+	}
+
+	ScalaByteArray$ getScalaByteArray() {
+		ScalaByteArray$.MODULE$
 	}
 }

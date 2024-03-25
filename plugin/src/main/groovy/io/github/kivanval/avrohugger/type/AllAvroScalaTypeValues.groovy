@@ -13,20 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format
+package io.github.kivanval.avrohugger.type
 
-import avrohugger.format.Standard$
-import avrohugger.format.abstractions.SourceFormat
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class Standard implements AvroSourceFormat {
-	final SourceFormat sourceFormat
-	AvroScalaTypes types
-
-
-	Standard() {
-		this.sourceFormat = Standard$.MODULE$
-		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
-	}
+trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues {
 }

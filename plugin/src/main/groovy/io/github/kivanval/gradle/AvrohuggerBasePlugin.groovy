@@ -16,7 +16,6 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.gradle.tasks.GenerateAvroTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory

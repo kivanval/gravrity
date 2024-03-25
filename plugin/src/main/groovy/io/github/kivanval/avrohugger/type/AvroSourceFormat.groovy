@@ -13,19 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.avrohugger.type
 
-import groovy.transform.CompileStatic
-import io.github.kivanval.avrohugger.type.AllAvroScalaTypeValues
-import io.github.kivanval.avrohugger.type.AvroSourceFormat
-import org.gradle.api.provider.MapProperty
-import org.gradle.api.provider.Property
+import avrohugger.format.abstractions.SourceFormat
 
-@CompileStatic
-trait AvrohuggerExtension implements AvroSourceFormatOperations, AllAvroScalaTypeValues {
-	abstract Property<AvroSourceFormat> getFormat()
+interface AvroSourceFormat {
+	AvroScalaTypes getTypes()
 
-	abstract MapProperty<String, String> getNamespaceMapping()
-
-	abstract Property<Boolean> getRestrictedFieldNumber()
+	SourceFormat getSourceFormat()
 }

@@ -13,10 +13,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format
+package io.github.kivanval.avrohugger.format
 
+import avrohugger.format.SpecificRecord$
+import avrohugger.format.abstractions.SourceFormat
 import groovy.transform.CompileStatic
+import io.github.kivanval.avrohugger.type.AvroScalaTypes
 
 @CompileStatic
-trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues {
+class SpecificRecord implements io.github.kivanval.avrohugger.type.AvroSourceFormat {
+	final SourceFormat sourceFormat
+	AvroScalaTypes types
+
+	SpecificRecord() {
+		this.sourceFormat = SpecificRecord$.MODULE$
+		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
+	}
 }

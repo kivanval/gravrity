@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.format
+package io.github.kivanval.avrohugger.type
 
 import avrohugger.types.*
 import groovy.transform.CompileStatic

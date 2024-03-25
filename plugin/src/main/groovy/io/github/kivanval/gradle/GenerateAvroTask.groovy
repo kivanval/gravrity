@@ -13,12 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.tasks
+package io.github.kivanval.gradle
 
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.gradle.format.AvroSourceFormat
-import io.github.kivanval.gradle.format.Standard
+import io.github.kivanval.avrohugger.format.Standard
+import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty

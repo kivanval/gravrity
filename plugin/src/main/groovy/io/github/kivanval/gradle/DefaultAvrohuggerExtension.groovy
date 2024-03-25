@@ -16,9 +16,8 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.gradle.format.AvroSourceFormat
-import io.github.kivanval.gradle.format.SpecificRecord
-import io.github.kivanval.gradle.format.Standard
+import io.github.kivanval.avrohugger.format.Standard
+import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
