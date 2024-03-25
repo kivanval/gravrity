@@ -15,7 +15,6 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
-
 import groovy.transform.CompileStatic
 import javax.annotation.Nullable
 import org.gradle.api.Project
@@ -27,18 +26,18 @@ class DependencyUtils {
 	static final String SCALA_ARTIFACT = 'scala-library'
 
 	@Nullable
-	static String findScalaVersion(Project project) {
+	static String findScalaVersion(final Project project) {
 		findCompileDependencyVersion SCALA_GROUP, SCALA_ARTIFACT, project
 	}
 
 
 	@Nullable
-	static String findCompileDependencyVersion(String group, String artifact, Project project) {
+	static String findCompileDependencyVersion(final String group, final String artifact, final Project project) {
 		project
 				.configurations
 				.named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
 				.map { it.allDependencies }
-				.getOrElse(null)
+				.getOrNull()
 				?.find { group == it.group && artifact == it.name }
 				?.version
 	}
