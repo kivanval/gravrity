@@ -23,18 +23,23 @@ import org.gradle.api.plugins.JavaPlugin
 
 @CompileStatic
 class DependencyUtils {
-	static final SCALA_GROUP = 'org.scala-lang'
-	static final SCALA_ARTIFACT = 'scala-library'
+	static final String SCALA_GROUP = 'org.scala-lang'
+	static final String SCALA_ARTIFACT = 'scala-library'
+
+    @Nullable
+    static String findScalaVersion(Project project) {
+        findCompileDependencyVersion SCALA_GROUP, SCALA_ARTIFACT, project
+    }
 
 
 	@Nullable
-	static String findScalaVersion(Project project) {
+	static String findCompileDependencyVersion(String group, String artifact, Project project) {
 		project
 				.configurations
 				.named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
 				.map { it.allDependencies }
 				.getOrElse(null)
-				?.find { SCALA_GROUP == it.group && SCALA_ARTIFACT == it.name }
+				?.find { group == it.group && artifact == it.name }
 				?.version
 	}
 }
