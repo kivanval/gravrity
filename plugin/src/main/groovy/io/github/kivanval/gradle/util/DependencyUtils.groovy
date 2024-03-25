@@ -23,11 +23,14 @@ import org.gradle.api.plugins.JavaPlugin
 @CompileStatic
 class DependencyUtils {
 	static final String SCALA_GROUP = 'org.scala-lang'
-	static final String SCALA_ARTIFACT = 'scala-library'
+	static final String SCALA2_ARTIFACT = 'scala-library'
+	static final String SCALA3_ARTIFACT = 'scala3-library_3'
 
 	@Nullable
 	static String findScalaVersion(final Project project) {
-		findCompileDependencyVersion SCALA_GROUP, SCALA_ARTIFACT, project
+		findCompileDependencyVersion(SCALA_GROUP, SCALA2_ARTIFACT, project) ?:
+				findCompileDependencyVersion(SCALA_GROUP, SCALA3_ARTIFACT, project) ?:
+				project.property('defaultScalaVersion')
 	}
 
 

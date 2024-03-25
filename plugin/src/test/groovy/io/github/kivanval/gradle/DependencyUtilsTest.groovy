@@ -19,28 +19,51 @@ import io.github.kivanval.gradle.util.DependencyUtils
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
-import spock.lang.Ignore
 import spock.lang.Specification
 
-@Ignore
 class DependencyUtilsTest extends Specification {
-	def "FindScalaVersion"() {
+	def "findScala2Version"() {
 		given:
 		def project = ProjectBuilder.builder().build()
 
 		when:
-		project.pluginManager.with {
-			apply(ScalaPlugin)
-		}
-		project.dependencies.with {
-			add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scalaLibrary("2.13.11"))
-		}
+		project.pluginManager.apply(ScalaPlugin)
+		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala2Library("2.13.12"))
 
 		then:
-		DependencyUtils.findScalaVersion(project)
+		DependencyUtils.findScalaVersion(project) == "2.13.12"
 	}
 
-	private static String scalaLibrary(String version) {
-		"${DependencyUtils.SCALA_GROUP}:${DependencyUtils.SCALA_ARTIFACT}:$version"
+	def "findScala3Version"() {
+		given:
+		def project = ProjectBuilder.builder().build()
+
+		when:
+		project.pluginManager.apply(ScalaPlugin)
+		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala3Library("3.0.1"))
+
+		then:
+		DependencyUtils.findScalaVersion(project) == "3.0.1"
+	}
+
+	def "scalaVersionNotFound"() {
+		given:
+		def project = ProjectBuilder.builder().build()
+
+
+		when:
+		project.pluginManager.apply(ScalaPlugin)
+		project.ext.defaultScalaVersion = '2.13.11'
+
+		then:
+		DependencyUtils.findScalaVersion(project) == "2.13.11"
+	}
+
+	private static String scala2Library(String version) {
+		"${DependencyUtils.SCALA_GROUP}:${DependencyUtils.SCALA2_ARTIFACT}:$version"
+	}
+
+	private static String scala3Library(String version) {
+		"${DependencyUtils.SCALA_GROUP}:${DependencyUtils.SCALA3_ARTIFACT}:$version"
 	}
 }
