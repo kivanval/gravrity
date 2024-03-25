@@ -22,41 +22,45 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class DependencyUtilsTest extends Specification {
-	def "findScala2Version"() {
+	def "findScalaVersion can find scala2 version"() {
 		given:
 		def project = ProjectBuilder.builder().build()
+		def scalaVersion = '2.13.12'
+
 
 		when:
 		project.pluginManager.apply(ScalaPlugin)
-		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala2Library("2.13.12"))
+		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala2Library(scalaVersion))
 
 		then:
-		DependencyUtils.findScalaVersion(project) == "2.13.12"
+		DependencyUtils.findScalaVersion(project) == scalaVersion
 	}
 
-	def "findScala3Version"() {
+	def "findScalaVersion can find scala3 version"() {
 		given:
 		def project = ProjectBuilder.builder().build()
+		def scalaVersion = '3.0.1'
 
 		when:
 		project.pluginManager.apply(ScalaPlugin)
-		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala3Library("3.0.1"))
+		project.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, scala3Library(scalaVersion))
 
 		then:
-		DependencyUtils.findScalaVersion(project) == "3.0.1"
+		DependencyUtils.findScalaVersion(project) == scalaVersion
 	}
 
-	def "scalaVersionNotFound"() {
+	def "findScalaVersion can find default version"() {
 		given:
 		def project = ProjectBuilder.builder().build()
+		def scalaVersion = '2.13.11'
 
 
 		when:
 		project.pluginManager.apply(ScalaPlugin)
-		project.ext.defaultScalaVersion = '2.13.11'
+		project.ext['default.scala.version'] = scalaVersion
 
 		then:
-		DependencyUtils.findScalaVersion(project) == "2.13.11"
+		DependencyUtils.findScalaVersion(project) == scalaVersion
 	}
 
 	private static String scala2Library(String version) {
