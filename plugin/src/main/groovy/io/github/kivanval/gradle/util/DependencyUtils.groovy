@@ -26,10 +26,10 @@ class DependencyUtils {
 	static final String SCALA_GROUP = 'org.scala-lang'
 	static final String SCALA_ARTIFACT = 'scala-library'
 
-    @Nullable
-    static String findScalaVersion(Project project) {
-        findCompileDependencyVersion SCALA_GROUP, SCALA_ARTIFACT, project
-    }
+	@Nullable
+	static String findScalaVersion(Project project) {
+		findCompileDependencyVersion SCALA_GROUP, SCALA_ARTIFACT, project
+	}
 
 
 	@Nullable
