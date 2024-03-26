@@ -16,12 +16,10 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import avrohugger.Generator
-import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import io.github.kivanval.gradle.util.DependencyUtils
-import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
@@ -31,6 +29,8 @@ import org.gradle.api.tasks.*
 import scala.Option
 import scala.Predef
 import scala.jdk.javaapi.CollectionConverters
+
+import javax.inject.Inject
 
 @CompileStatic
 @CacheableTask
@@ -67,14 +67,16 @@ class GenerateAvroTask extends SourceTask {
     def generator = new Generator(
       format.sourceFormat,
       Option.apply(format.types.origin),
-      CollectionConverters.asScala(namespaceMapping.get()).<String, String>toMap { Predef.$conforms() },
+      CollectionConverters.asScala(namespaceMapping.get()).<String, String> toMap { Predef.$conforms() },
       restrictedFieldNumber.get(),
       Thread.currentThread().contextClassLoader,
       DependencyUtils.findScalaVersion(project)
       )
 
-    source.files.forEach {
-      generator.fileToFile(it, outputDir.get().asFile.toString())
-    }
+    def outputDir = outputDir
+      .map { it.asFile.toString() }
+      .getOrElse(generator.defaultOutputDir())
+
+    source.files.forEach {generator.fileToFile(it, outputDir) }
   }
 }
