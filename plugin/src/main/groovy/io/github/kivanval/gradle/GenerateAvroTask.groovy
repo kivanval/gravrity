@@ -37,12 +37,16 @@ import javax.inject.Inject
 class GenerateAvroTask extends SourceTask {
   private final Project project
   private final ObjectFactory objects
+
   @Input
   final Property<AvroSourceFormat> format
+
   @Input
   final Property<Boolean> restrictedFieldNumber
+
   @Input
   final MapProperty<String, String> namespaceMapping
+
   @OutputDirectory
   final DirectoryProperty outputDir
 
