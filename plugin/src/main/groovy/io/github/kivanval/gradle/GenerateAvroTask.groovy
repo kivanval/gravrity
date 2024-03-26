@@ -15,10 +15,12 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
-
+import avrohugger.Generator
+import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.avrohugger.type.AvroSourceFormat
+import io.github.kivanval.gradle.util.DependencyUtils
 import javax.inject.Inject
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
@@ -26,45 +28,53 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import scala.Option
+import scala.Predef
+import scala.jdk.javaapi.CollectionConverters
 
 @CompileStatic
 @CacheableTask
 class GenerateAvroTask extends SourceTask {
-	private final Project project
-	private final ObjectFactory objects
-	@Input
-	final Property<AvroSourceFormat> format
-	@Input
-	final Property<Boolean> restrictedFieldNumber
-	@Input
-	final MapProperty<String, String> namespaceMapping
-	@OutputDirectory
-	final DirectoryProperty outputDir
+  private final Project project
+  private final ObjectFactory objects
+  @Input
+  final Property<AvroSourceFormat> format
+  @Input
+  final Property<Boolean> restrictedFieldNumber
+  @Input
+  final MapProperty<String, String> namespaceMapping
+  @OutputDirectory
+  final DirectoryProperty outputDir
 
-	@Inject
-	GenerateAvroTask(Project project, ObjectFactory objects) {
-		this.project = project
-		this.objects = objects
+  @Inject
+  GenerateAvroTask(Project project, ObjectFactory objects) {
+    this.project = project
+    this.objects = objects
 
-		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
+    this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-		this.namespaceMapping = objects.mapProperty(String, String)
+    this.namespaceMapping = objects.mapProperty(String, String)
 
-		this.restrictedFieldNumber = objects.property(Boolean).convention(false) // TODO
-		this.outputDir = objects.directoryProperty()
-	}
+    // TODO It may be worth adding checks for version <= 2.10.*, but I don't know if it makes sense
+    this.restrictedFieldNumber = objects.property(Boolean).convention(false)
+    this.outputDir = objects.directoryProperty()
+  }
 
-	@TaskAction
-	generate() {
-		def format = format.get()
+  @TaskAction
+  generate() {
+    def format = format.get()
 
-		//		new Generator(
-		//				format.sourceFormat,
-		//				Option.apply(format.types.origin),
-		//				namespaceMapping.get(),
-		//				restrictedFieldNumber.get(),
-		//				Thread.currentThread().contextClassLoader,
-		//				scalaVersion
-		//				)
-	}
+    def generator = new Generator(
+      format.sourceFormat,
+      Option.apply(format.types.origin),
+      CollectionConverters.asScala(namespaceMapping.get()).<String, String>toMap { Predef.$conforms() },
+      restrictedFieldNumber.get(),
+      Thread.currentThread().contextClassLoader,
+      DependencyUtils.findScalaVersion(project)
+      )
+
+    source.files.forEach {
+      generator.fileToFile(it, outputDir.get().asFile.toString())
+    }
+  }
 }
