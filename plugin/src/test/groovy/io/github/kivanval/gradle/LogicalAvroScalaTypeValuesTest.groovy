@@ -22,31 +22,31 @@ import scala.math.BigDecimal
 import spock.lang.Specification
 
 class LogicalAvroScalaTypeValuesTest extends Specification {
-	def "logical types matches to values in avrohugger library"() {
-		given:
-		def project = ProjectBuilder.builder().build()
+  def "logical types matches to values in avrohugger library"() {
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.with {
-			apply(AvrohuggerPlugin)
-		}
+    when:
+    project.pluginManager.with {
+      apply(AvrohuggerPlugin)
+    }
 
-		then:
-		with(project.avrohugger) {
-			scalaBigDecimal == new ScalaBigDecimal(Option.empty())
-			scalaBigDecimal(roundingMode.FLOOR()) == new ScalaBigDecimal(Option.apply(roundingMode.FLOOR()))
-			scalaBigDecimalWithPrecision == new ScalaBigDecimalWithPrecision(Option.empty())
-			scalaBigDecimalWithPrecision(roundingMode.UP()) == new ScalaBigDecimalWithPrecision(Option.apply(roundingMode.UP()))
-			roundingMode == BigDecimal.RoundingMode$.MODULE$
-			javaSqlDate == JavaSqlDate$.MODULE$
-			javaTimeLocalDate == JavaTimeLocalDate$.MODULE$
-			javaSqlTimestamp == JavaSqlTimestamp$.MODULE$
-			javaTimeInstant == JavaTimeInstant$.MODULE$
-			javaUuid == JavaUuid$.MODULE$
-			javaSqlTime == JavaSqlTime$.MODULE$
-			javaTimeLocalTime == JavaTimeLocalTime$.MODULE$
-			javaTimeZonedDateTime == JavaTimeZonedDateTime$.MODULE$
-			javaTimeLocalDateTime == JavaTimeLocalDateTime$.MODULE$
-		}
-	}
+    then:
+    with(project.avrohugger) {
+      scalaBigDecimal == new ScalaBigDecimal(Option.empty())
+      scalaBigDecimal(roundingMode.FLOOR()) == new ScalaBigDecimal(Option.apply(roundingMode.FLOOR()))
+      scalaBigDecimalWithPrecision == new ScalaBigDecimalWithPrecision(Option.empty())
+      scalaBigDecimalWithPrecision(roundingMode.UP()) == new ScalaBigDecimalWithPrecision(Option.apply(roundingMode.UP()))
+      roundingMode == BigDecimal.RoundingMode$.MODULE$
+      javaSqlDate == JavaSqlDate$.MODULE$
+      javaTimeLocalDate == JavaTimeLocalDate$.MODULE$
+      javaSqlTimestamp == JavaSqlTimestamp$.MODULE$
+      javaTimeInstant == JavaTimeInstant$.MODULE$
+      javaUuid == JavaUuid$.MODULE$
+      javaSqlTime == JavaSqlTime$.MODULE$
+      javaTimeLocalTime == JavaTimeLocalTime$.MODULE$
+      javaTimeZonedDateTime == JavaTimeZonedDateTime$.MODULE$
+      javaTimeLocalDateTime == JavaTimeLocalDateTime$.MODULE$
+    }
+  }
 }

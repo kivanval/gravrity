@@ -22,26 +22,26 @@ import org.gradle.api.plugins.JavaPlugin
 
 @CompileStatic
 class DependencyUtils {
-	static final String SCALA_GROUP = 'org.scala-lang'
-	static final String SCALA2_ARTIFACT = 'scala-library'
-	static final String SCALA3_ARTIFACT = 'scala3-library_3'
+  static final String SCALA_GROUP = 'org.scala-lang'
+  static final String SCALA2_ARTIFACT = 'scala-library'
+  static final String SCALA3_ARTIFACT = 'scala3-library_3'
 
-	@Nullable
-	static String findScalaVersion(final Project project) {
-		findCompileDependencyVersion(SCALA_GROUP, SCALA2_ARTIFACT, project) ?:
-				findCompileDependencyVersion(SCALA_GROUP, SCALA3_ARTIFACT, project) ?:
-				project.property('default.scala.version')
-	}
+  @Nullable
+  static String findScalaVersion(final Project project) {
+    findCompileDependencyVersion(SCALA_GROUP, SCALA2_ARTIFACT, project) ?:
+      findCompileDependencyVersion(SCALA_GROUP, SCALA3_ARTIFACT, project) ?:
+      project.property('default.scala.version')
+  }
 
 
-	@Nullable
-	static String findCompileDependencyVersion(final String group, final String artifact, final Project project) {
-		project
-				.configurations
-				.named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
-				.map { it.allDependencies }
-				.getOrNull()
-				?.find { group == it.group && artifact == it.name }
-				?.version
-	}
+  @Nullable
+  static String findCompileDependencyVersion(final String group, final String artifact, final Project project) {
+    project
+      .configurations
+      .named(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME)
+      .map { it.allDependencies }
+      .getOrNull()
+      ?.find { group == it.group && artifact == it.name }
+      ?.version
+  }
 }

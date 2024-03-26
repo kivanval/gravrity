@@ -20,35 +20,35 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 trait PrimitiveAvroScalaTypeValues {
-	ScalaInt$ getScalaInt() {
-		ScalaInt$.MODULE$
-	}
+  ScalaInt$ getScalaInt() {
+    ScalaInt$.MODULE$
+  }
 
-	ScalaLong$ getScalaLong() {
-		ScalaLong$.MODULE$
-	}
+  ScalaLong$ getScalaLong() {
+    ScalaLong$.MODULE$
+  }
 
-	ScalaFloat$ getScalaFloat() {
-		ScalaFloat$.MODULE$
-	}
+  ScalaFloat$ getScalaFloat() {
+    ScalaFloat$.MODULE$
+  }
 
-	ScalaDouble$ getScalaDouble() {
-		ScalaDouble$.MODULE$
-	}
+  ScalaDouble$ getScalaDouble() {
+    ScalaDouble$.MODULE$
+  }
 
-	ScalaBoolean$ getScalaBoolean() {
-		ScalaBoolean$.MODULE$
-	}
+  ScalaBoolean$ getScalaBoolean() {
+    ScalaBoolean$.MODULE$
+  }
 
-	ScalaString$ getScalaString() {
-		ScalaString$.MODULE$
-	}
+  ScalaString$ getScalaString() {
+    ScalaString$.MODULE$
+  }
 
-	ScalaNull$ getScalaNull() {
-		ScalaNull$.MODULE$
-	}
+  ScalaNull$ getScalaNull() {
+    ScalaNull$.MODULE$
+  }
 
-	ScalaByteArray$ getScalaByteArray() {
-		ScalaByteArray$.MODULE$
-	}
+  ScalaByteArray$ getScalaByteArray() {
+    ScalaByteArray$.MODULE$
+  }
 }

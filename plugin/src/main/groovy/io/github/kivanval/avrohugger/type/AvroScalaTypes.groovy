@@ -22,90 +22,90 @@ import javax.inject.Inject
 
 @CompileStatic
 class AvroScalaTypes {
-	AvroScalaNumberType intType
-	AvroScalaNumberType longType
-	AvroScalaNumberType floatType
-	AvroScalaNumberType doubleType
-	AvroScalaBooleanType booleanType
-	AvroScalaStringType stringType
-	AvroScalaNullType nullType
-	AvroScalaBytesType bytesType
-	AvroScalaFixedType fixedType
-	AvroScalaRecordType recordType
-	AvroScalaEnumType enumType
-	AvroScalaUnionType unionType
-	AvroScalaArrayType arrayType
-	AvroScalaMapType mapType
-	AvroScalaProtocolType protocolType
-	AvroScalaDecimalType decimalType
-	AvroScalaDateType dateType
-	AvroScalaTimestampMillisType timestampMillisType
-	AvroScalaTimeMillisType timeMillisType
-	AvroScalaTimeType timeMicrosType
-	AvroScalaTimestampType timestampMicrosType
-	AvroScalaLocalTimestampType localTimestampMillisType
-	AvroScalaLocalTimestampType localTimestampMicrosType
-	AvroUuidType uuidType
+  AvroScalaNumberType intType
+  AvroScalaNumberType longType
+  AvroScalaNumberType floatType
+  AvroScalaNumberType doubleType
+  AvroScalaBooleanType booleanType
+  AvroScalaStringType stringType
+  AvroScalaNullType nullType
+  AvroScalaBytesType bytesType
+  AvroScalaFixedType fixedType
+  AvroScalaRecordType recordType
+  AvroScalaEnumType enumType
+  AvroScalaUnionType unionType
+  AvroScalaArrayType arrayType
+  AvroScalaMapType mapType
+  AvroScalaProtocolType protocolType
+  AvroScalaDecimalType decimalType
+  AvroScalaDateType dateType
+  AvroScalaTimestampMillisType timestampMillisType
+  AvroScalaTimeMillisType timeMillisType
+  AvroScalaTimeType timeMicrosType
+  AvroScalaTimestampType timestampMicrosType
+  AvroScalaLocalTimestampType localTimestampMillisType
+  AvroScalaLocalTimestampType localTimestampMicrosType
+  AvroUuidType uuidType
 
-	@Inject
-	AvroScalaTypes(AvrohuggerAvroScalaTypes avroScalaTypes) {
-		intType = avroScalaTypes.int()
-		longType = avroScalaTypes.long()
-		floatType = avroScalaTypes.float()
-		doubleType = avroScalaTypes.double()
-		booleanType = avroScalaTypes.boolean()
-		stringType = avroScalaTypes.string()
-		nullType = avroScalaTypes.null()
-		bytesType = avroScalaTypes.bytes()
+  @Inject
+  AvroScalaTypes(AvrohuggerAvroScalaTypes avroScalaTypes) {
+    intType = avroScalaTypes.int()
+    longType = avroScalaTypes.long()
+    floatType = avroScalaTypes.float()
+    doubleType = avroScalaTypes.double()
+    booleanType = avroScalaTypes.boolean()
+    stringType = avroScalaTypes.string()
+    nullType = avroScalaTypes.null()
+    bytesType = avroScalaTypes.bytes()
 
-		fixedType = avroScalaTypes.fixed()
-		recordType = avroScalaTypes.record()
-		enumType = avroScalaTypes.enum()
-		unionType = avroScalaTypes.union()
-		arrayType = avroScalaTypes.array()
-		mapType = avroScalaTypes.map()
-		protocolType = avroScalaTypes.protocol()
+    fixedType = avroScalaTypes.fixed()
+    recordType = avroScalaTypes.record()
+    enumType = avroScalaTypes.enum()
+    unionType = avroScalaTypes.union()
+    arrayType = avroScalaTypes.array()
+    mapType = avroScalaTypes.map()
+    protocolType = avroScalaTypes.protocol()
 
-		decimalType = avroScalaTypes.decimal()
-		dateType = avroScalaTypes.date()
-		timestampMillisType = avroScalaTypes.timestampMillis()
-		timeMillisType = avroScalaTypes.timeMillis()
-		timeMicrosType = avroScalaTypes.timeMicros()
-		timestampMicrosType = avroScalaTypes.timestampMicros()
-		localTimestampMillisType = avroScalaTypes.localTimestampMillis()
-		localTimestampMicrosType = avroScalaTypes.localTimestampMicros()
-		uuidType = avroScalaTypes.uuid()
-	}
+    decimalType = avroScalaTypes.decimal()
+    dateType = avroScalaTypes.date()
+    timestampMillisType = avroScalaTypes.timestampMillis()
+    timeMillisType = avroScalaTypes.timeMillis()
+    timeMicrosType = avroScalaTypes.timeMicros()
+    timestampMicrosType = avroScalaTypes.timestampMicros()
+    localTimestampMillisType = avroScalaTypes.localTimestampMillis()
+    localTimestampMicrosType = avroScalaTypes.localTimestampMicros()
+    uuidType = avroScalaTypes.uuid()
+  }
 
-	AvrohuggerAvroScalaTypes getOrigin() {
-		new AvrohuggerAvroScalaTypes(
-				// primitive
-				intType,
-				longType,
-				floatType,
-				doubleType,
-				booleanType,
-				stringType,
-				nullType,
-				bytesType,
-				// complex
-				fixedType,
-				recordType,
-				enumType,
-				unionType,
-				arrayType,
-				mapType,
-				protocolType,
-				// logical
-				decimalType,
-				dateType,
-				timestampMillisType,
-				timeMillisType,
-				timeMicrosType,
-				timestampMicrosType,
-				localTimestampMillisType,
-				localTimestampMicrosType,
-				uuidType
-				)
-	}
+  AvrohuggerAvroScalaTypes getOrigin() {
+    new AvrohuggerAvroScalaTypes(
+      // primitive
+      intType,
+      longType,
+      floatType,
+      doubleType,
+      booleanType,
+      stringType,
+      nullType,
+      bytesType,
+      // complex
+      fixedType,
+      recordType,
+      enumType,
+      unionType,
+      arrayType,
+      mapType,
+      protocolType,
+      // logical
+      decimalType,
+      dateType,
+      timestampMillisType,
+      timeMillisType,
+      timeMicrosType,
+      timestampMicrosType,
+      localTimestampMillisType,
+      localTimestampMicrosType,
+      uuidType
+      )
+  }
 }

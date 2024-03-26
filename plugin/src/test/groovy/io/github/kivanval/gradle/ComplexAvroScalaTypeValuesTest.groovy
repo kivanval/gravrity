@@ -20,35 +20,35 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class ComplexAvroScalaTypeValuesTest extends Specification {
-	def "complex types matches to values in avrohugger library"() {
-		given:
-		def project = ProjectBuilder.builder().build()
+  def "complex types matches to values in avrohugger library"() {
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.with {
-			apply(AvrohuggerPlugin)
-		}
+    when:
+    project.pluginManager.with {
+      apply(AvrohuggerPlugin)
+    }
 
-		then:
-		with(project.avrohugger) {
-			scalaCaseClassWrapper == ScalaCaseClassWrapper$.MODULE$
-			scalaCaseClassWrapperWithSchema == ScalaCaseClassWrapperWithSchema$.MODULE$
-			scalaCaseClass == ScalaCaseClass$.MODULE$
-			scalaCaseClassWithSchema == ScalaCaseClassWithSchema$.MODULE$
-			scalaEnumeration == ScalaEnumeration$.MODULE$
-			javaEnum == JavaEnum$.MODULE$
-			scalaCaseObjectEnum == ScalaCaseObjectEnum$.MODULE$
-			enumAsScalaString == EnumAsScalaString$.MODULE$
-			optionalShapelessCoproduct == OptionalShapelessCoproduct$.MODULE$
-			optionShapelessCoproduct == OptionShapelessCoproduct$.MODULE$
-			optionEitherShapelessCoproduct == OptionEitherShapelessCoproduct$.MODULE$
-			scalaArray == ScalaArray$.MODULE$
-			scalaList == ScalaList$.MODULE$
-			scalaSeq == ScalaSeq$.MODULE$
-			scalaVector == ScalaVector$.MODULE$
-			scalaMap == ScalaMap$.MODULE$
-			scalaADT == ScalaADT$.MODULE$
-			noTypeGenerated == NoTypeGenerated$.MODULE$
-		}
-	}
+    then:
+    with(project.avrohugger) {
+      scalaCaseClassWrapper == ScalaCaseClassWrapper$.MODULE$
+      scalaCaseClassWrapperWithSchema == ScalaCaseClassWrapperWithSchema$.MODULE$
+      scalaCaseClass == ScalaCaseClass$.MODULE$
+      scalaCaseClassWithSchema == ScalaCaseClassWithSchema$.MODULE$
+      scalaEnumeration == ScalaEnumeration$.MODULE$
+      javaEnum == JavaEnum$.MODULE$
+      scalaCaseObjectEnum == ScalaCaseObjectEnum$.MODULE$
+      enumAsScalaString == EnumAsScalaString$.MODULE$
+      optionalShapelessCoproduct == OptionalShapelessCoproduct$.MODULE$
+      optionShapelessCoproduct == OptionShapelessCoproduct$.MODULE$
+      optionEitherShapelessCoproduct == OptionEitherShapelessCoproduct$.MODULE$
+      scalaArray == ScalaArray$.MODULE$
+      scalaList == ScalaList$.MODULE$
+      scalaSeq == ScalaSeq$.MODULE$
+      scalaVector == ScalaVector$.MODULE$
+      scalaMap == ScalaMap$.MODULE$
+      scalaADT == ScalaADT$.MODULE$
+      noTypeGenerated == NoTypeGenerated$.MODULE$
+    }
+  }
 }

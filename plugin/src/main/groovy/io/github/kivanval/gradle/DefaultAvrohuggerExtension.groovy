@@ -26,25 +26,25 @@ import org.gradle.api.tasks.Input
 
 @CompileStatic
 class DefaultAvrohuggerExtension implements AvrohuggerExtension {
-	private final ObjectFactory objects
+  private final ObjectFactory objects
 
-	@Input
-	final Property<AvroSourceFormat> format
+  @Input
+  final Property<AvroSourceFormat> format
 
-	@Input
-	final MapProperty<String, String> namespaceMapping
+  @Input
+  final MapProperty<String, String> namespaceMapping
 
-	@Input
-	final Property<Boolean> restrictedFieldNumber
+  @Input
+  final Property<Boolean> restrictedFieldNumber
 
-	@Inject
-	DefaultAvrohuggerExtension(ObjectFactory objects) {
-		this.objects = objects
+  @Inject
+  DefaultAvrohuggerExtension(ObjectFactory objects) {
+    this.objects = objects
 
-		this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
+    this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-		this.namespaceMapping = objects.mapProperty(String, String)
+    this.namespaceMapping = objects.mapProperty(String, String)
 
-		this.restrictedFieldNumber = objects.property(Boolean).convention(false)
-	}
+    this.restrictedFieldNumber = objects.property(Boolean).convention(false)
+  }
 }

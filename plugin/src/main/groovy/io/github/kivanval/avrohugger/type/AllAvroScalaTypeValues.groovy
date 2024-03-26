@@ -18,5 +18,4 @@ package io.github.kivanval.avrohugger.type
 import groovy.transform.CompileStatic
 
 @CompileStatic
-trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues {
-}
+trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues { }

@@ -18,7 +18,7 @@ package io.github.kivanval.avrohugger.type
 import avrohugger.format.abstractions.SourceFormat
 
 interface AvroSourceFormat {
-	AvroScalaTypes getTypes()
+  AvroScalaTypes getTypes()
 
-	SourceFormat getSourceFormat()
+  SourceFormat getSourceFormat()
 }

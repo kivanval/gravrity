@@ -29,7 +29,7 @@ version = "1.0.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
-         gradleAvrohugger {
+        gradleAvrohugger {
             id = 'io.github.kivanval.avrohugger'
             implementationClass = 'io.github.kivanval.gradle.AvrohuggerPlugin'
         }
@@ -44,7 +44,7 @@ spotless {
     groovy {
         importOrder()
         removeSemicolons()
-        greclipse()
+        greclipse().configFile(rootProject.file('greclipse.properties'))
         excludeJava()
         licenseHeaderFile(rootProject.file('copyright.txt'))
     }
