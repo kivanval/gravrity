@@ -21,26 +21,26 @@ import spock.lang.Ignore
 import spock.lang.Specification
 
 class AvrohuggerPluginTest extends Specification {
-	def "plugin applies base plugin"() {
-		given:
-		def project = ProjectBuilder.builder().build()
+  def "plugin applies base plugin"() {
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.apply(AvrohuggerPlugin)
+    when:
+    project.pluginManager.apply(AvrohuggerPlugin)
 
-		then:
-		project.plugins.hasPlugin(AvrohuggerBasePlugin)
-	}
+    then:
+    project.plugins.hasPlugin(AvrohuggerBasePlugin)
+  }
 
-	@Ignore
-	def "plugin registers generateAvroScala task"() {
-		given:
-		def project = ProjectBuilder.builder().build()
+  @Ignore
+  def "plugin registers generateAvroScala task"() {
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.apply(AvrohuggerPlugin)
+    when:
+    project.pluginManager.apply(AvrohuggerPlugin)
 
-		then:
-		project.tasks.named('generateAvroScala').present
-	}
+    then:
+    project.tasks.named('generateAvroScala').present
+  }
 }

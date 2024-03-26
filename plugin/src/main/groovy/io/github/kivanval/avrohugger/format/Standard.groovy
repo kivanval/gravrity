@@ -19,15 +19,16 @@ import avrohugger.format.Standard$
 import avrohugger.format.abstractions.SourceFormat
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.type.AvroScalaTypes
+import io.github.kivanval.avrohugger.type.AvroSourceFormat
 
 @CompileStatic
-class Standard implements io.github.kivanval.avrohugger.type.AvroSourceFormat {
-	final SourceFormat sourceFormat
-	AvroScalaTypes types
+class Standard implements AvroSourceFormat {
+  final SourceFormat sourceFormat
+  AvroScalaTypes types
 
 
-	Standard() {
-		this.sourceFormat = Standard$.MODULE$
-		this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
-	}
+  Standard() {
+    this.sourceFormat = Standard$.MODULE$
+    this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
+  }
 }

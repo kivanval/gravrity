@@ -22,23 +22,23 @@ import spock.lang.Specification
 
 @Ignore
 class GenerateAvroTaskTest extends Specification {
-	// TODO refactor test
-	def "plugin should have ability to add task"() {
+  // TODO refactor test
+  def "plugin should have ability to add task"() {
 
-		given:
-		def project = ProjectBuilder.builder().build()
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.with {
-			apply(ScalaPlugin)
-			apply(AvrohuggerPlugin)
-		}
+    when:
+    project.pluginManager.with {
+      apply(ScalaPlugin)
+      apply(AvrohuggerPlugin)
+    }
 
-		then:
-		def task = project.tasks.named('avro').get()
-		task instanceof GenerateAvroTask
+    then:
+    def task = project.tasks.named('avro').get()
+    task instanceof GenerateAvroTask
 
-		where:
-		sourceSetName << ['main', 'test']
-	}
+    where:
+    sourceSetName << ['main', 'test']
+  }
 }

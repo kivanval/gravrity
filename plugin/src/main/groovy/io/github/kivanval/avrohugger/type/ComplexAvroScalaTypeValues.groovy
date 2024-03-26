@@ -20,82 +20,82 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 trait ComplexAvroScalaTypeValues {
-	// fixed
-	ScalaCaseClassWrapper$ getScalaCaseClassWrapper() {
-		ScalaCaseClassWrapper$.MODULE$
-	}
+  // fixed
+  ScalaCaseClassWrapper$ getScalaCaseClassWrapper() {
+    ScalaCaseClassWrapper$.MODULE$
+  }
 
-	ScalaCaseClassWrapperWithSchema$ getScalaCaseClassWrapperWithSchema() {
-		ScalaCaseClassWrapperWithSchema$.MODULE$
-	}
+  ScalaCaseClassWrapperWithSchema$ getScalaCaseClassWrapperWithSchema() {
+    ScalaCaseClassWrapperWithSchema$.MODULE$
+  }
 
-	// record
-	ScalaCaseClass$ getScalaCaseClass() {
-		ScalaCaseClass$.MODULE$
-	}
+  // record
+  ScalaCaseClass$ getScalaCaseClass() {
+    ScalaCaseClass$.MODULE$
+  }
 
-	ScalaCaseClassWithSchema$ getScalaCaseClassWithSchema() {
-		ScalaCaseClassWithSchema$.MODULE$
-	}
+  ScalaCaseClassWithSchema$ getScalaCaseClassWithSchema() {
+    ScalaCaseClassWithSchema$.MODULE$
+  }
 
-	// enum
-	ScalaEnumeration$ getScalaEnumeration() {
-		ScalaEnumeration$.MODULE$
-	}
+  // enum
+  ScalaEnumeration$ getScalaEnumeration() {
+    ScalaEnumeration$.MODULE$
+  }
 
-	JavaEnum$ getJavaEnum() {
-		JavaEnum$.MODULE$
-	}
+  JavaEnum$ getJavaEnum() {
+    JavaEnum$.MODULE$
+  }
 
-	ScalaCaseObjectEnum$ getScalaCaseObjectEnum() {
-		ScalaCaseObjectEnum$.MODULE$
-	}
+  ScalaCaseObjectEnum$ getScalaCaseObjectEnum() {
+    ScalaCaseObjectEnum$.MODULE$
+  }
 
-	EnumAsScalaString$ getEnumAsScalaString() {
-		EnumAsScalaString$.MODULE$
-	}
+  EnumAsScalaString$ getEnumAsScalaString() {
+    EnumAsScalaString$.MODULE$
+  }
 
-	// union
-	OptionalShapelessCoproduct$ getOptionalShapelessCoproduct() {
-		OptionalShapelessCoproduct$.MODULE$
-	}
+  // union
+  OptionalShapelessCoproduct$ getOptionalShapelessCoproduct() {
+    OptionalShapelessCoproduct$.MODULE$
+  }
 
-	OptionShapelessCoproduct$ getOptionShapelessCoproduct() {
-		OptionShapelessCoproduct$.MODULE$
-	}
+  OptionShapelessCoproduct$ getOptionShapelessCoproduct() {
+    OptionShapelessCoproduct$.MODULE$
+  }
 
-	OptionEitherShapelessCoproduct$ getOptionEitherShapelessCoproduct() {
-		OptionEitherShapelessCoproduct$.MODULE$
-	}
+  OptionEitherShapelessCoproduct$ getOptionEitherShapelessCoproduct() {
+    OptionEitherShapelessCoproduct$.MODULE$
+  }
 
-	// array
-	ScalaArray$ getScalaArray() {
-		ScalaArray$.MODULE$
-	}
+  // array
+  ScalaArray$ getScalaArray() {
+    ScalaArray$.MODULE$
+  }
 
-	ScalaList$ getScalaList() {
-		ScalaList$.MODULE$
-	}
+  ScalaList$ getScalaList() {
+    ScalaList$.MODULE$
+  }
 
-	ScalaSeq$ getScalaSeq() {
-		ScalaSeq$.MODULE$
-	}
+  ScalaSeq$ getScalaSeq() {
+    ScalaSeq$.MODULE$
+  }
 
-	ScalaVector$ getScalaVector() {
-		ScalaVector$.MODULE$
-	}
+  ScalaVector$ getScalaVector() {
+    ScalaVector$.MODULE$
+  }
 
-	// map
-	ScalaMap$ getScalaMap() {
-		ScalaMap$.MODULE$
-	}
+  // map
+  ScalaMap$ getScalaMap() {
+    ScalaMap$.MODULE$
+  }
 
-	// protocol
-	ScalaADT$ getScalaADT() {
-		ScalaADT$.MODULE$
-	}
+  // protocol
+  ScalaADT$ getScalaADT() {
+    ScalaADT$.MODULE$
+  }
 
-	NoTypeGenerated$ getNoTypeGenerated() {
-		NoTypeGenerated$.MODULE$
-	}
+  NoTypeGenerated$ getNoTypeGenerated() {
+    NoTypeGenerated$.MODULE$
+  }
 }

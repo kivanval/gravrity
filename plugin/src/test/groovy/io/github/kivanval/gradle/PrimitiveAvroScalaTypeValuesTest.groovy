@@ -20,25 +20,25 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class PrimitiveAvroScalaTypeValuesTest extends Specification {
-	def "primitive types matches to values in avrohugger library"() {
-		given:
-		def project = ProjectBuilder.builder().build()
+  def "primitive types matches to values in avrohugger library"() {
+    given:
+    def project = ProjectBuilder.builder().build()
 
-		when:
-		project.pluginManager.with {
-			apply(AvrohuggerPlugin)
-		}
+    when:
+    project.pluginManager.with {
+      apply(AvrohuggerPlugin)
+    }
 
-		then:
-		with(project.avrohugger) {
-			scalaInt == ScalaInt$.MODULE$
-			scalaLong == ScalaLong$.MODULE$
-			scalaFloat == ScalaFloat$.MODULE$
-			scalaDouble == ScalaDouble$.MODULE$
-			scalaBoolean == ScalaBoolean$.MODULE$
-			scalaString == ScalaString$.MODULE$
-			scalaNull == ScalaNull$.MODULE$
-			scalaByteArray == ScalaByteArray$.MODULE$
-		}
-	}
+    then:
+    with(project.avrohugger) {
+      scalaInt == ScalaInt$.MODULE$
+      scalaLong == ScalaLong$.MODULE$
+      scalaFloat == ScalaFloat$.MODULE$
+      scalaDouble == ScalaDouble$.MODULE$
+      scalaBoolean == ScalaBoolean$.MODULE$
+      scalaString == ScalaString$.MODULE$
+      scalaNull == ScalaNull$.MODULE$
+      scalaByteArray == ScalaByteArray$.MODULE$
+    }
+  }
 }

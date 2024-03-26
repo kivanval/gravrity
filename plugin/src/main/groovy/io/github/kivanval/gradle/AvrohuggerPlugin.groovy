@@ -21,9 +21,9 @@ import org.gradle.api.Project
 
 @CompileStatic
 class AvrohuggerPlugin implements Plugin<Project> {
-	@Override
-	void apply(final Project project) {
-		project.pluginManager.apply(AvrohuggerBasePlugin)
-		// TODO
-	}
+  @Override
+  void apply(final Project project) {
+    project.pluginManager.apply(AvrohuggerBasePlugin)
+    // TODO
+  }
 }

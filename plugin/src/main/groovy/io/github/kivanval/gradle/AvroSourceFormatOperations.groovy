@@ -26,35 +26,35 @@ import org.gradle.api.Action
 
 @CompileStatic
 trait AvroSourceFormatOperations {
-	AvroSourceFormat getStandard() {
-		new Standard()
-	}
+  AvroSourceFormat getStandard() {
+    new Standard()
+  }
 
-	AvroSourceFormat getSpecificRecord() {
-		new SpecificRecord()
-	}
+  AvroSourceFormat getSpecificRecord() {
+    new SpecificRecord()
+  }
 
-	AvroSourceFormat standard(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
-		def standard = standard
-		configure(configureClosure, standard.types)
-		standard
-	}
+  AvroSourceFormat standard(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
+    def standard = standard
+    configure(configureClosure, standard.types)
+    standard
+  }
 
-	AvroSourceFormat standard(Action<? super AvroScalaTypes> configureAction) {
-		def standard = standard
-		configureAction.execute(standard.types)
-		standard
-	}
+  AvroSourceFormat standard(Action<? super AvroScalaTypes> configureAction) {
+    def standard = standard
+    configureAction.execute(standard.types)
+    standard
+  }
 
-	AvroSourceFormat specificRecord(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
-		def specificRecord = specificRecord
-		configure(configureClosure, specificRecord.types)
-		specificRecord
-	}
+  AvroSourceFormat specificRecord(@DelegatesTo(AvroScalaTypes) Closure<?> configureClosure) {
+    def specificRecord = specificRecord
+    configure(configureClosure, specificRecord.types)
+    specificRecord
+  }
 
-	AvroSourceFormat specificRecord(Action<? super AvroScalaTypes> configureAction) {
-		def specificRecord = specificRecord
-		configureAction.execute(specificRecord.types)
-		specificRecord
-	}
+  AvroSourceFormat specificRecord(Action<? super AvroScalaTypes> configureAction) {
+    def specificRecord = specificRecord
+    configureAction.execute(specificRecord.types)
+    specificRecord
+  }
 }
