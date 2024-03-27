@@ -7,3 +7,7 @@ repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
 }
+
+avrohugger {
+    format = standard { intType = scalaInt }
+}
