@@ -18,13 +18,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK with Gradle
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # Specify the desired Java version
-          distribution: 'temurin'
-          java-package: gradle  # Install JDK with Gradle
+          java-version: '17'
+          distribution: temurin
       - name: Build with Gradle
         working-directory: ./plugin
         run: |
-          gradle build
+          chmod +x ./gradlew
+          ./gradlew build
