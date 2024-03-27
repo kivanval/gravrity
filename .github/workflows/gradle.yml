@@ -8,9 +8,6 @@ on:
     branches:
       - 'main'
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
@@ -18,12 +15,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK with Gradle
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # Specify the desired Java version
+          java-version: '17'
           distribution: temurin
-          java-package: gradle  # Install JDK with Gradle
       - name: Build with Gradle
         working-directory: ./plugin
         run: |
