@@ -1,0 +1,13 @@
+plugins {
+    id 'io.github.kivanval.avrohugger'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+avrohugger {
+    format = standard { intType = scalaInt }
+}

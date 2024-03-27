@@ -21,7 +21,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
-import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
@@ -33,7 +33,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
   @Override
   void apply(final Project project) {
-    project.pluginManager.apply(JavaBasePlugin)
+    project.pluginManager.apply(JavaPlugin)
 
     configureSourceSetDefaults(project)
     configureExtension(project)

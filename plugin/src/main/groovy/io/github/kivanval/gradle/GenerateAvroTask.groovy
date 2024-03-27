@@ -68,19 +68,19 @@ class GenerateAvroTask extends SourceTask {
   generate() {
     def format = format.get()
 
-    def generator = new Generator(
-      format.sourceFormat,
-      Option.apply(format.types.origin),
-      CollectionConverters.asScala(namespaceMapping.get()).<String, String> toMap { Predef.$conforms() },
-      restrictedFieldNumber.get(),
-      Thread.currentThread().contextClassLoader,
-      DependencyUtils.findScalaVersion(project)
-      )
-
-    def outputDir = outputDir
-      .map { Directory it -> it.asFile.toString() }
-      .getOrElse(generator.defaultOutputDir())
-
-    source.files.forEach {generator.fileToFile(it, outputDir) }
+//    def generator = new Generator(
+//      format.sourceFormat,
+//      Option.apply(format.types.origin),
+//      CollectionConverters.asScala(namespaceMapping.get()).<String, String> toMap { Predef.$conforms() },
+//      restrictedFieldNumber.get(),
+//      Thread.currentThread().contextClassLoader,
+//      DependencyUtils.findScalaVersion(project)
+//      )
+//
+//    def outputDir = outputDir
+//      .map { Directory it -> it.asFile.toString() }
+//      .getOrElse(generator.defaultOutputDir())
+//
+//    source.files.forEach {generator.fileToFile(it, outputDir) }
   }
 }
