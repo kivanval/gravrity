@@ -29,7 +29,7 @@ import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 import scala.Option
-import scala.Predef
+import scala.collection.immutable.Map as ScalaMap
 import scala.jdk.javaapi.CollectionConverters
 
 @CompileStatic
@@ -57,7 +57,7 @@ class GenerateAvroTask extends SourceTask {
 
     this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
 
-    this.namespaceMapping = objects.mapProperty(String, String)
+    this.namespaceMapping = objects.mapProperty(String, String).convention(Map.of())
 
     // TODO It may be worth adding checks for version <= 2.10.*, but I don't know if it makes sense
     this.restrictedFieldNumber = objects.property(Boolean).convention(false)
@@ -68,19 +68,19 @@ class GenerateAvroTask extends SourceTask {
   generate() {
     def format = format.get()
 
-    //    def generator = new Generator(
-    //      format.sourceFormat,
-    //      Option.apply(format.types.origin),
-    //      CollectionConverters.asScala(namespaceMapping.get()).<String, String> toMap { Predef.$conforms() },
-    //      restrictedFieldNumber.get(),
-    //      Thread.currentThread().contextClassLoader,
-    //      DependencyUtils.findScalaVersion(project)
-    //      )
-    //
-    //    def outputDir = outputDir
-    //      .map { Directory it -> it.asFile.toString() }
-    //      .getOrElse(generator.defaultOutputDir())
-    //
-    //    source.files.forEach {generator.fileToFile(it, outputDir) }
+    def generator = new Generator(
+      format.sourceFormat,
+      Option.apply(format.types.origin),
+      ScalaMap.from(CollectionConverters.asScala(namespaceMapping.get())),
+      restrictedFieldNumber.get(),
+      Thread.currentThread().contextClassLoader,
+      DependencyUtils.findScalaVersion(project)
+      )
+
+    def outputDir = outputDir
+      .map { Directory it -> it.asFile.toString() }
+      .getOrElse(generator.defaultOutputDir())
+
+    source.files.forEach { generator.fileToFile(it, outputDir) }
   }
 }
