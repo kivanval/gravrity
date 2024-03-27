@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'  # Specify the desired Java version
-          distribution: 'temurin'
+          distribution: temurin
           java-package: gradle  # Install JDK with Gradle
       - name: Build with Gradle
         working-directory: ./plugin
