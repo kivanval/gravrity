@@ -1,2 +1,7 @@
+pluginManagement {
+    includeBuild('plugin')
+}
+
 rootProject.name = 'gradle-avrohugger'
-include('plugin')
+
+includeBuild('sandbox')
