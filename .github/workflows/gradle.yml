@@ -23,4 +23,5 @@ jobs:
       - name: Build with Gradle
         working-directory: ./plugin
         run: |
+          chmod +x ./gradlew
           ./gradlew build
