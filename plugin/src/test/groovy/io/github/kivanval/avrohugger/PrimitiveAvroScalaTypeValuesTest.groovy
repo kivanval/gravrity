@@ -13,9 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.avrohugger
 
 import avrohugger.types.*
+import io.github.kivanval.gradle.AvrohuggerPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 

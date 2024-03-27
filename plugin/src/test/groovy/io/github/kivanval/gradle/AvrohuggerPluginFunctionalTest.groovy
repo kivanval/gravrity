@@ -15,6 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle
 
+import io.github.kivanval.ResourceHelper
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Shared
 import spock.lang.Specification
