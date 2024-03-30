@@ -25,12 +25,13 @@ class DependencyUtils {
   static final String SCALA_GROUP = 'org.scala-lang'
   static final String SCALA2_ARTIFACT = 'scala-library'
   static final String SCALA3_ARTIFACT = 'scala3-library_3'
+  static final String SCALA_VERSION_2_13_11 = '2.13.11'
 
-  @Nullable
   static String findScalaVersion(final Project project) {
     findCompileDependencyVersion(SCALA_GROUP, SCALA2_ARTIFACT, project) ?:
       findCompileDependencyVersion(SCALA_GROUP, SCALA3_ARTIFACT, project) ?:
-      project.property('default.scala.version')
+      project.findProperty('default.scala.version') ?:
+      SCALA_VERSION_2_13_11
   }
 
 
