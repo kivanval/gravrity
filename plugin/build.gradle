@@ -13,6 +13,14 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+sourceSets {
+    functionalTest {
+        groovy {
+            srcDirs = ['src/functionalTest/groovy']
+        }
+    }
+}
+
 dependencies {
     // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-core
     implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.2'
@@ -20,6 +28,10 @@ dependencies {
     implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.2'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
+        exclude group: 'org.codehaus.groovy'
+    }
+
+    functionalTestImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }
 }
@@ -34,6 +46,7 @@ gradlePlugin {
             implementationClass = 'io.github.kivanval.gradle.AvrohuggerPlugin'
         }
     }
+    testSourceSets(sourceSets.functionalTest)
 }
 
 test {
@@ -49,3 +62,16 @@ spotless {
         licenseHeaderFile(rootProject.file('copyright.txt'))
     }
 }
+
+def functionalTestTask = tasks.register("functionalTest", Test) {
+    description = 'Runs the functional tests.'
+    group = "verification"
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+    mustRunAfter(tasks.test)
+}
+tasks.named('check') {
+    dependsOn(functionalTestTask)
+}
+
+
