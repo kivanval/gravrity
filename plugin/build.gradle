@@ -14,11 +14,7 @@ repositories {
 }
 
 sourceSets {
-    functionalTest {
-        groovy {
-            srcDirs = ['src/functionalTest/groovy']
-        }
-    }
+    functionalTest
 }
 
 dependencies {
@@ -49,10 +45,6 @@ gradlePlugin {
     testSourceSets(sourceSets.functionalTest)
 }
 
-test {
-    useJUnitPlatform()
-}
-
 spotless {
     groovy {
         importOrder()
@@ -68,10 +60,18 @@ def functionalTestTask = tasks.register("functionalTest", Test) {
     group = "verification"
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
-    mustRunAfter(tasks.test)
+
+    useJUnitPlatform()
+    mustRunAfter test
 }
-tasks.named('check') {
+
+check {
     dependsOn(functionalTestTask)
 }
+
+test {
+    useJUnitPlatform()
+}
+
 
 
