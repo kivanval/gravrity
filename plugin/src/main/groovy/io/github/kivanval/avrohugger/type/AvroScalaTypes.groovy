@@ -21,7 +21,7 @@ import groovy.transform.CompileStatic
 import javax.inject.Inject
 
 @CompileStatic
-class AvroScalaTypes {
+class AvroScalaTypes implements Serializable {
   AvroScalaNumberType intType
   AvroScalaNumberType longType
   AvroScalaNumberType floatType

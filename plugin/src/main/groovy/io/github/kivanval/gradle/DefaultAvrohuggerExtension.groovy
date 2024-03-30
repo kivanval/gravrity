@@ -16,8 +16,8 @@ limitations under the License.
 package io.github.kivanval.gradle
 
 import groovy.transform.CompileStatic
+import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
-import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import javax.inject.Inject
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
@@ -29,7 +29,7 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
   private final ObjectFactory objects
 
   @Input
-  final Property<AvroSourceFormat> format
+  final Property<SourceFormat> format
 
   @Input
   final MapProperty<String, String> namespaceMapping
@@ -41,7 +41,7 @@ class DefaultAvrohuggerExtension implements AvrohuggerExtension {
   DefaultAvrohuggerExtension(ObjectFactory objects) {
     this.objects = objects
 
-    this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
+    this.format = objects.property(SourceFormat).convention(objects.<Standard> newInstance(Standard))
 
     this.namespaceMapping = objects.mapProperty(String, String)
 

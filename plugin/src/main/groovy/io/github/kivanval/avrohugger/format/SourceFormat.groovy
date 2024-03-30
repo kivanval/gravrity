@@ -13,12 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.avrohugger.type
+package io.github.kivanval.avrohugger.format
 
-import avrohugger.format.abstractions.SourceFormat
 
-interface AvroSourceFormat {
+import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
+import io.github.kivanval.avrohugger.type.AvroScalaTypes
+
+interface SourceFormat extends Serializable {
   AvroScalaTypes getTypes()
 
-  SourceFormat getSourceFormat()
+  OriginSourceFormat getOrigin()
 }

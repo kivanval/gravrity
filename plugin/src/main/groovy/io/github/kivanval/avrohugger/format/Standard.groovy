@@ -15,20 +15,21 @@ limitations under the License.
 */
 package io.github.kivanval.avrohugger.format
 
+import avrohugger.format.SpecificRecord$
 import avrohugger.format.Standard$
-import avrohugger.format.abstractions.SourceFormat
+import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.type.AvroScalaTypes
-import io.github.kivanval.avrohugger.type.AvroSourceFormat
 
 @CompileStatic
-class Standard implements AvroSourceFormat {
-  final SourceFormat sourceFormat
+class Standard implements SourceFormat {
   AvroScalaTypes types
 
-
   Standard() {
-    this.sourceFormat = Standard$.MODULE$
-    this.types = new AvroScalaTypes(sourceFormat.defaultTypes())
+    this.types = new AvroScalaTypes(origin.defaultTypes())
+  }
+
+  OriginSourceFormat getOrigin() {
+    Standard$.MODULE$
   }
 }

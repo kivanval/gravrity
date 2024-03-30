@@ -74,7 +74,6 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     return project.tasks.register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroTask) {
       // TODO Create a better description
       it.description = "Generates " + sourceDirectorySet + "."
-      it.source = sourceDirectorySet
       it.outputDir.set(outputBaseDir)
     }
   }

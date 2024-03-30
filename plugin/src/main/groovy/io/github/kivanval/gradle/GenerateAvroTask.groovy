@@ -17,10 +17,11 @@ package io.github.kivanval.gradle
 
 import avrohugger.Generator
 import groovy.transform.CompileStatic
+import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
-import io.github.kivanval.avrohugger.type.AvroSourceFormat
 import io.github.kivanval.gradle.util.DependencyUtils
 import javax.inject.Inject
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
@@ -35,11 +36,10 @@ import scala.jdk.javaapi.CollectionConverters
 @CompileStatic
 @CacheableTask
 class GenerateAvroTask extends SourceTask {
-  private final Project project
   private final ObjectFactory objects
 
   @Input
-  final Property<AvroSourceFormat> format
+  final Property<SourceFormat> format
 
   @Input
   final Property<Boolean> restrictedFieldNumber
@@ -51,11 +51,10 @@ class GenerateAvroTask extends SourceTask {
   final DirectoryProperty outputDir
 
   @Inject
-  GenerateAvroTask(Project project, ObjectFactory objects) {
-    this.project = project
+  GenerateAvroTask(ObjectFactory objects) {
     this.objects = objects
 
-    this.format = objects.property(AvroSourceFormat).convention(objects.<Standard> newInstance(Standard))
+    this.format = objects.property(SourceFormat).convention(new Standard())
 
     this.namespaceMapping = objects.mapProperty(String, String).convention(Map.of())
 
@@ -69,7 +68,7 @@ class GenerateAvroTask extends SourceTask {
     def format = format.get()
 
     def generator = new Generator(
-      format.sourceFormat,
+      format.origin,
       Option.apply(format.types.origin),
       ScalaMap.from(CollectionConverters.asScala(namespaceMapping.get())),
       restrictedFieldNumber.get(),
@@ -80,7 +79,5 @@ class GenerateAvroTask extends SourceTask {
     def outputDir = outputDir
       .map { Directory it -> it.asFile.toString() }
       .getOrElse(generator.defaultOutputDir())
-
-    source.files.forEach { generator.fileToFile(it, outputDir) }
   }
 }
