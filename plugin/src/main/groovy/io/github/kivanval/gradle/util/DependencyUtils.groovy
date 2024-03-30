@@ -30,7 +30,7 @@ class DependencyUtils {
   static String findScalaVersion(final Project project) {
     findCompileDependencyVersion(SCALA_GROUP, SCALA2_ARTIFACT, project) ?:
       findCompileDependencyVersion(SCALA_GROUP, SCALA3_ARTIFACT, project) ?:
-      project.hasProperty('default.scala.version') ? project.property('default.scala.version') :
+      project.findProperty('default.scala.version') ?:
       SCALA_VERSION_2_13_11
   }
 
