@@ -21,11 +21,8 @@ import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.gradle.util.DependencyUtils
 import javax.inject.Inject
-import org.gradle.api.DefaultTask
-import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
@@ -36,8 +33,6 @@ import scala.jdk.javaapi.CollectionConverters
 @CompileStatic
 @CacheableTask
 class GenerateAvroTask extends SourceTask {
-  private final ObjectFactory objects
-
   @Input
   final Property<SourceFormat> format
 
@@ -51,16 +46,12 @@ class GenerateAvroTask extends SourceTask {
   final DirectoryProperty outputDir
 
   @Inject
-  GenerateAvroTask(ObjectFactory objects) {
-    this.objects = objects
-
-    this.format = objects.property(SourceFormat).convention(new Standard())
-
-    this.namespaceMapping = objects.mapProperty(String, String).convention(Map.of())
-
+  GenerateAvroTask() {
+    this.format = project.objects.property(SourceFormat).convention(new Standard())
+    this.namespaceMapping = project.objects.mapProperty(String, String).convention(Map.of())
     // TODO It may be worth adding checks for version <= 2.10.*, but I don't know if it makes sense
-    this.restrictedFieldNumber = objects.property(Boolean).convention(false)
-    this.outputDir = objects.directoryProperty()
+    this.restrictedFieldNumber = project.objects.property(Boolean).convention(false)
+    this.outputDir = project.objects.directoryProperty()
   }
 
   @TaskAction
