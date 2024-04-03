@@ -62,7 +62,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
 
   private static void configureExtension(final Project project) {
-    project.extensions.create(AvrohuggerExtension, AVROHUGGER_EXTENSION_NAME, DefaultAvrohuggerExtension)
+    project.extensions.create(AVROHUGGER_EXTENSION_NAME, AvrohuggerExtension)
   }
 
   private static registerGenerateAvroTask(
