@@ -13,10 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle
+package io.github.kivanval.gradle.test
 
-import io.github.kivanval.ResourceHelper
-import org.gradle.testkit.runner.GradleRunner
+import io.github.kivanval.gradle.util.ResourceUtils
+import io.github.kivanval.gradle.util.TestUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -33,21 +33,19 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 
   def setupSpec() {
     buildFile = new File(projectDir, "build.gradle")
-    buildFile << ResourceHelper.read("sample.gradle")
+    buildFile << ResourceUtils.read("sample.gradle")
     settingsFile = new File(projectDir, "settings.gradle")
     settingsFile << ""
   }
 
   def "can run task"() {
     when:
-    GradleRunner.create()
-      .forwardOutput()
-      .withPluginClasspath()
-      .withArguments("compileJava")
-      .withProjectDir(projectDir)
-      .build()
+    TestUtils.gradleRunner(projectDir, gradleVersion, "compileJava").build()
 
     then:
     noExceptionThrown()
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 }
