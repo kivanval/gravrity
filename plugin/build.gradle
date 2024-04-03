@@ -39,7 +39,7 @@ gradlePlugin {
     plugins {
         gradleAvrohugger {
             id = 'io.github.kivanval.avrohugger'
-            implementationClass = 'io.github.kivanval.gradle.AvrohuggerPlugin'
+            implementationClass = 'io.github.kivanval.gradle.plugin.AvrohuggerPlugin'
         }
     }
     testSourceSets(sourceSets.functionalTest)

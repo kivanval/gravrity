@@ -16,7 +16,7 @@ limitations under the License.
 package io.github.kivanval.avrohugger.type
 
 import avrohugger.types.*
-import io.github.kivanval.gradle.AvrohuggerPlugin
+import io.github.kivanval.gradle.plugin.AvrohuggerPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import scala.Option
 import scala.math.BigDecimal
