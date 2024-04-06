@@ -23,33 +23,44 @@ import org.gradle.api.Project
 import org.gradle.api.file.Directory
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.internal.Cast
 import org.gradle.util.internal.GUtil
 
+import javax.inject.Inject
+
 @CompileStatic
 class AvrohuggerBasePlugin implements Plugin<Project> {
+  private final Project project
+  private final ObjectFactory objects
+
+  @Inject
+  AvrohuggerBasePlugin(Project project, ObjectFactory objectFactory) {
+    this.project = project
+    this.objects = objectFactory
+  }
 
   @Override
   void apply(final Project project) {
     project.pluginManager.apply(JavaPlugin)
 
-    configureSourceSetDefaults(project)
-    configureExtension(project)
+    configureSourceSetDefaults()
+    configureExtension()
   }
 
-  private static void configureSourceSetDefaults(final Project project) {
-    final def sourceSets = project.extensions.getByType(SourceSetContainer)
-    sourceSets.configureEach { SourceSet sourceSet ->
+  private void configureSourceSetDefaults() {
+    project.extensions.getByType(JavaPluginExtension)
+            .sourceSets.configureEach { SourceSet sourceSet ->
       final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
-      final def avro = project.objects.sourceDirectorySet("avro", displayName)
+      final def avro = objects.sourceDirectorySet("avro", displayName)
       sourceSet.extensions.add(SourceDirectorySet, "avro", avro)
       avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
 
-      sourceSet.allSource.source(avro)
+      sourceSet.allJava.source(avro)
 
       final def avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.name
       final def outputDir = project.layout.buildDirectory.dir(avroScalaGeneratedPath)
@@ -63,7 +74,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
 
-  private static void configureExtension(final Project project) {
+  private void configureExtension() {
     project.extensions.create(AVROHUGGER_EXTENSION_NAME, AvrohuggerExtension)
   }
 
