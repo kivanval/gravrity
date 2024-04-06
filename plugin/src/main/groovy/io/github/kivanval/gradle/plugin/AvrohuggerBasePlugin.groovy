@@ -18,6 +18,7 @@ package io.github.kivanval.gradle.plugin
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.extension.AvrohuggerExtension
 import io.github.kivanval.gradle.task.GenerateAvroTask
+import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
@@ -30,8 +31,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
 import org.gradle.util.internal.GUtil
-
-import javax.inject.Inject
 
 @CompileStatic
 class AvrohuggerBasePlugin implements Plugin<Project> {
@@ -54,22 +53,22 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private void configureSourceSetDefaults() {
     project.extensions.getByType(JavaPluginExtension)
-            .sourceSets.configureEach { SourceSet sourceSet ->
-      final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
-      final def avro = objects.sourceDirectorySet("avro", displayName)
-      sourceSet.extensions.add(SourceDirectorySet, "avro", avro)
-      avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
+      .sourceSets.configureEach { SourceSet sourceSet ->
+        final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
+        final def avro = objects.sourceDirectorySet("avro", displayName)
+        sourceSet.extensions.add(SourceDirectorySet, "avro", avro)
+        avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
 
-      sourceSet.allJava.source(avro)
+        sourceSet.allJava.source(avro)
 
-      final def avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.name
-      final def outputDir = project.layout.buildDirectory.dir(avroScalaGeneratedPath)
+        final def avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.name
+        final def outputDir = project.layout.buildDirectory.dir(avroScalaGeneratedPath)
 
-      final def output = Cast.cast(DefaultSourceSetOutput, sourceSet.output)
-      output.generatedSourcesDirs.from(outputDir)
+        final def output = Cast.cast(DefaultSourceSetOutput, sourceSet.output)
+        output.generatedSourcesDirs.from(outputDir)
 
-      registerGenerateAvroTask(project, sourceSet, avro, outputDir)
-    }
+        registerGenerateAvroTask(project, sourceSet, avro, outputDir)
+      }
   }
 
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
