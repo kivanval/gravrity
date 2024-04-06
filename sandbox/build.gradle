@@ -1,4 +1,5 @@
 plugins {
+    id 'scala'
     id 'io.github.kivanval.avrohugger'
 }
 
