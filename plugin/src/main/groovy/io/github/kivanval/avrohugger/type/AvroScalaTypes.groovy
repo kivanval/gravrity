@@ -47,7 +47,6 @@ class AvroScalaTypes implements Serializable {
   AvroScalaLocalTimestampType localTimestampMicrosType
   AvroUuidType uuidType
 
-  @Inject
   AvroScalaTypes(AvrohuggerAvroScalaTypes avroScalaTypes) {
     intType = avroScalaTypes.int()
     longType = avroScalaTypes.long()
