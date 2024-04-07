@@ -15,15 +15,13 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.task
 
-import io.github.kivanval.gradle.plugin.AvrohuggerPlugin
-import io.github.kivanval.gradle.task.GenerateAvroTask
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Ignore
 import spock.lang.Specification
 
 @Ignore
-class GenerateAvroTaskTest extends Specification {
+class AvroScalaCompileTest extends Specification {
   // TODO refactor test
   def "plugin should have ability to add task"() {
 
@@ -38,7 +36,7 @@ class GenerateAvroTaskTest extends Specification {
 
     then:
     def task = project.tasks.named('avro').get()
-    task instanceof GenerateAvroTask
+    task instanceof GenerateAvroScala
 
     where:
     sourceSetName << ['main', 'test']

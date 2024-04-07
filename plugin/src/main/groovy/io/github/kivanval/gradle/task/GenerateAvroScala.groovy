@@ -22,17 +22,17 @@ import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.gradle.util.DependencyUtils
 import javax.inject.Inject
 import org.gradle.api.file.Directory
-import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import org.gradle.api.tasks.compile.AbstractCompile
 import scala.Option
 import scala.collection.immutable.Map as ScalaMap
 import scala.jdk.javaapi.CollectionConverters
 
 @CompileStatic
 @CacheableTask
-class GenerateAvroTask extends SourceTask {
+class GenerateAvroScala extends AbstractCompile {
   @Input
   final Property<SourceFormat> format
 
@@ -42,16 +42,12 @@ class GenerateAvroTask extends SourceTask {
   @Input
   final MapProperty<String, String> namespaceMapping
 
-  @OutputDirectory
-  final DirectoryProperty destinationDirectory
-
   @Inject
-  GenerateAvroTask() {
+  GenerateAvroScala() {
     this.format = project.objects.property(SourceFormat).convention(new Standard())
     this.namespaceMapping = project.objects.mapProperty(String, String).convention(Map.of())
     // TODO It may be worth adding checks for version <= 2.10.*, but I don't know if it makes sense
     this.restrictedFieldNumber = project.objects.property(Boolean).convention(false)
-    this.destinationDirectory = project.objects.directoryProperty()
   }
 
   @TaskAction

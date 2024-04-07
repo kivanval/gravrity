@@ -16,7 +16,6 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import io.github.kivanval.gradle.plugin.AvrohuggerBasePlugin
-import io.github.kivanval.gradle.plugin.AvrohuggerPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Ignore
 import spock.lang.Specification
