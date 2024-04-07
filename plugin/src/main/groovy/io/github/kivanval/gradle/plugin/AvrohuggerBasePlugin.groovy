@@ -54,21 +54,31 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
   private void configureSourceSetDefaults() {
     project.extensions.getByType(JavaPluginExtension)
       .sourceSets.configureEach { SourceSet sourceSet ->
-        final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
-        final def avro = objects.sourceDirectorySet("avro", displayName)
-        sourceSet.extensions.add(SourceDirectorySet, "avro", avro)
-        avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
+        final def avro = createAvroSourceDirectorySet(sourceSet)
 
+        sourceSet.extensions.add(SourceDirectorySet, avro.name, avro)
         sourceSet.allJava.source(avro)
 
-        final def avroScalaGeneratedPath = "generated/sources/avrohugger/scala/" + sourceSet.name
-        final def outputDir = project.layout.buildDirectory.dir(avroScalaGeneratedPath)
+        Cast.cast(DefaultSourceSetOutput, sourceSet.output)
+          .generatedSourcesDirs.from(avro.destinationDirectory)
 
-        final def output = Cast.cast(DefaultSourceSetOutput, sourceSet.output)
-        output.generatedSourcesDirs.from(outputDir)
-
-        registerGenerateAvroTask(project, sourceSet, avro, outputDir)
+        configureGenerateAvroTask(project, sourceSet, avro, avro.destinationDirectory)
       }
+  }
+
+  private SourceDirectorySet createAvroSourceDirectorySet(SourceSet sourceSet) {
+    final def name = "avro"
+    final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
+    // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
+    final def avro = objects.sourceDirectorySet(name, displayName)
+    avro.include("**./*.avdl", "**./*.avpr", "**/*.avro", "**/*.avsc")
+
+    def generatedScalaSrcDir = project.layout.buildDirectory
+      .dir("generated/sources/avrohugger/scala/" + sourceSet.name)
+    avro.destinationDirectory.convention(generatedScalaSrcDir)
+
+    avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
+    avro
   }
 
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
@@ -77,7 +87,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     project.extensions.create(AVROHUGGER_EXTENSION_NAME, AvrohuggerExtension)
   }
 
-  private static registerGenerateAvroTask(
+  private static configureGenerateAvroTask(
     final Project project,
     final SourceSet sourceSet,
     final SourceDirectorySet sourceDirectorySet,
