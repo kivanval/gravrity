@@ -43,7 +43,7 @@ class GenerateAvroTask extends SourceTask {
   final MapProperty<String, String> namespaceMapping
 
   @OutputDirectory
-  final DirectoryProperty outputDir
+  final DirectoryProperty destinationDirectory
 
   @Inject
   GenerateAvroTask() {
@@ -51,7 +51,7 @@ class GenerateAvroTask extends SourceTask {
     this.namespaceMapping = project.objects.mapProperty(String, String).convention(Map.of())
     // TODO It may be worth adding checks for version <= 2.10.*, but I don't know if it makes sense
     this.restrictedFieldNumber = project.objects.property(Boolean).convention(false)
-    this.outputDir = project.objects.directoryProperty()
+    this.destinationDirectory = project.objects.directoryProperty()
   }
 
   @TaskAction
@@ -67,8 +67,10 @@ class GenerateAvroTask extends SourceTask {
       DependencyUtils.findScalaVersion(project)
       )
 
-    def outputDir = outputDir
+    def destinationDirectory = destinationDirectory
       .map { Directory it -> it.asFile.toString() }
       .getOrElse(generator.defaultOutputDir())
+
+    // TODO Add sorting sources and use the generator to convert them
   }
 }

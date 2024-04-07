@@ -78,7 +78,6 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     avro.destinationDirectory.convention(generatedScalaSrcDir)
 
     avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
-    avro
   }
 
   private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
@@ -96,7 +95,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     return project.tasks.register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroTask) {
       // TODO Create a better description
       it.description = "Generates " + sourceDirectorySet + "."
-      it.outputDir.set(outputBaseDir)
+      it.destinationDirectory.set(outputBaseDir)
     }
   }
 }
