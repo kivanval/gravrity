@@ -17,12 +17,11 @@ package io.github.kivanval.gradle.task
 
 import avrohugger.Generator
 import avrohugger.filesorter.AvdlFileSorter
+import avrohugger.filesorter.AvscFileSorter
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.gradle.util.DependencyUtils
-import scala.collection.immutable.Seq
-
 import javax.inject.Inject
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.MapProperty
@@ -31,9 +30,9 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.compile.AbstractCompile
 import scala.Option
 import scala.collection.immutable.Map as ScalaMap
+import scala.collection.immutable.Seq
 import scala.collection.immutable.Seq as ScalaSeq
 import scala.jdk.javaapi.CollectionConverters
-import avrohugger.filesorter.AvscFileSorter
 
 
 @CompileStatic
