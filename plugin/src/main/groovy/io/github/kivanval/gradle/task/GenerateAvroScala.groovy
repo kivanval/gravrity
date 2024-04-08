@@ -16,10 +16,13 @@ limitations under the License.
 package io.github.kivanval.gradle.task
 
 import avrohugger.Generator
+import avrohugger.filesorter.AvdlFileSorter
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
 import io.github.kivanval.gradle.util.DependencyUtils
+import scala.collection.immutable.Seq
+
 import javax.inject.Inject
 import org.gradle.api.file.Directory
 import org.gradle.api.provider.MapProperty
@@ -28,7 +31,10 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.compile.AbstractCompile
 import scala.Option
 import scala.collection.immutable.Map as ScalaMap
+import scala.collection.immutable.Seq as ScalaSeq
 import scala.jdk.javaapi.CollectionConverters
+import avrohugger.filesorter.AvscFileSorter
+
 
 @CompileStatic
 @CacheableTask
@@ -66,7 +72,35 @@ class GenerateAvroScala extends AbstractCompile {
     def destinationDirectory = destinationDirectory
       .map { Directory it -> it.asFile.toString() }
       .getOrElse(generator.defaultOutputDir())
+    def sourceTypes = ["*.avsc", "*.avdl", "*.avpr"]
 
-    // TODO Add sorting sources and use the generator to convert them
+    def sortedSources = sourceTypes.collect { getSources(it) }
+    sortedSources.forEach {
+      it.foreach { source ->
+        generator.fileToFile(source, destinationDirectory)
+      }
+    }
+  }
+
+  private Seq<File> getSources(String format) {
+    switch (format) {
+      case "*.avsc":
+        AvscFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+          include "**/*.avsc"
+        })))
+        break
+      case "*.avdl":
+        AvdlFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+          include "**/*.avdl"
+        })))
+        break
+      case "*.avpr":
+        Seq.from(CollectionConverters.asScala(source.matching {
+          include "**/*.avpr"
+        }))
+        break
+      default:
+        throw new IllegalArgumentException("Unsupported format: $format")
+    }
   }
 }
