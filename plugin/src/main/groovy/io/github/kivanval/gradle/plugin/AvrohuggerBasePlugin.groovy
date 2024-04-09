@@ -74,7 +74,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
     final def avro = objects.sourceDirectorySet(name, displayName)
-    avro.include("**./*.avdl", "**./*.avpr", "**/*.avro", "**/*.avsc")
+    avro.include("**./*.avdl", "**./*.avpr", "**/*.avsc")
 
     final def generatedScalaSrcDir = project.layout.buildDirectory
       .dir("generated/sources/avrohugger/scala/" + sourceSet.name)
@@ -92,6 +92,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     final def generateAvroScala = project.tasks
       .register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroScala) {
         it.description = "Generates " + avroSource + "."
+        it.source(avroSource)
       }
     avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
     generateAvroScala
