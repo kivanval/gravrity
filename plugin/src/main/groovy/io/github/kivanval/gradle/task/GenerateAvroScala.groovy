@@ -71,35 +71,22 @@ class GenerateAvroScala extends AbstractCompile {
     def destinationDirectory = destinationDirectory
       .map { Directory it -> it.asFile.toString() }
       .getOrElse(generator.defaultOutputDir())
-    def sourceTypes = ["*.avsc", "*.avdl", "*.avpr"]
 
-    def sortedSources = sourceTypes.collect { getSources(it) }
+    def sortedSources = [
+      AvscFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avsc"
+      }))),
+      AvdlFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avdl"
+      }))),
+      Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avpr"
+      }))
+    ]
     sortedSources.forEach {
       it.foreach { source ->
         generator.fileToFile(source, destinationDirectory)
       }
-    }
-  }
-
-  private Seq<File> getSources(String format) {
-    switch (format) {
-      case "*.avsc":
-        AvscFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
-          include "**/*.avsc"
-        })))
-        break
-      case "*.avdl":
-        AvdlFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
-          include "**/*.avdl"
-        })))
-        break
-      case "*.avpr":
-        Seq.from(CollectionConverters.asScala(source.matching {
-          include "**/*.avpr"
-        }))
-        break
-      default:
-        throw new IllegalArgumentException("Unsupported format: $format")
     }
   }
 }
