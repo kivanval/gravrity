@@ -31,7 +31,6 @@ import org.gradle.api.tasks.compile.AbstractCompile
 import scala.Option
 import scala.collection.immutable.Map as ScalaMap
 import scala.collection.immutable.Seq
-import scala.collection.immutable.Seq as ScalaSeq
 import scala.jdk.javaapi.CollectionConverters
 
 
