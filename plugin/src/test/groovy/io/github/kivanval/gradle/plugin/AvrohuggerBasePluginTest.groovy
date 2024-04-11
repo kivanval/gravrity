@@ -16,11 +16,9 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import groovy.transform.CompileDynamic
-import io.github.kivanval.avrohugger.format.SpecificRecord
 import java.nio.file.Paths
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
-import org.gradle.util.internal.GUtil
 import spock.lang.Specification
 
 @CompileDynamic
