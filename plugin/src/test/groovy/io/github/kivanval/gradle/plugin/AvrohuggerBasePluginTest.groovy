@@ -16,6 +16,13 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import groovy.transform.CompileDynamic
+import io.github.kivanval.avrohugger.format.SourceFormat
+import io.github.kivanval.avrohugger.format.SpecificRecord
+import io.github.kivanval.gradle.extension.AvrohuggerExtension
+import io.github.kivanval.gradle.task.GenerateAvroScala
+import org.gradle.util.internal.GUtil
+
+import java.nio.file.Files
 import java.nio.file.Paths
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
@@ -43,6 +50,36 @@ class AvrohuggerBasePluginTest extends Specification {
     sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(
     Paths.get(project.layout.buildDirectory.asFile.get().toString(), "generated", "sources", "avrohugger", "scala", sourceSetName).toString()
     )
+
+    where:
+    sourceSetName << ['main', 'test']
+  }
+
+  def "task should receive properties from extension"() {
+    given:
+    def project = ProjectBuilder.builder().build()
+
+    when:
+    project.pluginManager.with {
+      apply(ScalaPlugin)
+      apply(AvrohuggerPlugin)
+    }
+
+    def specificFormat = new SpecificRecord()
+    def specificNamespaceMapping = [
+            'com.example' :  'org.example'
+    ]
+    project.avrohugger {
+      format = specificFormat
+      namespaceMapping = specificNamespaceMapping
+      restrictedFieldNumber = true
+    }
+
+    then:
+    def task = project.tasks.named("generate${GUtil.toCamelCase(sourceSetName)}AvroScala").get()
+    task.format.getOrNull() == specificFormat
+    task.namespaceMapping.getOrNull() == specificNamespaceMapping
+    task.restrictedFieldNumber.getOrNull() == true
 
     where:
     sourceSetName << ['main', 'test']
