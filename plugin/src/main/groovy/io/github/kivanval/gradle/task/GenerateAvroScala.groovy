@@ -16,6 +16,8 @@ limitations under the License.
 package io.github.kivanval.gradle.task
 
 import avrohugger.Generator
+import avrohugger.filesorter.AvdlFileSorter
+import avrohugger.filesorter.AvscFileSorter
 import groovy.transform.CompileStatic
 import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.Standard
@@ -28,7 +30,9 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.compile.AbstractCompile
 import scala.Option
 import scala.collection.immutable.Map as ScalaMap
+import scala.collection.immutable.Seq
 import scala.jdk.javaapi.CollectionConverters
+
 
 @CompileStatic
 @CacheableTask
@@ -67,6 +71,21 @@ class GenerateAvroScala extends AbstractCompile {
       .map { Directory it -> it.asFile.toString() }
       .getOrElse(generator.defaultOutputDir())
 
-    // TODO Add sorting sources and use the generator to convert them
+    def sortedSources = [
+      AvscFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avsc"
+      }))),
+      AvdlFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avdl"
+      }))),
+      Seq.from(CollectionConverters.asScala(source.matching {
+        include "**/*.avpr"
+      }))
+    ]
+    sortedSources.forEach {
+      it.foreach { source ->
+        generator.fileToFile(source, destinationDirectory)
+      }
+    }
   }
 }
