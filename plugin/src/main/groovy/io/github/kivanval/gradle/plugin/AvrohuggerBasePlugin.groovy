@@ -71,16 +71,16 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
   private SourceDirectorySet createAvroSourceDirectorySet(SourceSet sourceSet) {
     final def name = "avro"
-    final def displayName = GUtil.toWords(sourceSet.name) + " Avro source"
+    final def displayName = "${GUtil.toWords(sourceSet.name)} Avro source"
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
     final def avro = objects.sourceDirectorySet(name, displayName)
     avro.include("**./*.avdl", "**./*.avpr", "**/*.avsc")
 
     final def generatedScalaSrcDir = project.layout.buildDirectory
-      .dir("generated/sources/avrohugger/scala/" + sourceSet.name)
+      .dir("generated/sources/avrohugger/scala/${sourceSet.name}")
     avro.destinationDirectory.convention(generatedScalaSrcDir)
 
-    avro.srcDir("src/" + sourceSet.name + "/" + avro.name)
+    avro.srcDir("src/${sourceSet.name}/${avro.name}")
   }
 
   private TaskProvider<GenerateAvroScala> configureGenerateAvroScala(
@@ -91,7 +91,10 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
   ) {
     final def generateAvroScala = project.tasks
       .register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroScala) {
-        it.description = "Generates " + avroSource + "."
+        it.description = "Generates $avroSource."
+        it.format.set(avrohuggerExtension.format)
+        it.namespaceMapping.set(avrohuggerExtension.namespaceMapping)
+        it.restrictedFieldNumber.set(avrohuggerExtension.restrictedFieldNumber)
         it.source(avroSource)
       }
     avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
