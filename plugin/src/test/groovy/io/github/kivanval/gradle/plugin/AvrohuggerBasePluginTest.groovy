@@ -16,16 +16,11 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import groovy.transform.CompileDynamic
-import io.github.kivanval.avrohugger.format.SourceFormat
 import io.github.kivanval.avrohugger.format.SpecificRecord
-import io.github.kivanval.gradle.extension.AvrohuggerExtension
-import io.github.kivanval.gradle.task.GenerateAvroScala
-import org.gradle.util.internal.GUtil
-
-import java.nio.file.Files
 import java.nio.file.Paths
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
+import org.gradle.util.internal.GUtil
 import spock.lang.Specification
 
 @CompileDynamic
@@ -67,7 +62,7 @@ class AvrohuggerBasePluginTest extends Specification {
 
     def specificFormat = new SpecificRecord()
     def specificNamespaceMapping = [
-            'com.example' :  'org.example'
+      'com.example' :  'org.example'
     ]
     project.avrohugger {
       format = specificFormat
