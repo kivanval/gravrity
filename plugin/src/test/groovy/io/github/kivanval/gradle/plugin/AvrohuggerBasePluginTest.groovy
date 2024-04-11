@@ -26,23 +26,22 @@ class AvrohuggerBasePluginTest extends Specification {
   def "plugin should have avro default settings in sourceSets using ScalaPlugin"() {
     given:
     def project = ProjectBuilder.builder().build()
+    def buildDir = project.layout.buildDirectory.asFile.get()
+            .toString()
+    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/avrohugger/scala", sourceSetName)
+            .toString()
+    def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
+            .toString()
 
     when:
-    project.pluginManager.with {
-      apply(ScalaPlugin)
-      apply(AvrohuggerPlugin)
-    }
+    project.pluginManager.apply AvrohuggerPlugin
 
     then:
     def sourceSet = project.sourceSets.getByName(sourceSetName)
-    sourceSet.avro.srcDirs.collect { it.toString() } == [
-      Paths.get(project.projectDir.toString(), "src", sourceSetName, "avro").toString()
-    ]
 
-
-    sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(
-    Paths.get(project.layout.buildDirectory.asFile.get().toString(), "generated", "sources", "avrohugger", "scala", sourceSetName).toString()
-    )
+    sourceSet.avro.srcDirs.collect { it.toString() } == [srcDir]
+    sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
+    sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
 
     where:
     sourceSetName << ['main', 'test']
