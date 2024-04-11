@@ -27,11 +27,11 @@ class AvrohuggerBasePluginTest extends Specification {
     given:
     def project = ProjectBuilder.builder().build()
     def buildDir = project.layout.buildDirectory.asFile.get()
-            .toString()
+      .toString()
     def generatedSourceDirs = Paths.get(buildDir, "generated/sources/avrohugger/scala", sourceSetName)
-            .toString()
+      .toString()
     def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
-            .toString()
+      .toString()
 
     when:
     project.pluginManager.apply AvrohuggerPlugin
