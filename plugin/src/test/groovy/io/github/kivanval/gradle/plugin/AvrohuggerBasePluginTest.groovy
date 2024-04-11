@@ -23,7 +23,7 @@ import spock.lang.Specification
 
 @CompileDynamic
 class AvrohuggerBasePluginTest extends Specification {
-  def "plugin should have avro default settings in sourceSets using ScalaPlugin"() {
+  def "plugin should have avro default settings in sourceSets"() {
     given:
     def project = ProjectBuilder.builder().build()
     def buildDir = project.layout.buildDirectory.asFile.get()
