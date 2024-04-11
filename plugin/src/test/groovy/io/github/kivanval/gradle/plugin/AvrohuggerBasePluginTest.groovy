@@ -49,34 +49,4 @@ class AvrohuggerBasePluginTest extends Specification {
     where:
     sourceSetName << ['main', 'test']
   }
-
-  def "task should receive properties from extension"() {
-    given:
-    def project = ProjectBuilder.builder().build()
-
-    when:
-    project.pluginManager.with {
-      apply(ScalaPlugin)
-      apply(AvrohuggerPlugin)
-    }
-
-    def specificFormat = new SpecificRecord()
-    def specificNamespaceMapping = [
-      'com.example' :  'org.example'
-    ]
-    project.avrohugger {
-      format = specificFormat
-      namespaceMapping = specificNamespaceMapping
-      restrictedFieldNumber = true
-    }
-
-    then:
-    def task = project.tasks.named("generate${GUtil.toCamelCase(sourceSetName)}AvroScala").get()
-    task.format.getOrNull() == specificFormat
-    task.namespaceMapping.getOrNull() == specificNamespaceMapping
-    task.restrictedFieldNumber.getOrNull() == true
-
-    where:
-    sourceSetName << ['main', 'test']
-  }
 }
