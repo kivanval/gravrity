@@ -17,6 +17,10 @@ package io.github.kivanval.gradle.test
 
 import io.github.kivanval.gradle.util.ResourceUtils
 import io.github.kivanval.gradle.util.TestUtils
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -38,12 +42,35 @@ class AvrohuggerPluginFunctionalTest extends Specification {
     settingsFile << ""
   }
 
-  def "can run task"() {
+  def "run task without source"() {
     when:
-    TestUtils.gradleRunner(projectDir, gradleVersion, "compileJava").build()
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateMainAvroScala")
+      .build()
 
     then:
     noExceptionThrown()
+    buildResult.task(":generateMainAvroScala").outcome == TaskOutcome.NO_SOURCE
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "run task with .avpr source"() {
+    when:
+    def sourceDir = new File(projectDir, "src/main/avro")
+    sourceDir.mkdirs()
+    def file = new File(sourceDir, "sample.avpr")
+    file << ResourceUtils.read("sample.avpr")
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateMainAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateMainAvroScala").outcome == TaskOutcome.SUCCESS
+    !Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main"))
+      .toList()
+      .isEmpty()
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS

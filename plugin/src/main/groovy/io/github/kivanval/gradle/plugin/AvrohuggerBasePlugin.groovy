@@ -95,7 +95,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         it.format.set(avrohuggerExtension.format)
         it.namespaceMapping.set(avrohuggerExtension.namespaceMapping)
         it.restrictedFieldNumber.set(avrohuggerExtension.restrictedFieldNumber)
-        it.source(avroSource)
+        it.source(avroSource.srcDirs)
       }
     avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
     generateAvroScala

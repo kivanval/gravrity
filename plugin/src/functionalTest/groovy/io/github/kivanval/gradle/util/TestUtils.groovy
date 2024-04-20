@@ -35,7 +35,10 @@ class TestUtils {
     GradleRunner.create()
       .forwardOutput()
       .withPluginClasspath()
-      .withArguments(arguments)
+      .withArguments(arguments.toList() << "--info")
+      .withEnvironment(System.getenv()) // Enable forking
+      .forwardStdOutput(new OutputStreamWriter(System.out))
+      .forwardStdError(new OutputStreamWriter(System.err))
       .withProjectDir(projectDir)
       .withGradleVersion(gradleVersion)
   }
