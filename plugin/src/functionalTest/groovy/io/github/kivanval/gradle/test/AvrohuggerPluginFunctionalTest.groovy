@@ -68,9 +68,9 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 
     then:
     buildResult.task(":generateMainAvroScala").outcome == TaskOutcome.SUCCESS
-    !Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main"))
-      .toList()
-      .isEmpty()
+    Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main"))
+      .findFirst()
+      .isPresent()
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
