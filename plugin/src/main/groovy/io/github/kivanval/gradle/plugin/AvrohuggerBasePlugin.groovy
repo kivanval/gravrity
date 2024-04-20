@@ -90,8 +90,8 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     final AvrohuggerExtension avrohuggerExtension
   ) {
     final def generateAvroScala = project.tasks
-      .register("generate${GUtil.toCamelCase(sourceSet.name)}AvroScala", GenerateAvroScala) {
-        it.description = "Generates $avroSource."
+      .register(sourceSet.getTaskName("generate", "AvroScala"), GenerateAvroScala) {
+        it.description = "Generates the $avroSource."
         it.format.set(avrohuggerExtension.format)
         it.namespaceMapping.set(avrohuggerExtension.namespaceMapping)
         it.restrictedFieldNumber.set(avrohuggerExtension.restrictedFieldNumber)

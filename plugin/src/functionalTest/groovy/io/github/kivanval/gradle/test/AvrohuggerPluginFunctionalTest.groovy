@@ -45,12 +45,12 @@ class AvrohuggerPluginFunctionalTest extends Specification {
   def "run task without source"() {
     when:
     def buildResult = TestUtils
-      .gradleRunner(projectDir, gradleVersion, "generateMainAvroScala")
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
     noExceptionThrown()
-    buildResult.task(":generateMainAvroScala").outcome == TaskOutcome.NO_SOURCE
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.NO_SOURCE
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
@@ -63,11 +63,11 @@ class AvrohuggerPluginFunctionalTest extends Specification {
     def file = new File(sourceDir, "sample.avpr")
     file << ResourceUtils.read("sample.avpr")
     def buildResult = TestUtils
-      .gradleRunner(projectDir, gradleVersion, "generateMainAvroScala")
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
-    buildResult.task(":generateMainAvroScala").outcome == TaskOutcome.SUCCESS
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
     Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main"))
       .findFirst()
       .isPresent()
