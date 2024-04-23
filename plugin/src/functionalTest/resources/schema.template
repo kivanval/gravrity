@@ -1,0 +1,8 @@
+{
+     "type": "record",
+     "name": "${name}",
+     "fields": [
+       { "name": "first", "type": "string" },
+       { "name": "last", "type": "string" }
+     ]
+}

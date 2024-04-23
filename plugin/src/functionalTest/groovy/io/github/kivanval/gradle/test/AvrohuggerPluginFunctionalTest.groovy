@@ -20,6 +20,7 @@ import io.github.kivanval.gradle.util.TestUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Shared
 import spock.lang.Specification
@@ -29,16 +30,19 @@ import spock.lang.TempDir
 class AvrohuggerPluginFunctionalTest extends Specification {
   @Shared
   @TempDir
-  File projectDir
+  Path projectDir
   @Shared
-  File buildFile
+  Path buildFile
   @Shared
-  File settingsFile
+  Path settingsFile
+  @Shared
+  Path mainAvroSource
 
   def setupSpec() {
-    buildFile = new File(projectDir, "build.gradle")
+    mainAvroSource = Files.createDirectories(projectDir.resolve("src/main/avro"))
+    buildFile = projectDir.resolve("build.gradle")
     buildFile << ResourceUtils.read("sample.gradle")
-    settingsFile = new File(projectDir, "settings.gradle")
+    settingsFile = projectDir.resolve("settings.gradle")
     settingsFile << ""
   }
 
@@ -58,9 +62,7 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 
   def "run task with .avpr source"() {
     when:
-    def sourceDir = new File(projectDir, "src/main/avro")
-    sourceDir.mkdirs()
-    def file = new File(sourceDir, "sample.avpr")
+    def file = mainAvroSource.resolve("sample.avpr")
     file << ResourceUtils.read("sample.avpr")
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
@@ -71,6 +73,81 @@ class AvrohuggerPluginFunctionalTest extends Specification {
     Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main"))
       .findFirst()
       .isPresent()
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task creates correct scala class"() {
+    when:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file.text = TestUtils.resource([name : classname])
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    def directoryPath = Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main")
+    def filePath = directoryPath.resolve("${classname}.scala")
+    Files.exists(filePath)
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "second task call should have up to date outcome"() {
+    given:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file.text = TestUtils.resource([name : classname])
+    def runner = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+
+    when:
+    BuildResult result = runner.build()
+
+    then:
+    result.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+
+    when:
+    result = runner.build()
+
+    then:
+    result.task(":generateAvroScala").outcome == TaskOutcome.UP_TO_DATE
+
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task ignores invalid files"() {
+    when:
+    def file = mainAvroSource.resolve("sample.txt")
+    file.text = 'Hello'
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    Files.list(Path.of(projectDir.toString(), "build/generated/sources/avrohugger/scala/main")).toList().isEmpty()
+
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task fails with an invalid schema"() {
+    when:
+    def file = mainAvroSource.resolve("sample.avsc")
+    file.text = TestUtils.resource([name : 'FullName']).replace("\"type\": \"record\",", "")
+    def buildResult = TestUtils.gradleRunner(projectDir, gradleVersion, "generateAvroScala").buildAndFail()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.FAILED
+
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
