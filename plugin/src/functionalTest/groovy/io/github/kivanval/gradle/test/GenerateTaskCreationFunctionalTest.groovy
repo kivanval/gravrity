@@ -24,44 +24,37 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.TempDir
 
-
-class AvrohuggerPluginFunctionalTest extends Specification {
+class GenerateTaskCreationFunctionalTest extends Specification{
   @Shared
   @TempDir
   Path projectDir
   @Shared
-  Path buildFile
-  @Shared
   Path mainAvroSource
+  @Shared
+  Path generatedOutputDir
+  @Shared
+  Path buildFile
 
   def setupSpec() {
     mainAvroSource = Files.createDirectories(projectDir.resolve("src/main/avro"))
+    generatedOutputDir = Files.createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
     buildFile = projectDir.resolve("build.gradle")
     buildFile << ResourceUtils.read("sample.gradle")
   }
 
-  def "run task without source"() {
+  def "task creates correct scala class"() {
     when:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file.text = TestUtils.resource([name: classname])
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
-    noExceptionThrown()
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.NO_SOURCE
-
-    where:
-    gradleVersion << TestUtils.GRADLE_VERSIONS
-  }
-
-  def "task fails with an invalid schema"() {
-    when:
-    def file = mainAvroSource.resolve("sample.avsc")
-    file.text = TestUtils.resource([name : 'FullName']).replace("\"type\": \"record\",", "")
-    def buildResult = TestUtils.gradleRunner(projectDir, gradleVersion, "generateAvroScala").buildAndFail()
-
-    then:
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.FAILED
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    def filePath = generatedOutputDir.resolve("${classname}.scala")
+    Files.exists(filePath)
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
