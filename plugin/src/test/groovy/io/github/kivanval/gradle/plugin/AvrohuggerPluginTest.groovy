@@ -15,32 +15,33 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.plugin
 
-import io.github.kivanval.gradle.plugin.AvrohuggerBasePlugin
+import java.nio.file.Paths
 import org.gradle.testfixtures.ProjectBuilder
-import spock.lang.Ignore
 import spock.lang.Specification
 
 class AvrohuggerPluginTest extends Specification {
-  def "plugin applies base plugin"() {
+
+  def "plugin should have avro default settings in sourceSets"() {
     given:
     def project = ProjectBuilder.builder().build()
+    def buildDir = project.layout.buildDirectory.asFile.get()
+      .toString()
+    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/avrohugger/scala/$sourceSetName")
+      .toString()
+    def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
+      .toString()
 
     when:
     project.pluginManager.apply(AvrohuggerPlugin)
 
     then:
-    project.plugins.hasPlugin(AvrohuggerBasePlugin)
-  }
+    def sourceSet = project.sourceSets.getByName(sourceSetName)
 
-  @Ignore
-  def "plugin registers generateAvroScala task"() {
-    given:
-    def project = ProjectBuilder.builder().build()
+    sourceSet.avro.srcDirs.collect { it.toString() } == [srcDir]
+    sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
+    sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
 
-    when:
-    project.pluginManager.apply(AvrohuggerPlugin)
-
-    then:
-    project.tasks.named('generateAvroScala').present
+    where:
+    sourceSetName << ['main', 'test']
   }
 }

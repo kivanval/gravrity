@@ -24,10 +24,10 @@ import org.gradle.api.Project
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
-import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.plugins.scala.ScalaBasePlugin
+import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.internal.Cast
 import org.gradle.util.internal.GUtil
 
@@ -44,7 +44,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
 
   @Override
   void apply(final Project project) {
-    project.pluginManager.apply(JavaPlugin)
+    project.pluginManager.apply(ScalaBasePlugin)
     configureSourceSetDefaults(configureExtension())
   }
 
@@ -62,31 +62,31 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         sourceSet.extensions.add(SourceDirectorySet, avro.name, avro)
         sourceSet.allJava.source(avro)
 
-        Cast.cast(DefaultSourceSetOutput, sourceSet.output)
-          .generatedSourcesDirs.from(avro.destinationDirectory)
+        avro.destinationDirectory.with {
+          Cast.cast(DefaultSourceSetOutput, sourceSet.output).generatedSourcesDirs.from(it)
+          sourceSet.extensions.getByType(ScalaSourceDirectorySet).srcDir(it)
+        }
 
         configureGenerateAvroScala(sourceSet, avro, avrohuggerExtension)
       }
   }
 
   private SourceDirectorySet createAvroSourceDirectorySet(SourceSet sourceSet) {
-    final def name = "avro"
     final def displayName = "${GUtil.toWords(sourceSet.name)} Avro source"
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
-    final def avro = objects.sourceDirectorySet(name, displayName)
+    final def avro = objects.sourceDirectorySet("avro", displayName)
     avro.include("**./*.avdl", "**./*.avpr", "**/*.avsc")
 
-    final def generatedScalaSrcDir = project.layout.buildDirectory
+    final def generatedAvrohuggerDir = project.layout.buildDirectory
       .dir("generated/sources/avrohugger/scala/${sourceSet.name}")
-    avro.destinationDirectory.convention(generatedScalaSrcDir)
+    avro.destinationDirectory.convention(generatedAvrohuggerDir)
 
     avro.srcDir("src/${sourceSet.name}/${avro.name}")
   }
 
-  private TaskProvider<GenerateAvroScala> configureGenerateAvroScala(
+  private void configureGenerateAvroScala(
     final SourceSet sourceSet,
     final SourceDirectorySet avroSource,
-    // TODO Map extension properties to task properties
     final AvrohuggerExtension avrohuggerExtension
   ) {
     final def generateAvroScala = project.tasks
@@ -98,6 +98,5 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         it.source(avroSource.srcDirs)
       }
     avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
-    generateAvroScala
   }
 }

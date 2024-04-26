@@ -18,11 +18,13 @@ package io.github.kivanval.gradle.plugin
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.scala.ScalaPlugin
 
 @CompileStatic
 class AvrohuggerPlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
+    project.pluginManager.apply(ScalaPlugin)
     project.pluginManager.apply(AvrohuggerBasePlugin)
     // TODO
   }
