@@ -19,23 +19,22 @@ import io.github.kivanval.gradle.util.ResourceUtils
 import io.github.kivanval.gradle.util.TestUtils
 import java.nio.file.Files
 import java.nio.file.Path
+import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
-import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.TempDir
 
 
-class AvrohuggerPluginFunctionalTest extends Specification {
-  @Shared
+class GenerateAvroScalaFunctionalTest extends Specification {
   @TempDir
   Path projectDir
-  @Shared
   Path buildFile
-  @Shared
   Path mainAvroSource
+  Path generatedOutputDir
 
-  def setupSpec() {
+  def setup() {
     mainAvroSource = Files.createDirectories(projectDir.resolve("src/main/avro"))
+    generatedOutputDir = Files.createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
     buildFile = projectDir.resolve("build.gradle")
     buildFile << ResourceUtils.read("sample.gradle")
   }
@@ -54,6 +53,25 @@ class AvrohuggerPluginFunctionalTest extends Specification {
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
+  def "run task with .avsc source"() {
+    when:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'Name'
+    file.text = TestUtils.resource([name: classname])
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    Files.list(generatedOutputDir)
+      .findFirst()
+      .isPresent()
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
   def "task fails with an invalid schema"() {
     when:
     def file = mainAvroSource.resolve("sample.avsc")
@@ -62,6 +80,82 @@ class AvrohuggerPluginFunctionalTest extends Specification {
 
     then:
     buildResult.task(":generateAvroScala").outcome == TaskOutcome.FAILED
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task creates correct scala class"() {
+    when:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file.text = TestUtils.resource([name: classname])
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    def filePath = generatedOutputDir.resolve("${classname}.scala")
+    Files.exists(filePath)
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "second task call should have up to date outcome"() {
+    given:
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file.text = TestUtils.resource([name: classname])
+    def runner = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+
+    when:
+    BuildResult result = runner.build()
+
+    then:
+    result.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+
+    when:
+    result = runner.build()
+
+    then:
+    result.task(":generateAvroScala").outcome == TaskOutcome.UP_TO_DATE
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task ignores invalid files"() {
+    when:
+    def file = mainAvroSource.resolve("sample.txt")
+    file.text = 'Hello'
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    Files.list(generatedOutputDir).toList().isEmpty()
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
+  def "task creates class for a large .avsc file"() {
+    when:
+    def file = mainAvroSource.resolve("large.avsc")
+    file.text = ResourceUtils.read("large.avsc")
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    Files.list(generatedOutputDir)
+      .findFirst()
+      .isPresent()
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
