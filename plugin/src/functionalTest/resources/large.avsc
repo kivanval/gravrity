@@ -1,7 +1,7 @@
 {
   "type":"record",
-  "name":"Interaction",
-  "namespace":"com.example.analytics.event",
+  "name":"${name}",
+  "namespace":"${namespace}",
   "fields":[
     {
       "name":"metadata",

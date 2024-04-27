@@ -147,17 +147,18 @@ class GenerateAvroScalaFunctionalTest extends Specification {
   def "task creates class for a large .avsc file"() {
     when:
     def file = mainAvroSource.resolve("large.avsc")
-    file.text = TestUtils.resource("large.avsc")
+    def classname = 'Interaction'
+    def namespace = 'com.example.analytics.event'
+    file.text = TestUtils.resource("large.avsc", name: classname, namespace: namespace)
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
     buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
-    // TODO Add file text check
-    Files.list(generatedOutputDir)
-      .findFirst()
-      .isPresent()
+
+    def filePath = generatedOutputDir.resolve("${namespace.replace('.', '/')}/${classname}.scala")
+    Files.exists(filePath)
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
