@@ -1,9 +1,0 @@
-@namespace("com.example")
-protocol PersonProtocol {
-
-  record FullName {
-    string first;
-    string last;
-  }
-
-}
