@@ -34,9 +34,9 @@ class GenerateAvroScalaFunctionalTest extends Specification {
 
   def setup() {
     mainAvroSource = Files
-            .createDirectories(projectDir.resolve("src/main/avro"))
+      .createDirectories(projectDir.resolve("src/main/avro"))
     generatedOutputDir = Files
-            .createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
+      .createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
     buildFile = projectDir.resolve("build.gradle")
     buildFile << TestUtils.resource("sample.gradle")
   }
