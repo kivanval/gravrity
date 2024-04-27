@@ -1,6 +1,7 @@
 {
   "type":"record",
   "name":"${name}",
+  "namespace":"${namespace}",
   "fields":[
     {
       "name":"metadata",
