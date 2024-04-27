@@ -52,6 +52,7 @@ class TestUtils {
 
   static String resource(Map binding, String resourceName) {
     def template = new File(getResourceURI(resourceName))
+    namespace(binding)
     engine.createTemplate(template).make(binding).toString()
   }
 
@@ -61,5 +62,13 @@ class TestUtils {
 
   static private getResourceURI(String resourceName) {
     Resources.getResource(resourceName).toURI()
+  }
+
+  static private namespace(Map binding) {
+    if (binding.containsKey('namespace')) {
+      binding.put('namespace', "\"namespace\":\"${binding.get('namespace').replace('/','.')}\",")
+    } else {
+      binding.put('namespace', '')
+    }
   }
 }
