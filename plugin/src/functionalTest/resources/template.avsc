@@ -1,7 +1,6 @@
 {
      "type": "record",
      "name": "${name}",
-     ${namespace}
      "fields": [
        { "name": "first", "type": "string" },
        { "name": "last", "type": "string" }
