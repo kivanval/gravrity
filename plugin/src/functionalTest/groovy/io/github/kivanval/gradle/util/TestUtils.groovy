@@ -15,6 +15,11 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
+import groovy.text.SimpleTemplateEngine
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import org.gradle.internal.impldep.com.google.common.io.Resources
 import org.gradle.testkit.runner.GradleRunner
 
 class TestUtils {
@@ -28,7 +33,7 @@ class TestUtils {
   ]
 
   static GradleRunner gradleRunner(
-    File projectDir,
+    Path projectDir,
     String gradleVersion,
     String... arguments
   ) {
@@ -39,7 +44,22 @@ class TestUtils {
       .withEnvironment(System.getenv()) // Enable forking
       .forwardStdOutput(new OutputStreamWriter(System.out))
       .forwardStdError(new OutputStreamWriter(System.err))
-      .withProjectDir(projectDir)
+      .withProjectDir(projectDir.toFile())
       .withGradleVersion(gradleVersion)
+  }
+
+  private static final engine = new SimpleTemplateEngine()
+
+  static String resource(Map binding, String resourceName) {
+    def template = new File(getResourceURI(resourceName))
+    engine.createTemplate(template).make(binding).toString()
+  }
+
+  static String resource(String resourceName) {
+    Files.readString(Paths.get(getResourceURI(resourceName)))
+  }
+
+  static private getResourceURI(String resourceName) {
+    Resources.getResource(resourceName).toURI()
   }
 }
