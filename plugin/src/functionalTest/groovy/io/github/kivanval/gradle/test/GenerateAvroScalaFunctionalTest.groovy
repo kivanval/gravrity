@@ -15,7 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.test
 
-import io.github.kivanval.gradle.util.ResourceUtils
+
 import io.github.kivanval.gradle.util.TestUtils
 import java.nio.file.Files
 import java.nio.file.Path
@@ -36,7 +36,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     mainAvroSource = Files.createDirectories(projectDir.resolve("src/main/avro"))
     generatedOutputDir = Files.createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
     buildFile = projectDir.resolve("build.gradle")
-    buildFile << ResourceUtils.read("sample.gradle")
+    buildFile << TestUtils.read("sample.gradle")
   }
 
   def "run task without source"() {
@@ -57,7 +57,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     when:
     def file = mainAvroSource.resolve("sample.avsc")
     def classname = 'Name'
-    file.text = TestUtils.resource([name: classname])
+    file.text = TestUtils.resource(name: classname, 'schema.template')
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
@@ -75,7 +75,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
   def "task fails with an invalid schema"() {
     when:
     def file = mainAvroSource.resolve("sample.avsc")
-    file.text = TestUtils.resource([name : 'FullName']).replace("\"type\": \"record\",", "")
+    file.text = TestUtils.resource(name: 'FullName', 'schema.template').replace("\"type\": \"record\",", "")
     def buildResult = TestUtils.gradleRunner(projectDir, gradleVersion, "generateAvroScala").buildAndFail()
 
     then:
@@ -89,7 +89,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     when:
     def file = mainAvroSource.resolve("sample.avsc")
     def classname = 'FullName'
-    file.text = TestUtils.resource([name: classname])
+    file.text = TestUtils.resource(name: classname, 'schema.template')
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
@@ -107,7 +107,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     given:
     def file = mainAvroSource.resolve("sample.avsc")
     def classname = 'FullName'
-    file.text = TestUtils.resource([name: classname])
+    file.text = TestUtils.resource(name: classname, 'schema.template')
     def runner = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
 
@@ -146,7 +146,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
   def "task creates class for a large .avsc file"() {
     when:
     def file = mainAvroSource.resolve("large.avsc")
-    file.text = ResourceUtils.read("large.avsc")
+    file.text = TestUtils.read("large.avsc")
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()

@@ -49,9 +49,17 @@ class TestUtils {
   }
 
   private static final engine = new SimpleTemplateEngine()
-  private static final template = new File(Resources.getResource("schema.template").toURI())
 
-  static String resource(Map binding) {
+  static String resource(Map binding, String templateName) {
+    def template = new File(getResourceURI(templateName))
     engine.createTemplate(template).make(binding).toString()
+  }
+
+  static String read(String resourceName) {
+    Files.readString(Paths.get(getResourceURI(resourceName)))
+  }
+
+  static private getResourceURI(String resourceName) {
+    Resources.getResource(resourceName).toURI()
   }
 }
