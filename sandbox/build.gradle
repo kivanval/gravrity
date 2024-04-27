@@ -1,5 +1,11 @@
 plugins {
+    id 'scala'
     id 'io.github.kivanval.avrohugger'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.scala-lang/scala3-library
+    implementation 'org.scala-lang:scala3-library_3:3.4.0'
 }
 
 repositories {
@@ -9,5 +15,5 @@ repositories {
 }
 
 avrohugger {
-    format = standard { intType = scalaInt }
+    format = standard
 }
