@@ -149,7 +149,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     def file = mainAvroSource.resolve("large.avsc")
     def classname = 'Interaction'
     def namespace = 'com.example.analytics.event'
-    file.text = TestUtils.resource("large.avsc", name : classname, namespace : namespace)
+    file.text = TestUtils.resource("large.avsc", name: classname, namespace: namespace)
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
