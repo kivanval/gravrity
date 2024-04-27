@@ -147,17 +147,15 @@ class GenerateAvroScalaFunctionalTest extends Specification {
   def "task creates class for a large .avsc file"() {
     when:
     def file = mainAvroSource.resolve("large.avsc")
-    file.text = TestUtils.resource("large.avsc")
+    file.text = TestUtils.resource("large.avsc", name : 'Interaction')
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
     buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
-    // TODO Add file text check
-    Files.list(generatedOutputDir)
-      .findFirst()
-      .isPresent()
+    def filePath = generatedOutputDir.resolve("Interaction.scala")
+    Files.exists(filePath)
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
