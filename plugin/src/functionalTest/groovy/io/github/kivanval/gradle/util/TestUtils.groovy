@@ -66,7 +66,7 @@ class TestUtils {
 
   static private namespace(Map binding) {
     if (binding.containsKey('namespace')) {
-      binding.put('namespace', "\"namespace\":\"${binding.get('namespace').replace('/','.')}\",")
+      binding.put('namespace', "\"namespace\":\"${binding.get('namespace')}\",")
     } else {
       binding.put('namespace', '')
     }
