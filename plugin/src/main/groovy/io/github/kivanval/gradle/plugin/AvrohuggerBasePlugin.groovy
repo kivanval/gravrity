@@ -67,7 +67,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
           sourceSet.extensions.getByType(ScalaSourceDirectorySet).srcDir(it)
         }
 
-        configureGenerateAvroScala(sourceSet, avro, avrohuggerExtension)
+        createGenerateAvroScalaTask(sourceSet, avro, avrohuggerExtension)
       }
   }
 
@@ -84,7 +84,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     avro.srcDir("src/${sourceSet.name}/${avro.name}")
   }
 
-  private void configureGenerateAvroScala(
+  private void createGenerateAvroScalaTask(
     final SourceSet sourceSet,
     final SourceDirectorySet avroSource,
     final AvrohuggerExtension avrohuggerExtension
@@ -97,6 +97,10 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         it.restrictedFieldNumber.set(avrohuggerExtension.restrictedFieldNumber)
         it.source(avroSource.srcDirs)
       }
-    avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
+    avroSource
+      .compiledBy(generateAvroScala, {it.destinationDirectory})
+    project.tasks
+      .named(sourceSet.getCompileTaskName("scala"))
+      .configure {it.dependsOn(generateAvroScala)}
   }
 }

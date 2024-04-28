@@ -24,8 +24,9 @@ import org.gradle.api.plugins.scala.ScalaPlugin
 class AvrohuggerPlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
-    project.pluginManager.apply(ScalaPlugin)
-    project.pluginManager.apply(AvrohuggerBasePlugin)
-    // TODO
+    project.pluginManager.with {
+      it.apply(ScalaPlugin)
+      it.apply(AvrohuggerBasePlugin)
+    }
   }
 }

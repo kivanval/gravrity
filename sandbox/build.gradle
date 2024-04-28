@@ -8,6 +8,10 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+dependencies {
+    implementation 'org.scala-lang:scala3-library_3:3.3.0'
+}
+
 avrohugger {
     format = standard { intType = scalaInt }
 }
