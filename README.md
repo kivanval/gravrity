@@ -74,7 +74,7 @@ sourceSets {
         }
   }
     test {
-        proto {
+        avro {
             // In addition to the default 'src/test/avro'
             srcDir 'src/test/avro-schemas'
         }
@@ -83,6 +83,7 @@ sourceSets {
 ```
 
 ### Customizing Avrohugger generation
+
 
 
 ## Sandbox
