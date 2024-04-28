@@ -18,10 +18,8 @@ sourceSets {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-core
-    implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.2'
-    // https://mvnrepository.com/artifact/com.julianpeeters/avrohugger-filesorter
-    implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.2'
+    implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.3'
+    implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.3'
 
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
