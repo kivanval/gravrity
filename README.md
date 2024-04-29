@@ -99,7 +99,7 @@ avrohugger {
     }
     // Mapping avro namespaces to scala packages
     namespaceMapping = ['com.example': 'io.github.kivanval.avrohugger']
-    // Flag related to case classes limitation in Scala versions <= 2.10
+    // Flag related to case classes limitation in Scala versions <= 2.10.*
     restrictedFieldNumber = false
 }
 ```
