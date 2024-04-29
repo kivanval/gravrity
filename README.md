@@ -71,6 +71,8 @@ sourceSets {
             // In addition to the default 'src/main/avro'
             srcDir 'src/main/avro-schemas'
             include '**/*.json'
+            // Change default output path 'generated/sources/avrohugger/scala/main'
+            destinationDirectory = file("$rootDir/someDir")
         }
   }
     test {
@@ -84,7 +86,42 @@ sourceSets {
 
 ### Customizing Avrohugger generation
 
+The plugin adds a ```avrohugger``` extension to the project.
+It provides all the configurations necessary for the generator.
 
+```groovy
+avrohugger {
+    // There are two types of generation: standard and specific. 
+    // Choose the one you need and change the standard configuration for the types if necessary.
+    format = specific {
+        intType = scalaInt
+        decimalType = scalaBigDecimal(roundingMode.CEILING())
+    }
+    // Mapping avro namespaces to scala packages
+    namespaceMapping = ['com.example': 'io.github.kivanval.avrohugger']
+    // Flag related to case classes limitation in Scala versions <= 2.10
+    restrictedFieldNumber = false
+}
+```
+#### Default configuration
+
+To understand the standard type mappings for the plugin, 
+I recommend checking out the [Avrohugger](https://github.com/julianpeeters/avrohugger).
+
+```groovy
+avrohugger {
+    // default type mapping from avrohugger
+    format = standard
+    namespaceMapping = []
+    restrictedFieldNumber = false
+}
+```
+
+#### Specific format
+
+Using the specific format make sure you have 
+a dependency on [Apache Avro](https://mvnrepository.com/artifact/org.apache.avro/avro). 
+At the moment this has to be done manually.
 
 ## Sandbox
 

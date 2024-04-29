@@ -13,5 +13,10 @@ dependencies {
 }
 
 avrohugger {
-    format = standard { intType = scalaInt }
+    format = standard {
+        intType = scalaInt
+        decimalType = scalaBigDecimal(roundingMode.CEILING())
+    }
+    namespaceMapping = ['com.example': 'io.github.kivanval.avrohugger']
+    restrictedFieldNumber = false
 }
