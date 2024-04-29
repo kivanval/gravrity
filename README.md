@@ -14,16 +14,9 @@ It has two main functions:
 ## Latest Version
 
 The latest version is 1.0.0. It requires at least Gradle 7.2 and Java 8.
-- Groovy
 ```groovy
 plugins {
   id 'io.github.kivanval.avrohugger' version '1.0.0'
-}
-```
-- Kotlin
-```kotlin
-plugins {
-  id("io.github.kivanval.avrohugger") version "1.0.0"
 }
 ```
 
@@ -39,16 +32,9 @@ pluginManagement {
 }
 ```
 And in ```build.gradle```:
-- Groovy
 ```groovy
 plugins {
   id 'com.google.protobuf' version '1.0.0-SNAPSHOT'
-}
-```
-- Kotlin
-```kotlin
-plugins {
-  id("com.google.protobuf") version "1.0.0-SNAPSHOT"
 }
 ```
 
@@ -88,7 +74,7 @@ sourceSets {
 
 The plugin adds a ```avrohugger``` extension to the project.
 It provides all the configurations necessary for the generator.
-
+- Groovy
 ```groovy
 avrohugger {
     // There are two types of generation: standard and specific. 
@@ -103,6 +89,22 @@ avrohugger {
     restrictedFieldNumber = false
 }
 ```
+- Kotlin
+```kotlin
+avrohugger {
+    // There are two types of generation: standard and specific. 
+    // Choose the one you need and change the standard configuration for the types if necessary.
+    format = specificRecord {
+        intType = scalaInt
+        decimalType = scalaBigDecimal(roundingMode.CEILING())
+    }
+    // Mapping avro namespaces to scala packages
+    namespaceMapping = mapOf("com.example" to "io.github.kivanval.avrohugger")
+    // Flag related to case classes limitation in Scala versions <= 2.10.*
+    restrictedFieldNumber = false
+}
+```
+
 #### Default configuration
 
 To understand the standard type mappings for the plugin, 
@@ -122,6 +124,12 @@ avrohugger {
 Using the specific format make sure you have 
 a dependency on [Apache Avro](https://mvnrepository.com/artifact/org.apache.avro/avro). 
 At the moment this has to be done manually.
+
+```groovy
+ dependencies {
+    compile 'org.apache.avro:avro:1.11.3'
+ }
+```
 
 ## Sandbox
 
