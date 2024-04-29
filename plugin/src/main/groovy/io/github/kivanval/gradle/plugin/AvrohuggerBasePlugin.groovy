@@ -26,9 +26,11 @@ import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.plugins.scala.ScalaBasePlugin
+import org.gradle.api.tasks.Delete
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
+import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -102,5 +104,9 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     project.tasks
       .named(sourceSet.getCompileTaskName("scala"))
       .configure {it.dependsOn(generateAvroScala)}
+    project.tasks
+      .withType(Delete)
+      .named(LifecycleBasePlugin.CLEAN_TASK_NAME)
+      .configure {it.delete(avroSource.destinationDirectory)}
   }
 }
