@@ -61,7 +61,7 @@ sourceSets {
             // 
             destinationDirectory = file("$rootDir/someDir")
         }
-  }
+    }
     test {
         avro {
             // In addition to the default 'src/test/avro'
