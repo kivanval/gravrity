@@ -58,6 +58,7 @@ sourceSets {
             srcDir 'src/main/avro-schemas'
             include '**/*.json'
             // Change default output path 'generated/sources/avrohugger/scala/main'
+            // 
             destinationDirectory = file("$rootDir/someDir")
         }
   }
@@ -69,6 +70,8 @@ sourceSets {
     }
 }
 ```
+**Warning**: Use empty directories for ```destinationDirectory```, 
+as the ```./gradlew clean``` will remove all files from the directory path specified!
 
 ### Customizing Avrohugger generation
 
@@ -79,7 +82,7 @@ It provides all the configurations necessary for the generator.
 avrohugger {
     // There are two types of generation: standard and specific. 
     // Choose the one you need and change the standard configuration for the types if necessary.
-    format = specific {
+    format = specificRecord {
         intType = scalaInt
         decimalType = scalaBigDecimal(roundingMode.CEILING())
     }
@@ -127,7 +130,7 @@ At the moment this has to be done manually.
 
 ```groovy
  dependencies {
-    compile 'org.apache.avro:avro:1.11.3'
+    implementation 'org.apache.avro:avro:1.11.3'
  }
 ```
 
