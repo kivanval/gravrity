@@ -57,7 +57,6 @@ class AvrohuggerPluginTest extends Specification {
 
     when:
     project.pluginManager.with {
-      apply(ScalaPlugin)
       apply(AvrohuggerPlugin)
     }
 
