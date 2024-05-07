@@ -164,6 +164,29 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
+  def "no conflicts with other plugins"() {
+    when:
+    buildFile << '''
+      plugins {
+        id "com.github.davidmc24.gradle.plugin.avro" version "1.9.1"
+      }
+    '''
+    def file = mainAvroSource.resolve("sample.avsc")
+    def classname = 'FullName'
+    file << TestUtils.resource(name: classname, 'sample.avsc')
+    def buildResult = TestUtils
+      .gradleRunner(projectDir, gradleVersion, "generateAvroScala", "generateAvroJava")
+      .build()
+
+    then:
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
+    buildResult.task(":generateAvroJava").outcome == TaskOutcome.SUCCESS
+    //TODO check for correctness
+
+    where:
+    gradleVersion << TestUtils.GRADLE_VERSIONS
+  }
+
   def "build compiles generated avrohugger sources"() {
     when:
     buildFile << '''   
