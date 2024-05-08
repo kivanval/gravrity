@@ -164,7 +164,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
-  def "no conflicts with other plugins"() {
+  def "no conflicts with java avro plugin"() {
     when:
     buildFile << '''
       plugins {
