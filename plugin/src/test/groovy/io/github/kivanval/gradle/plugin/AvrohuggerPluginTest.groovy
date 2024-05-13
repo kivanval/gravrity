@@ -39,7 +39,7 @@ class AvrohuggerPluginTest extends Specification {
     then:
     def sourceSet = project.sourceSets.getByName(sourceSetName)
 
-    sourceSet.avro.srcDirs.collect { it.toString() } == [srcDir]
+    sourceSet.avro.srcDirs.collect { it.toString() }.contains(srcDir)
     sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
     sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
 

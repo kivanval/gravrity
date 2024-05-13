@@ -17,10 +17,17 @@ package io.github.kivanval.gradle.plugin
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gradle.extension.AvrohuggerExtension
+import io.github.kivanval.gradle.task.AvroExtract
 import io.github.kivanval.gradle.task.GenerateAvroScala
 import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
+import org.gradle.api.attributes.LibraryElements
+import org.gradle.api.attributes.Usage
+import org.gradle.api.file.ArchiveOperations
+import org.gradle.api.file.FileCollection
+import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
@@ -29,6 +36,7 @@ import org.gradle.api.plugins.scala.ScalaBasePlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
+import org.gradle.tooling.model.SourceDirectory
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -68,8 +76,50 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         }
 
         createGenerateAvroScalaTask(sourceSet, avro, avrohuggerExtension)
+        Configuration config = createAvroConfiguration(sourceSet)
+        createAvroExtractTask(sourceSet, avro,  config)
+        Configuration compileConfig = createCompileAvroPathConfiguration(sourceSet)
+        createCompileAvroExtractTask(sourceSet, avro, compileConfig)
       }
   }
+
+  private Configuration createAvroConfiguration(SourceSet sourceSet) {
+    String protobufConfigName = getConfigName(sourceSet.name, "avro")
+    return project.configurations.create(protobufConfigName) { Configuration it ->
+      it.visible = false
+      it.transitive = true
+    }
+  }
+
+  private Configuration createCompileAvroPathConfiguration(SourceSet sourceSet) {
+    String compileProtoConfigName = getConfigName(sourceSet.name, 'compileProtoPath')
+    Configuration compileConfig =
+      project.configurations.named(getConfigName(sourceSet.name, 'compileOnly')).get()
+    Configuration implementationConfig =
+      project.configurations.named(getConfigName(sourceSet.name, 'implementation')).get()
+    return project.configurations.create(compileProtoConfigName) { Configuration it ->
+      it.visible = false
+      it.transitive = true
+      it.extendsFrom = [
+        compileConfig,
+        implementationConfig
+      ]
+      it.canBeConsumed = false
+      it.getAttributes()
+        .attribute(
+        LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE,
+        project.getObjects().named(LibraryElements, LibraryElements.RESOURCES))
+        .attribute(
+        Usage.USAGE_ATTRIBUTE,
+        project.getObjects().named(Usage, Usage.JAVA_RUNTIME))
+    }
+  }
+
+  static String getConfigName(String sourceSetName, String type) {
+    return sourceSetName == SourceSet.MAIN_SOURCE_SET_NAME
+      ? type : sourceSetName + type.capitalize()
+  }
+
 
   private SourceDirectorySet createAvroSourceDirectorySet(SourceSet sourceSet) {
     final def displayName = "${GUtil.toWords(sourceSet.name)} Avro source"
@@ -102,5 +152,39 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     project.tasks
       .named(sourceSet.getCompileTaskName("scala"))
       .configure {it.dependsOn(generateAvroScala)}
+  }
+
+  private void createAvroExtractTask(
+    SourceSet sourceSet,
+    SourceDirectorySet avroSource,
+    Configuration config
+  ) {
+    final def avroExtract = project.tasks
+      .register(sourceSet.getTaskName("extract", "Avro"), AvroExtract) {
+        it.description = "Extracts avro files/dependencies specified by configuration"
+        it.destinationDirectory.set("${project.buildDir}/extracted-avro/${sourceSet.name}" as File)
+        it.inputFiles.from(config)
+      }
+    avroSource.srcDir(avroExtract)
+    project.tasks
+      .named(sourceSet.getTaskName("generate", "AvroScala"))
+      .configure {it.dependsOn(avroExtract)}
+  }
+
+  private void createCompileAvroExtractTask(
+    SourceSet sourceSet,
+    SourceDirectorySet avroSource,
+    Configuration compileConfig
+  ) {
+    final def avroExtractCompile = project.tasks
+      .register(sourceSet.getTaskName("extractCompile", "Avro"), AvroExtract) {
+        it.description = "Extracts avro files/dependencies from compile dependencies"
+        it.destinationDirectory.set("${project.buildDir}/extracted-compile-avro/${sourceSet.name}" as File)
+        it.inputFiles.from(compileConfig)
+      }
+    avroSource.srcDir(avroExtractCompile)
+    project.tasks
+      .named(sourceSet.getTaskName("generate", "AvroScala"))
+      .configure {it.dependsOn(avroExtractCompile)}
   }
 }
