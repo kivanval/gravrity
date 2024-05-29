@@ -25,9 +25,6 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.attributes.LibraryElements
 import org.gradle.api.attributes.Usage
-import org.gradle.api.file.ArchiveOperations
-import org.gradle.api.file.FileCollection
-import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
@@ -36,7 +33,6 @@ import org.gradle.api.plugins.scala.ScalaBasePlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
-import org.gradle.tooling.model.SourceDirectory
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -84,20 +80,20 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
   }
 
   private Configuration createAvroConfiguration(SourceSet sourceSet) {
-    String protobufConfigName = getConfigName(sourceSet.name, "avro")
-    return project.configurations.create(protobufConfigName) { Configuration it ->
+    String avroConfigName = getConfigName(sourceSet.name, "avro")
+    return project.configurations.create(avroConfigName) { Configuration it ->
       it.visible = false
       it.transitive = true
     }
   }
 
   private Configuration createCompileAvroPathConfiguration(SourceSet sourceSet) {
-    String compileProtoConfigName = getConfigName(sourceSet.name, 'compileProtoPath')
+    String compileAvroConfigName = getConfigName(sourceSet.name, 'compileAvroPath')
     Configuration compileConfig =
       project.configurations.named(getConfigName(sourceSet.name, 'compileOnly')).get()
     Configuration implementationConfig =
-      project.configurations.named(getConfigName(sourceSet.name, 'implementation')).get()
-    return project.configurations.create(compileProtoConfigName) { Configuration it ->
+      project.configurations.named(sourceSet.getTaskName('', 'implementation')).get()
+    return project.configurations.create(compileAvroConfigName) { Configuration it ->
       it.visible = false
       it.transitive = true
       it.extendsFrom = [
