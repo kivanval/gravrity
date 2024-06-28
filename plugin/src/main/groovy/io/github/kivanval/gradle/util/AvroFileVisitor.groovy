@@ -16,18 +16,24 @@ limitations under the License.
 package io.github.kivanval.gradle.util
 
 import groovy.transform.CompileStatic
-import org.gradle.api.file.ConfigurableFileTree
-import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.Project
 import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.file.FileVisitor
+
+import java.nio.file.Files
+import java.nio.file.Path
 
 @CompileStatic
 class AvroFileVisitor implements FileVisitor {
 
-  private ConfigurableFileTree targetFileTree
+  private Path targetPath
 
-  AvroFileVisitor(ConfigurableFileTree files) {
-    targetFileTree = files
+  private Project project
+
+  AvroFileVisitor(Path path, Project targetProject) {
+    targetPath = path
+    project = targetProject
+
   }
 
   @Override
@@ -38,7 +44,10 @@ class AvroFileVisitor implements FileVisitor {
   void visitFile(FileVisitDetails fileDetails) {
     def fileName = fileDetails.name
     if ((fileName.endsWith('.avsc') || fileName.endsWith('.avdl') || fileName.endsWith('.avpr'))) {
-      targetFileTree.from(fileDetails.file)
+      Files.createFile(targetPath) << fileDetails.file.text
+    } else if (fileName.endsWith('.jar') || fileName.endsWith('.zip')) {
+      def avroVisitor = new AvroFileVisitor(targetPath, project)
+      project.zipTree(fileDetails.file).visit(avroVisitor)
     }
   }
 }

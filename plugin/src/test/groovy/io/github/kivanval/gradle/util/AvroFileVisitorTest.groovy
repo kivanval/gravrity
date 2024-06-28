@@ -15,7 +15,8 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
-import org.gradle.api.file.ConfigurableFileTree
+
+import org.gradle.internal.impldep.com.google.common.io.Resources
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.TempDir
@@ -32,13 +33,16 @@ class AvroFileVisitorTest extends Specification {
     given:
     def project = ProjectBuilder.builder().build()
     def file = Files.createFile(tmp.resolve("test.avsc"))
+    def archive = Files.createFile(tmp.resolve('avro.zip'))
+    def resPath = Path.of(Resources.getResource('sample.zip').toURI())
+    archive << Files.readAllBytes(resPath)
+
     def inputFiles = project.objects.fileTree().from(tmp)
-    def outputFiles = project.objects.fileTree()
-    def avroVisitor = new AvroFileVisitor(outputFiles)
+    def avroVisitor = new AvroFileVisitor(tmp, project)
     when:
     inputFiles.visit(avroVisitor)
 
     then:
-    outputFiles.files.contains(file.toFile())
+    outputFiles.files.size() == 4
   }
 }
