@@ -15,25 +15,30 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
-import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.ConfigurableFileTree
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
+import spock.lang.TempDir
+
+import java.nio.file.Files
+import java.nio.file.Path
 
 class AvroFileVisitorTest extends Specification {
+
+  @TempDir
+  Path tmp
 
   def "file visitor collects all avro files"() {
     given:
     def project = ProjectBuilder.builder().build()
-    def files = project.objects.fileCollection()
-    def file = new File("test.avsc")
-    files.from(file)
-    def outputFiles = project.objects.fileCollection()
+    def file = Files.createFile(tmp.resolve("test.avsc"))
+    def inputFiles = project.objects.fileTree().from(tmp)
+    def outputFiles = project.objects.fileTree()
     def avroVisitor = new AvroFileVisitor(outputFiles)
-
     when:
-    def visitedFileTree = files.asFileTree.visit(avroVisitor)
+    inputFiles.visit(avroVisitor)
 
     then:
-    outputFiles.contains(file)
+    outputFiles.files.contains(file.toFile())
   }
 }
