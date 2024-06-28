@@ -33,6 +33,7 @@ import org.gradle.api.plugins.scala.ScalaBasePlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
+import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -159,7 +160,7 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
       .register(sourceSet.getTaskName("extract", "Avro"), AvroExtract) {
         it.description = "Extracts avro files/dependencies specified by configuration"
         it.destinationDirectory.set("${project.buildDir}/extracted-avro/${sourceSet.name}" as File)
-        it.inputFiles.from(config)
+        it.source(config)
       }
     avroSource.srcDir(avroExtract)
     project.tasks
@@ -176,11 +177,11 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
       .register(sourceSet.getTaskName("extractCompile", "Avro"), AvroExtract) {
         it.description = "Extracts avro files/dependencies from compile dependencies"
         it.destinationDirectory.set("${project.buildDir}/extracted-compile-avro/${sourceSet.name}" as File)
-        it.inputFiles.from(compileConfig)
+        it.source(compileConfig)
       }
     avroSource.srcDir(avroExtractCompile)
     project.tasks
-      .named(sourceSet.getTaskName("generate", "AvroScala"))
+      .named(sourceSet.getTaskName("generate", "AvroScala"), GenerateAvroScala)
       .configure {it.dependsOn(avroExtractCompile)}
   }
 }

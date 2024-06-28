@@ -16,7 +16,6 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import java.nio.file.Paths
-import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
