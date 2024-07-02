@@ -21,9 +21,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.SimpleFileVisitor
 import java.nio.file.attribute.BasicFileAttributes
-import org.gradle.api.file.EmptyFileVisitor
-import org.gradle.api.file.FileVisitDetails
-import org.gradle.api.file.FileVisitor
 import org.gradle.internal.impldep.com.google.common.io.Resources
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification

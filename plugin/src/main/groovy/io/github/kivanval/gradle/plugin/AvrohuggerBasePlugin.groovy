@@ -23,8 +23,6 @@ import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
-import org.gradle.api.attributes.LibraryElements
-import org.gradle.api.attributes.Usage
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.internal.tasks.DefaultSourceSetOutput
 import org.gradle.api.model.ObjectFactory
@@ -33,7 +31,6 @@ import org.gradle.api.plugins.scala.ScalaBasePlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.gradle.util.internal.GUtil
 
 @CompileStatic

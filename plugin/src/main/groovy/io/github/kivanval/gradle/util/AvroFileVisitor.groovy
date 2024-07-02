@@ -17,8 +17,6 @@ package io.github.kivanval.gradle.util
 
 import groovy.transform.CompileStatic
 import java.nio.file.Path
-import java.util.function.Function
-import kotlin.properties.ObservableProperty
 import org.gradle.api.Project
 import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.file.FileVisitor
