@@ -16,13 +16,12 @@ limitations under the License.
 package io.github.kivanval.gradle.util
 
 
+import java.nio.file.Files
+import java.nio.file.Path
 import org.gradle.internal.impldep.com.google.common.io.Resources
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.TempDir
-
-import java.nio.file.Files
-import java.nio.file.Path
 
 class AvroFileVisitorTest extends Specification {
 
@@ -32,17 +31,16 @@ class AvroFileVisitorTest extends Specification {
   def "file visitor collects all avro files"() {
     given:
     def project = ProjectBuilder.builder().build()
-    def file = Files.createFile(tmp.resolve("test.avsc"))
     def archive = Files.createFile(tmp.resolve('avro.zip'))
-    def resPath = Path.of(Resources.getResource('sample.zip').toURI())
+    def resPath = Path.of(Resources.getResource('nestedSample.zip').toURI())
     archive << Files.readAllBytes(resPath)
 
     def inputFiles = project.objects.fileTree().from(tmp)
-    def avroVisitor = new AvroFileVisitor(tmp, project)
+    def avroVisitor = new AvroFileVisitor(project)
     when:
     inputFiles.visit(avroVisitor)
 
     then:
-    outputFiles.files.size() == 4
+    avroVisitor.targetFiles.size() == 6
   }
 }

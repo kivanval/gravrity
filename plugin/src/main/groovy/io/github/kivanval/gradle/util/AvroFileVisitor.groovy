@@ -16,24 +16,31 @@ limitations under the License.
 package io.github.kivanval.gradle.util
 
 import groovy.transform.CompileStatic
+import java.nio.file.Path
+import java.util.function.Function
+import kotlin.properties.ObservableProperty
 import org.gradle.api.Project
 import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.file.FileVisitor
-
-import java.nio.file.Files
-import java.nio.file.Path
+import org.gradle.api.file.RelativePath
 
 @CompileStatic
 class AvroFileVisitor implements FileVisitor {
 
-  private Path targetPath
+  Map<File, String> targetFiles
+
+  Optional<RelativePath> parentRelativePath
 
   private Project project
 
-  AvroFileVisitor(Path path, Project targetProject) {
-    targetPath = path
-    project = targetProject
+  AvroFileVisitor(Project project) {
+    this(new HashMap<File, String>(), project, Optional.<RelativePath>empty())
+  }
 
+  private AvroFileVisitor(Map<File, String> targetFiles, Project project, Optional<RelativePath> parentRelativePath) {
+    this.project = project
+    this.targetFiles = targetFiles
+    this.parentRelativePath = parentRelativePath
   }
 
   @Override
@@ -43,11 +50,31 @@ class AvroFileVisitor implements FileVisitor {
   @Override
   void visitFile(FileVisitDetails fileDetails) {
     def fileName = fileDetails.name
+
     if ((fileName.endsWith('.avsc') || fileName.endsWith('.avdl') || fileName.endsWith('.avpr'))) {
-      Files.createFile(targetPath) << fileDetails.file.text
-    } else if (fileName.endsWith('.jar') || fileName.endsWith('.zip')) {
-      def avroVisitor = new AvroFileVisitor(targetPath, project)
+      targetFiles.put(
+        fileDetails.file,
+        parentRelativePath.flatMap {
+          Optional.ofNullable(Path.of(it.pathString).parent)
+        }.map {
+          it.resolve(fileDetails.path).toString()
+        }.orElse(fileDetails.path)
+        )
+    } else {
+      processArchive(fileDetails, Optional.of(fileDetails.relativePath))
+    }
+  }
+
+  private void processArchive(FileVisitDetails fileDetails, Optional<RelativePath> relativePath) {
+    def fileName = fileDetails.name
+    def avroVisitor = new AvroFileVisitor(targetFiles, project, relativePath)
+    if (fileName.endsWith('.jar') || fileName.endsWith('.zip') || fileName.endsWith('.aar')) {
       project.zipTree(fileDetails.file).visit(avroVisitor)
+    } else if (fileName.endsWith('.tar')
+      || fileName.endsWith('.tar.gz')
+      || fileName.endsWith('.tar.bz2')
+      || fileName.endsWith('.tgz')) {
+      project.tarTree(fileDetails.file).visit(avroVisitor)
     }
   }
 }

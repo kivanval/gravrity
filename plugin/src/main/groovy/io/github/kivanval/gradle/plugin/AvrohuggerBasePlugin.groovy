@@ -75,8 +75,6 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
         createGenerateAvroScalaTask(sourceSet, avro, avrohuggerExtension)
         Configuration config = createAvroConfiguration(sourceSet)
         createAvroExtractTask(sourceSet, avro,  config)
-        Configuration compileConfig = createCompileAvroPathConfiguration(sourceSet)
-        createCompileAvroExtractTask(sourceSet, avro, compileConfig)
       }
   }
 
@@ -85,30 +83,6 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     return project.configurations.create(avroConfigName) { Configuration it ->
       it.visible = false
       it.transitive = true
-    }
-  }
-
-  private Configuration createCompileAvroPathConfiguration(SourceSet sourceSet) {
-    String compileAvroConfigName = getConfigName(sourceSet.name, 'compileAvroPath')
-    Configuration compileConfig =
-      project.configurations.named(getConfigName(sourceSet.name, 'compileOnly')).get()
-    Configuration implementationConfig =
-      project.configurations.named(sourceSet.getTaskName('', 'implementation')).get()
-    return project.configurations.create(compileAvroConfigName) { Configuration it ->
-      it.visible = false
-      it.transitive = true
-      it.extendsFrom = [
-        compileConfig,
-        implementationConfig
-      ]
-      it.canBeConsumed = false
-      it.getAttributes()
-        .attribute(
-        LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE,
-        project.getObjects().named(LibraryElements, LibraryElements.RESOURCES))
-        .attribute(
-        Usage.USAGE_ATTRIBUTE,
-        project.getObjects().named(Usage, Usage.JAVA_RUNTIME))
     }
   }
 
@@ -159,29 +133,12 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     final def avroExtract = project.tasks
       .register(sourceSet.getTaskName("extract", "Avro"), AvroExtract) {
         it.description = "Extracts avro files/dependencies specified by configuration"
-        it.destinationDirectory.set("${project.buildDir}/extracted-avro/${sourceSet.name}" as File)
+        it.destinationDirectory.set("${project.buildDir}/extracted/sources/avrohugger/avro/${sourceSet.name}" as File)
         it.source(config)
       }
     avroSource.srcDir(avroExtract)
     project.tasks
       .named(sourceSet.getTaskName("generate", "AvroScala"))
       .configure {it.dependsOn(avroExtract)}
-  }
-
-  private void createCompileAvroExtractTask(
-    SourceSet sourceSet,
-    SourceDirectorySet avroSource,
-    Configuration compileConfig
-  ) {
-    final def avroExtractCompile = project.tasks
-      .register(sourceSet.getTaskName("extractCompile", "Avro"), AvroExtract) {
-        it.description = "Extracts avro files/dependencies from compile dependencies"
-        it.destinationDirectory.set("${project.buildDir}/extracted-compile-avro/${sourceSet.name}" as File)
-        it.source(compileConfig)
-      }
-    avroSource.srcDir(avroExtractCompile)
-    project.tasks
-      .named(sourceSet.getTaskName("generate", "AvroScala"), GenerateAvroScala)
-      .configure {it.dependsOn(avroExtractCompile)}
   }
 }

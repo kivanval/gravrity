@@ -31,6 +31,7 @@ class AvrohuggerPluginTest extends Specification {
       .toString()
     def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
       .toString()
+    def extractedSrcDir = Paths.get(buildDir, "/extracted/sources/avrohugger/avro/$sourceSetName").toString()
 
     when:
     project.pluginManager.apply(AvrohuggerPlugin)
@@ -39,6 +40,7 @@ class AvrohuggerPluginTest extends Specification {
     def sourceSet = project.sourceSets.getByName(sourceSetName)
 
     sourceSet.avro.srcDirs.collect { it.toString() }.contains(srcDir)
+    sourceSet.avro.srcDirs.collect { it.toString() }.contains(extractedSrcDir)
     sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
     sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
 

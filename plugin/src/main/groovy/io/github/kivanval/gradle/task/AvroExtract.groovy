@@ -15,15 +15,19 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.task
 
-
+import groovy.transform.CompileStatic
+import io.github.kivanval.gradle.util.AvroFileVisitor
 import javax.inject.Inject
+import org.gradle.api.file.CopySpec
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.file.FileCollection
-import org.gradle.api.file.FileTree
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.file.FileCopyDetails
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
 
+@CompileStatic
 class AvroExtract extends SourceTask {
 
   @OutputDirectory
@@ -36,7 +40,17 @@ class AvroExtract extends SourceTask {
 
   @TaskAction
   extract() {
-    FileTree inputAvroFiles = project.objects.fileTree()
-    source
+    def avroVisitor = new AvroFileVisitor(project)
+
+    source.visit(avroVisitor)
+    project.copy { CopySpec it ->
+      it.includeEmptyDirs = false
+      it.from(avroVisitor.targetFiles.keySet())
+      it.into(destinationDirectory)
+      it.duplicatesStrategy = DuplicatesStrategy.INCLUDE
+      it.eachFile { FileCopyDetails fileCopyDetails ->
+        path = "${avroVisitor.targetFiles[fileCopyDetails.file]}"
+      }
+    }
   }
 }
