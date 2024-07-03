@@ -79,7 +79,6 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     String avroConfigName = getConfigName(sourceSet.name, "avro")
     return project.configurations.create(avroConfigName) { Configuration it ->
       it.visible = false
-      it.transitive = true
     }
   }
 

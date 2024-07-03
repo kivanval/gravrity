@@ -53,12 +53,22 @@ class AvroFileVisitor implements FileVisitor {
       targetFiles.put(
         fileDetails.file.toPath(),
         parentRelativePath
-        .map {
-          it.parent.append(fileDetails.relativePath)
-        }.orElse(fileDetails.relativePath)
+        .map { it.append(fileDetails.relativePath) }.orElse(fileDetails.relativePath)
         )
     } else {
-      processArchive(fileDetails, Optional.of(fileDetails.relativePath))
+      processArchive(
+        fileDetails,
+        parentRelativePath
+        .map {
+          it.append(fileDetails.relativePath)
+        }
+        .or {
+          Optional.of(fileDetails.relativePath)
+        }
+        .map {
+          it.parent
+        }
+        )
     }
   }
 
