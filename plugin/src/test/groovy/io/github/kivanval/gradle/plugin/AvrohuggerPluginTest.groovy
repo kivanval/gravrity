@@ -16,7 +16,6 @@ limitations under the License.
 package io.github.kivanval.gradle.plugin
 
 import java.nio.file.Paths
-import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
@@ -32,6 +31,7 @@ class AvrohuggerPluginTest extends Specification {
       .toString()
     def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
       .toString()
+    def extractedSrcDir = Paths.get(buildDir, "/extracted/sources/avrohugger/avro/$sourceSetName").toString()
 
     when:
     project.pluginManager.apply(AvrohuggerPlugin)
@@ -39,7 +39,8 @@ class AvrohuggerPluginTest extends Specification {
     then:
     def sourceSet = project.sourceSets.getByName(sourceSetName)
 
-    sourceSet.avro.srcDirs.collect { it.toString() } == [srcDir]
+    sourceSet.avro.srcDirs.collect { it.toString() }.contains(srcDir)
+    sourceSet.avro.srcDirs.collect { it.toString() }.contains(extractedSrcDir)
     sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
     sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
 
