@@ -25,17 +25,17 @@ import org.gradle.api.file.RelativePath
 @CompileStatic
 class AvroFileVisitor implements FileVisitor {
 
-  Map<File, String> targetFiles
+  Map<Path, RelativePath> targetFiles
 
   Optional<RelativePath> parentRelativePath
 
   private Project project
 
   AvroFileVisitor(Project project) {
-    this(new HashMap<File, String>(), project, Optional.<RelativePath>empty())
+    this(new HashMap<Path, RelativePath>(), project, Optional.<RelativePath>empty())
   }
 
-  private AvroFileVisitor(Map<File, String> targetFiles, Project project, Optional<RelativePath> parentRelativePath) {
+  private AvroFileVisitor(Map<Path, RelativePath> targetFiles, Project project, Optional<RelativePath> parentRelativePath) {
     this.project = project
     this.targetFiles = targetFiles
     this.parentRelativePath = parentRelativePath
@@ -51,12 +51,11 @@ class AvroFileVisitor implements FileVisitor {
 
     if ((fileName.endsWith('.avsc') || fileName.endsWith('.avdl') || fileName.endsWith('.avpr'))) {
       targetFiles.put(
-        fileDetails.file,
-        parentRelativePath.flatMap {
-          Optional.ofNullable(Path.of(it.pathString).parent)
-        }.map {
-          it.resolve(fileDetails.path).toString()
-        }.orElse(fileDetails.path)
+        fileDetails.file.toPath(),
+        parentRelativePath
+        .map {
+          it.parent.append(fileDetails.relativePath)
+        }.orElse(fileDetails.relativePath)
         )
     } else {
       processArchive(fileDetails, Optional.of(fileDetails.relativePath))

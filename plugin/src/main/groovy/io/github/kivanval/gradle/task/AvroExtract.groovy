@@ -22,7 +22,6 @@ import org.gradle.api.file.CopySpec
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.FileCopyDetails
-import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskAction
@@ -49,7 +48,7 @@ class AvroExtract extends SourceTask {
       it.into(destinationDirectory)
       it.duplicatesStrategy = DuplicatesStrategy.INCLUDE
       it.eachFile { FileCopyDetails fileCopyDetails ->
-        path = "${avroVisitor.targetFiles[fileCopyDetails.file]}"
+        relativePath = avroVisitor.targetFiles[fileCopyDetails.file.toPath()]
       }
     }
   }

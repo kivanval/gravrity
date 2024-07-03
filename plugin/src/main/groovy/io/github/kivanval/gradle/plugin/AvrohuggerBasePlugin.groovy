@@ -127,10 +127,12 @@ class AvrohuggerBasePlugin implements Plugin<Project> {
     SourceDirectorySet avroSource,
     Configuration config
   ) {
+    final def extractedAvrohuggerDir = project.layout.buildDirectory
+      .dir("${project.buildDir}/extracted/sources/avrohugger/avro/${sourceSet.name}")
     final def avroExtract = project.tasks
       .register(sourceSet.getTaskName("extract", "Avro"), AvroExtract) {
         it.description = "Extracts avro files/dependencies specified by configuration"
-        it.destinationDirectory.set("${project.buildDir}/extracted/sources/avrohugger/avro/${sourceSet.name}" as File)
+        it.destinationDirectory.convention(extractedAvrohuggerDir)
         it.source(config)
       }
     avroSource.srcDir(avroExtract)

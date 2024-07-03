@@ -15,9 +15,9 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
-
 import java.nio.file.Files
 import java.nio.file.Path
+import org.gradle.api.file.RelativePath
 import org.gradle.internal.impldep.com.google.common.io.Resources
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
@@ -42,5 +42,12 @@ class AvroFileVisitorTest extends Specification {
 
     then:
     avroVisitor.targetFiles.size() == 6
+    def relativePaths = avroVisitor.targetFiles.values()
+    relativePaths.contains(new RelativePath(true, 'example', 'user_activity.avsc'))
+    relativePaths.contains(new RelativePath(true, 'example', 'yelp_review.avsc'))
+    relativePaths.contains(new RelativePath(true, 'example', 'truck_events.avsc'))
+    relativePaths.contains(new RelativePath(true, 'user_profile.avsc'))
+    relativePaths.contains(new RelativePath(true, 'user_activity.avsc'))
+    relativePaths.contains(new RelativePath(true, 'page_view.avsc'))
   }
 }
