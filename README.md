@@ -1,4 +1,4 @@
-# 🇺🇦 HELP UKRAINE
+_# 🇺🇦 HELP UKRAINE
 
 I'm the creator of this project.
 My country, Ukraine, [is being invaded by the Russian Federation, right now](https://war.ukraine.ua). If you want to help my country to fight, consider donating to [charity supporting Ukrainian army](https://www.comebackalive.in.ua/). More options is described on [support ukraine](https://supportukrainenow.org/) site.
@@ -34,7 +34,7 @@ pluginManagement {
 And in ```build.gradle```:
 ```groovy
 plugins {
-  id 'com.google.protobuf' version '1.0.0-SNAPSHOT'
+  id 'io.github.kivanval.avrohugger' version '1.0.0-SNAPSHOT'
 }
 ```
 
@@ -134,8 +134,26 @@ At the moment this has to be done manually.
  }
 ```
 
+## Avro files in dependencies
+
+If the dependency is put in the ```avro``` configuration, 
+the avro files are extracted to a ```extracted/sources/avrohugger/avro``` directory
+and added to the avro sources in the project. 
+Example:
+
+```groovy
+dependencies {
+    // avro files can be from a local package,
+    avro files('lib/nestedSample.zip')
+    // ... a local directory,
+    avro files('ext/')
+    // ... or an artifact from a repository
+    testAvro 'com.example:published-avro:1.0.0'
+}
+```
+
 ## Sandbox
 
 If you want to manually test the plugin, 
 use [sandbox](https://github.com/kivanval/gradle-avrohugger/tree/develop/sandbox) for this purpose.
-Run ```./gradlew build``` under the sandbox directory to test it out.
+Run ```./gradlew build``` under the sandbox directory to test it out._
