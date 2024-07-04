@@ -1,4 +1,4 @@
-_# 🇺🇦 HELP UKRAINE
+# 🇺🇦 HELP UKRAINE
 
 I'm the creator of this project.
 My country, Ukraine, [is being invaded by the Russian Federation, right now](https://war.ukraine.ua). If you want to help my country to fight, consider donating to [charity supporting Ukrainian army](https://www.comebackalive.in.ua/). More options is described on [support ukraine](https://supportukrainenow.org/) site.
@@ -137,8 +137,8 @@ At the moment this has to be done manually.
 ## Avro files in dependencies
 
 If the dependency is put in the ```avro``` configuration, 
-the avro files are extracted to a ```extracted/sources/avrohugger/avro``` directory
-and added to the avro sources in the project. 
+the avro files are extracted to a ```extracted/sources/avrohugger/avro/$sourceSetName``` directory
+and added to the avro source sets in the project. 
 Example:
 
 ```groovy
@@ -156,4 +156,4 @@ dependencies {
 
 If you want to manually test the plugin, 
 use [sandbox](https://github.com/kivanval/gradle-avrohugger/tree/develop/sandbox) for this purpose.
-Run ```./gradlew build``` under the sandbox directory to test it out._
+Run ```./gradlew build``` under the sandbox directory to test it out.
