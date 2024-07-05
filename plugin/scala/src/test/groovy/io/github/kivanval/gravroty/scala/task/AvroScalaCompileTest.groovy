@@ -15,7 +15,6 @@ limitations under the License.
 */
 package io.github.kivanval.gravroty.scala.task
 
-import io.github.kivanval.gravroty.scala.task.GenerateAvroScala
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Ignore
