@@ -32,9 +32,9 @@ version = "1.0.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
-        gravrotyBase {
-            id = 'io.github.kivanval.gravroty.base'
-            implementationClass = 'io.github.kivanval.gravroty.plugin.GravrotyBasePlugin'
+        gravrityBase {
+            id = 'io.github.kivanval.gravrity.base'
+            implementationClass = 'io.github.kivanval.gravrity.plugin.GravrityBasePlugin'
         }
     }
     testSourceSets(sourceSets.functionalTest)

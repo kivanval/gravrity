@@ -37,13 +37,13 @@ version = "1.0.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
-        gravrotyScalaBase {
-            id = 'io.github.kivanval.gravroty.scala.base'
-            implementationClass = 'io.github.kivanval.gravroty.scala.plugin.GravrotyScalaBasePlugin'
+        gravrityScalaBase {
+            id = 'io.github.kivanval.gravrity.scala.base'
+            implementationClass = 'io.github.kivanval.gravrity.scala.plugin.GravrityScalaBasePlugin'
         }
-        gravrotyScala {
-            id = 'io.github.kivanval.gravroty.scala'
-            implementationClass = 'io.github.kivanval.gravroty.scala.plugin.GravrotyScalaPlugin'
+        gravrityScala {
+            id = 'io.github.kivanval.gravrity.scala'
+            implementationClass = 'io.github.kivanval.gravrity.scala.plugin.GravrityScalaPlugin'
         }
     }
     testSourceSets(sourceSets.functionalTest)

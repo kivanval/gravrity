@@ -1,3 +1,3 @@
 plugins {
-    id 'io.github.kivanval.gravroty.base'
+    id 'io.github.kivanval.gravrity.base'
 }

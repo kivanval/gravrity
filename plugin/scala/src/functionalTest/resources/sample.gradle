@@ -1,5 +1,5 @@
 plugins {
-    id('io.github.kivanval.gravroty.scala')
+    id('io.github.kivanval.gravrity.scala')
 }
 
 repositories {
