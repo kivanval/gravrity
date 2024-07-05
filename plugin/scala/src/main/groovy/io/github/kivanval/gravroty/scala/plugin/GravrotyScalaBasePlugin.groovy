@@ -16,6 +16,7 @@ limitations under the License.
 package io.github.kivanval.gravroty.scala.plugin
 
 import groovy.transform.CompileStatic
+import io.github.kivanval.gravroty.extension.GravrotyExtension
 import io.github.kivanval.gravroty.plugin.GravrotyBasePlugin
 import io.github.kivanval.gravroty.scala.extension.AvrohuggerExtension
 import io.github.kivanval.gravroty.scala.task.GenerateAvroScala
@@ -29,7 +30,6 @@ import org.gradle.api.plugins.scala.ScalaBasePlugin
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.api.tasks.SourceSet
 import org.gradle.internal.Cast
-import org.gradle.util.internal.GUtil
 
 @CompileStatic
 class GravrotyScalaBasePlugin implements Plugin<Project> {
@@ -50,10 +50,11 @@ class GravrotyScalaBasePlugin implements Plugin<Project> {
     configureSourceSetDefaults(configureExtension())
   }
 
-  private static final String AVROHUGGER_EXTENSION_NAME = "avrohugger"
+  private static final String EXTENSION_NAME = "scala"
 
   private AvrohuggerExtension configureExtension() {
-    project.extensions.create(AVROHUGGER_EXTENSION_NAME, AvrohuggerExtension)
+    project.extensions.getByType(GravrotyExtension)
+            .extensions.create(EXTENSION_NAME, AvrohuggerExtension)
   }
 
   private void configureSourceSetDefaults(AvrohuggerExtension avrohuggerExtension) {

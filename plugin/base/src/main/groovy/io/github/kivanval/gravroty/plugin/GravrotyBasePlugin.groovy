@@ -16,6 +16,7 @@ limitations under the License.
 package io.github.kivanval.gravroty.plugin
 
 import groovy.transform.CompileStatic
+import io.github.kivanval.gravroty.extension.GravrotyExtension
 import io.github.kivanval.gravroty.task.AvroExtract
 import javax.inject.Inject
 import org.gradle.api.Plugin
@@ -39,10 +40,17 @@ class GravrotyBasePlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
     project.pluginManager.apply(JavaPlugin)
+    configureExtension()
     configureSourceSetDefaults()
   }
 
   public static final String PLUGIN_NAME = "gravroty"
+
+  public static final String EXTENSION_NAME = PLUGIN_NAME
+
+  private GravrotyExtension configureExtension() {
+    project.extensions.create(EXTENSION_NAME, GravrotyExtension)
+  }
 
   private void configureSourceSetDefaults() {
     project.extensions.getByType(JavaPluginExtension)
