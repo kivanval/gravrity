@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.kivanval.gravroty.base'
+    id 'io.github.kivanval.avrohugger'
 }
 
 repositories {
@@ -10,13 +10,8 @@ repositories {
 
 dependencies {
     implementation 'org.scala-lang:scala3-library_3:3.3.0'
-    avro files("lib/")
 }
 
-sourceSets {
-    main {
-        avro {
-
-        }
-    }
+avrohugger {
+    format = standard { intType = scalaInt }
 }
