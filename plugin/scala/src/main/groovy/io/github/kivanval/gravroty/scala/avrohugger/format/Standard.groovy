@@ -13,14 +13,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.avrohugger.format
+package io.github.kivanval.gravroty.scala.avrohugger.format
 
-
+import avrohugger.format.SpecificRecord$
+import avrohugger.format.Standard$
 import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
-import io.github.kivanval.avrohugger.type.AvroScalaTypes
+import groovy.transform.CompileStatic
+import io.github.kivanval.gravroty.scala.avrohugger.type.AvroScalaTypes
 
-interface SourceFormat extends Serializable {
-  AvroScalaTypes getTypes()
+@CompileStatic
+class Standard implements SourceFormat {
+  AvroScalaTypes types
 
-  OriginSourceFormat getOrigin()
+  Standard() {
+    this.types = new AvroScalaTypes(origin.defaultTypes())
+  }
+
+  OriginSourceFormat getOrigin() {
+    Standard$.MODULE$
+  }
 }

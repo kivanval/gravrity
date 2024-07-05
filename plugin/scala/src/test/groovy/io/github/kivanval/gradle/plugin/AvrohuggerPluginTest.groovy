@@ -15,6 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.plugin
 
+import io.github.kivanval.gravroty.scala.plugin.AvrohuggerPlugin
 import java.nio.file.Paths
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.testfixtures.ProjectBuilder

@@ -15,7 +15,6 @@ limitations under the License.
 */
 package io.github.kivanval.gradle.util
 
-import io.github.kivanval.gradle.util.DependencyUtils
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.scala.ScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder

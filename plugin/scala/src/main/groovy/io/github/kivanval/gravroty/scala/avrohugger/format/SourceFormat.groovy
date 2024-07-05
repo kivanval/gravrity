@@ -13,9 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.avrohugger.type
+package io.github.kivanval.gravroty.scala.avrohugger.format
 
-import groovy.transform.CompileStatic
 
-@CompileStatic
-trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues { }
+import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
+import io.github.kivanval.gravroty.scala.avrohugger.type.AvroScalaTypes
+
+interface SourceFormat extends Serializable {
+  AvroScalaTypes getTypes()
+
+  OriginSourceFormat getOrigin()
+}

@@ -20,6 +20,9 @@ sourceSets {
 dependencies {
     implementation(project(":base"))
 
+    implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.3'
+    implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.3'
+
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }

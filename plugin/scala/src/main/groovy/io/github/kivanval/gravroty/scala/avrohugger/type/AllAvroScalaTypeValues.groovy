@@ -13,16 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.extension
+package io.github.kivanval.gravroty.scala.avrohugger.type
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.avrohugger.format.SourceFormat
-import io.github.kivanval.avrohugger.type.AllAvroScalaTypeValues
-import org.gradle.api.plugins.ExtensionAware
 
 @CompileStatic
-abstract class AvrohuggerExtension implements AvroSourceFormatOperations, AllAvroScalaTypeValues, ExtensionAware {
-  SourceFormat format
-  Map<String, String> namespaceMapping
-  Boolean restrictedFieldNumber
-}
+trait AllAvroScalaTypeValues implements PrimitiveAvroScalaTypeValues, ComplexAvroScalaTypeValues, LogicalAvroScalaTypeValues { }

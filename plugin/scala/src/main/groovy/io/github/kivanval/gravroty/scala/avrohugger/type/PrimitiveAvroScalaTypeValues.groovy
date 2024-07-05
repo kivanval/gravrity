@@ -13,23 +13,42 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.avrohugger.format
+package io.github.kivanval.gravroty.scala.avrohugger.type
 
-import avrohugger.format.SpecificRecord$
-import avrohugger.format.Standard$
-import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
+import avrohugger.types.*
 import groovy.transform.CompileStatic
-import io.github.kivanval.avrohugger.type.AvroScalaTypes
 
 @CompileStatic
-class Standard implements SourceFormat {
-  AvroScalaTypes types
-
-  Standard() {
-    this.types = new AvroScalaTypes(origin.defaultTypes())
+trait PrimitiveAvroScalaTypeValues {
+  ScalaInt$ getScalaInt() {
+    ScalaInt$.MODULE$
   }
 
-  OriginSourceFormat getOrigin() {
-    Standard$.MODULE$
+  ScalaLong$ getScalaLong() {
+    ScalaLong$.MODULE$
+  }
+
+  ScalaFloat$ getScalaFloat() {
+    ScalaFloat$.MODULE$
+  }
+
+  ScalaDouble$ getScalaDouble() {
+    ScalaDouble$.MODULE$
+  }
+
+  ScalaBoolean$ getScalaBoolean() {
+    ScalaBoolean$.MODULE$
+  }
+
+  ScalaString$ getScalaString() {
+    ScalaString$.MODULE$
+  }
+
+  ScalaNull$ getScalaNull() {
+    ScalaNull$.MODULE$
+  }
+
+  ScalaByteArray$ getScalaByteArray() {
+    ScalaByteArray$.MODULE$
   }
 }

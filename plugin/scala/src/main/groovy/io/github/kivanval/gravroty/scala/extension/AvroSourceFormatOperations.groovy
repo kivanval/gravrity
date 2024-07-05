@@ -13,15 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.extension
+package io.github.kivanval.gravroty.scala.extension
 
 import static org.gradle.util.internal.ConfigureUtil.configure
 
 import groovy.transform.CompileStatic
-import io.github.kivanval.avrohugger.format.SourceFormat
-import io.github.kivanval.avrohugger.format.SpecificRecord
-import io.github.kivanval.avrohugger.format.Standard
-import io.github.kivanval.avrohugger.type.AvroScalaTypes
+import io.github.kivanval.gravroty.scala.avrohugger.format.SourceFormat
+import io.github.kivanval.gravroty.scala.avrohugger.format.SpecificRecord
+import io.github.kivanval.gravroty.scala.avrohugger.format.Standard
+import io.github.kivanval.gravroty.scala.avrohugger.type.AvroScalaTypes
 import org.gradle.api.Action
 
 @CompileStatic

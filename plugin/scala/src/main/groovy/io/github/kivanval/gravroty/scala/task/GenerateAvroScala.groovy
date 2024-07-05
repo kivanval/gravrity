@@ -13,15 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.task
+package io.github.kivanval.gravroty.scala.task
 
 import avrohugger.Generator
 import avrohugger.filesorter.AvdlFileSorter
 import avrohugger.filesorter.AvscFileSorter
 import groovy.transform.CompileStatic
-import io.github.kivanval.avrohugger.format.SourceFormat
-import io.github.kivanval.avrohugger.format.Standard
-import io.github.kivanval.gradle.util.DependencyUtils
+import io.github.kivanval.gravroty.scala.avrohugger.format.SourceFormat
+import io.github.kivanval.gravroty.scala.avrohugger.format.Standard
+import io.github.kivanval.gravroty.scala.util.DependencyUtils
 import javax.inject.Inject
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
