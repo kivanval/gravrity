@@ -1,3 +1,0 @@
-plugins {
-    id('io.github.kivanval.avrohugger')
-}

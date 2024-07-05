@@ -1,0 +1,8 @@
+plugins {
+    id('io.github.kivanval.gravrity.scala')
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}

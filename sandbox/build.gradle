@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.kivanval.avrohugger'
+    id 'io.github.kivanval.gravrity.scala'
 }
 
 repositories {
@@ -12,11 +12,8 @@ dependencies {
     implementation 'org.scala-lang:scala3-library_3:3.3.0'
 }
 
-avrohugger {
-    format = standard {
-        intType = scalaInt
-        decimalType = scalaBigDecimal(roundingMode.CEILING())
+gravrity {
+    scala {
+        format = standard { intType = scalaInt }
     }
-    namespaceMapping = ['com.example': 'io.github.kivanval.avrohugger']
-    restrictedFieldNumber = false
 }

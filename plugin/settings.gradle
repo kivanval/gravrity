@@ -1,1 +1,3 @@
-rootProject.name = 'gradle-avrohugger'
+rootProject.name = 'gravrity'
+
+include("base", "scala")
