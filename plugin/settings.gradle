@@ -1,1 +1,3 @@
 rootProject.name = 'gradle-avrohugger'
+
+include("base", "scala")
