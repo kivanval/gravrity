@@ -98,9 +98,11 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
 
     avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
 
-    project.tasks.with {
-      it.named(sourceSet.getCompileTaskName("scala")).configure {it.dependsOn(generateAvroScala)}
-      it.named(sourceSet.getTaskName("extract", "avro")).configure {it.dependsOn(generateAvroScala)}
+    project.tasks.named(sourceSet.getCompileTaskName("scala")).configure {
+      it.dependsOn(generateAvroScala)
+    }
+    generateAvroScala.configure {
+      it.dependsOn(project.tasks.named(sourceSet.getTaskName("extract", "avro")))
     }
   }
 }
