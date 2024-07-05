@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.kivanval.avrohugger'
+    id 'io.github.kivanval.gravroty.scala'
 }
 
 repositories {
@@ -12,6 +12,8 @@ dependencies {
     implementation 'org.scala-lang:scala3-library_3:3.3.0'
 }
 
-avrohugger {
-    format = standard { intType = scalaInt }
+gravroty {
+    scala {
+        format = standard { intType = scalaInt }
+    }
 }
