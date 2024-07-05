@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.kivanval.gravroty.scala'
+    id 'io.github.kivanval.gravrity.scala'
 }
 
 repositories {
@@ -12,7 +12,7 @@ dependencies {
     implementation 'org.scala-lang:scala3-library_3:3.3.0'
 }
 
-gravroty {
+gravrity {
     scala {
         format = standard { intType = scalaInt }
     }
