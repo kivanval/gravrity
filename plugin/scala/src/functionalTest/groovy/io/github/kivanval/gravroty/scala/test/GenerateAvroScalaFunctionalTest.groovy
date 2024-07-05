@@ -13,10 +13,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.test
+package io.github.kivanval.gravroty.scala.test
 
 
-import io.github.kivanval.gradle.util.TestUtils
+import io.github.kivanval.gravroty.scala.util.TestUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import org.gradle.testkit.runner.BuildResult

@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.avrohugger.type
+package io.github.kivanval.gravroty.scala.type
 
 import avrohugger.types.*
 import io.github.kivanval.gravroty.scala.plugin.AvrohuggerPlugin
