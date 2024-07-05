@@ -67,6 +67,3 @@ check {
 test {
     useJUnitPlatform()
 }
-
-
-
