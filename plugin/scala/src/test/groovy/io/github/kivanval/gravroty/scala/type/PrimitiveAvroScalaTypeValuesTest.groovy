@@ -16,7 +16,7 @@ limitations under the License.
 package io.github.kivanval.gravroty.scala.type
 
 import avrohugger.types.*
-import io.github.kivanval.gravroty.scala.plugin.AvrohuggerPlugin
+import io.github.kivanval.gravroty.scala.plugin.GravrotyScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -27,11 +27,11 @@ class PrimitiveAvroScalaTypeValuesTest extends Specification {
 
     when:
     project.pluginManager.with {
-      apply(AvrohuggerPlugin)
+      apply(GravrotyScalaPlugin)
     }
 
     then:
-    with(project.avrohugger) {
+    with(project.gravroty.scala) {
       scalaInt == ScalaInt$.MODULE$
       scalaLong == ScalaLong$.MODULE$
       scalaFloat == ScalaFloat$.MODULE$

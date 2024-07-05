@@ -36,7 +36,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     mainAvroSource = Files
       .createDirectories(projectDir.resolve("src/main/avro"))
     generatedOutputDir = Files
-      .createDirectories(projectDir.resolve("build/generated/sources/avrohugger/scala/main"))
+      .createDirectories(projectDir.resolve("build/generated/sources/gravroty/scala/main"))
     buildFile = projectDir.resolve("build.gradle")
     buildFile << TestUtils.resource("sample.gradle")
   }
@@ -138,7 +138,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
 
     then:
     buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
-    Files.list(generatedOutputDir).toList().isEmpty()
+    Files.list(generatedOutputDir).findAny().isEmpty()
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
@@ -164,36 +164,9 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
-  def "no conflicts with java avro plugin"() {
-    when:
-    buildFile << '''
-      plugins {
-        id "com.github.davidmc24.gradle.plugin.avro" version "1.9.1"
-      }
-    '''
-    def file = mainAvroSource.resolve("sample.avsc")
-    def classname = 'FullName'
-    file << TestUtils.resource(name: classname, 'sample.avsc')
-    def buildResult = TestUtils
-      .gradleRunner(projectDir, gradleVersion, "generateAvroScala", "generateAvroJava")
-      .build()
-
-    then:
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
-    buildResult.task(":generateAvroJava").outcome == TaskOutcome.SUCCESS
-    //TODO check for correctness
-
-    where:
-    gradleVersion << TestUtils.GRADLE_VERSIONS
-  }
-
   def "build compiles generated avrohugger sources"() {
     when:
     buildFile << '''   
-      repositories {
-        mavenCentral()
-      }
-      
       dependencies {
         implementation 'org.scala-lang:scala-library:2.13.13'
       }

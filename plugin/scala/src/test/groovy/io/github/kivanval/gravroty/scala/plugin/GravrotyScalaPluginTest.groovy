@@ -13,28 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gradle.plugin
+package io.github.kivanval.gravroty.scala.plugin
 
 import java.nio.file.Paths
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class AvrohuggerPluginTest extends Specification {
+class GravrotyScalaPluginTest extends Specification {
 
   def "plugin should have avro default settings in sourceSets"() {
     given:
     def project = ProjectBuilder.builder().build()
     def buildDir = project.layout.buildDirectory.asFile.get()
       .toString()
-    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/avrohugger/scala/$sourceSetName")
+    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/gravroty/scala/$sourceSetName")
       .toString()
     def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
       .toString()
-    def extractedSrcDir = Paths.get(buildDir, "/extracted/sources/avrohugger/avro/$sourceSetName").toString()
+    def extractedSrcDir = Paths.get(buildDir, "/extracted/sources/gravroty/avro/$sourceSetName").toString()
 
     when:
-    project.pluginManager.apply(AvrohuggerPlugin)
+    project.pluginManager.apply(GravrotyScalaPlugin)
 
     then:
     def sourceSet = project.sourceSets.getByName(sourceSetName)
@@ -53,12 +53,12 @@ class AvrohuggerPluginTest extends Specification {
     def project = ProjectBuilder.builder().build()
     def buildDir = project.layout.buildDirectory.asFile.get()
       .toString()
-    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/avrohugger/scala/$sourceSetName")
+    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/gravroty/scala/$sourceSetName")
       .toFile()
 
     when:
     project.pluginManager.with {
-      apply(AvrohuggerPlugin)
+      apply(GravrotyScalaPlugin)
     }
 
     then:

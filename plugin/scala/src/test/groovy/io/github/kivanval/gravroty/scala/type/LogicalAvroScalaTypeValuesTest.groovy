@@ -16,7 +16,7 @@ limitations under the License.
 package io.github.kivanval.gravroty.scala.type
 
 import avrohugger.types.*
-import io.github.kivanval.gravroty.scala.plugin.AvrohuggerPlugin
+import io.github.kivanval.gravroty.scala.plugin.GravrotyScalaPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import scala.Option
 import scala.math.BigDecimal
@@ -29,11 +29,11 @@ class LogicalAvroScalaTypeValuesTest extends Specification {
 
     when:
     project.pluginManager.with {
-      apply(AvrohuggerPlugin)
+      apply(GravrotyScalaPlugin)
     }
 
     then:
-    with(project.avrohugger) {
+    with(project.gravroty.scala) {
       scalaBigDecimal == new ScalaBigDecimal(Option.empty())
       scalaBigDecimal(roundingMode.FLOOR()) == new ScalaBigDecimal(Option.apply(roundingMode.FLOOR()))
       scalaBigDecimalWithPrecision == new ScalaBigDecimalWithPrecision(Option.empty())

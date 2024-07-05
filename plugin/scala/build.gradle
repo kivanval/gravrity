@@ -39,11 +39,11 @@ gradlePlugin {
     plugins {
         gravrotyScalaBase {
             id = 'io.github.kivanval.gravroty.scala.base'
-            implementationClass = 'io.github.kivanval.gravroty.scala.GravrotyScalaBasePlugin'
+            implementationClass = 'io.github.kivanval.gravroty.scala.plugin.GravrotyScalaBasePlugin'
         }
         gravrotyScala {
             id = 'io.github.kivanval.gravroty.scala'
-            implementationClass = 'io.github.kivanval.gravroty.scala.GravrotyScalaPlugin'
+            implementationClass = 'io.github.kivanval.gravroty.scala.plugin.GravrotyScalaPlugin'
         }
     }
     testSourceSets(sourceSets.functionalTest)

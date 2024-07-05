@@ -54,7 +54,7 @@ class GravrotyScalaBasePlugin implements Plugin<Project> {
 
   private AvrohuggerExtension configureExtension() {
     project.extensions.getByType(GravrotyExtension)
-            .extensions.create(EXTENSION_NAME, AvrohuggerExtension)
+      .extensions.create(EXTENSION_NAME, AvrohuggerExtension)
   }
 
   private void configureSourceSetDefaults(AvrohuggerExtension avrohuggerExtension) {
@@ -71,7 +71,7 @@ class GravrotyScalaBasePlugin implements Plugin<Project> {
     final def avro = sourceSet.extensions.getByType(SourceDirectorySet)
 
     final def generatedAvrohuggerDir = project.layout.buildDirectory
-      .dir("generated/sources/avrohugger/scala/${sourceSet.name}")
+      .dir("generated/sources/${GravrotyBasePlugin.PLUGIN_NAME}/scala/${sourceSet.name}")
     avro.destinationDirectory.convention(generatedAvrohuggerDir)
 
     avro.destinationDirectory.with {
