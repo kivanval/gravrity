@@ -26,7 +26,7 @@ import spock.lang.TempDir
 import spock.lang.Title
 import spock.lang.Unroll
 
-@Title("GenerateAvroScala task")
+@Title("Generating avro scala files")
 class GenerateAvroScalaFunctionalTest extends Specification {
   @TempDir
   Path projectDir
@@ -51,7 +51,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
       .build()
 
     then:
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.FAILED
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.NO_SOURCE
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
