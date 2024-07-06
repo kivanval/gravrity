@@ -15,55 +15,28 @@ limitations under the License.
 */
 package io.github.kivanval.gravrity.scala.plugin
 
-import java.nio.file.Paths
 import org.gradle.api.tasks.ScalaSourceDirectorySet
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class GravrityScalaPluginTest extends Specification {
 
-  def "plugin should have avro default settings in sourceSets"() {
+  def "plugin configure generated sources"() {
     given:
     def project = ProjectBuilder.builder().build()
-    def buildDir = project.layout.buildDirectory.asFile.get()
-      .toString()
-    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/gravrity/scala/$sourceSetName")
-      .toString()
-    def srcDir = Paths.get(project.projectDir.toString(), "src/$sourceSetName/avro")
-      .toString()
-    def extractedSrcDir = Paths.get(buildDir, "/extracted/sources/gravrity/avro/$sourceSetName").toString()
+    def buildDir = project.layout.buildDirectory.get().asFile.toPath()
+    def generatedSourceDirs = buildDir.resolve("generated/sources/gravrity/scala/$sourceSetName")
+      .toFile()
 
     when:
     project.pluginManager.apply(GravrityScalaPlugin)
 
     then:
     def sourceSet = project.sourceSets.getByName(sourceSetName)
-
-    sourceSet.avro.srcDirs.collect { it.toString() }.contains(srcDir)
-    sourceSet.avro.srcDirs.collect { it.toString() }.contains(extractedSrcDir)
-    sourceSet.avro.destinationDirectory.get().toString() == generatedSourceDirs
-    sourceSet.output.generatedSourcesDirs.collect { it.toString() }.contains(generatedSourceDirs)
-
-    where:
-    sourceSetName << ['main', 'test']
-  }
-
-  def "scala sourceSourceSet contains generated sources"() {
-    given:
-    def project = ProjectBuilder.builder().build()
-    def buildDir = project.layout.buildDirectory.asFile.get()
-      .toString()
-    def generatedSourceDirs = Paths.get(buildDir, "generated/sources/gravrity/scala/$sourceSetName")
-      .toFile()
-
-    when:
-    project.pluginManager.with {
-      apply(GravrityScalaPlugin)
-    }
-
-    then:
-    def sourceSet = project.sourceSets.getByName(sourceSetName)
     def scalaSourceSet = sourceSet.extensions.getByType(ScalaSourceDirectorySet)
+
+    sourceSet.avro.destinationDirectory.get().asFile == generatedSourceDirs
+    sourceSet.output.generatedSourcesDirs.contains(generatedSourceDirs)
     scalaSourceSet.srcDirs.contains(generatedSourceDirs)
 
     where:

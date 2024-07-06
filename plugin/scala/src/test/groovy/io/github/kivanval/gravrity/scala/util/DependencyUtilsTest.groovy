@@ -63,10 +63,10 @@ class DependencyUtilsTest extends Specification {
   }
 
   private static String scala2Library(String version) {
-    "${DependencyUtils.SCALA_GROUP}:${DependencyUtils.SCALA2_ARTIFACT}:$version"
+    "org.scala-lang:scala-library:$version"
   }
 
   private static String scala3Library(String version) {
-    "${DependencyUtils.SCALA_GROUP}:${DependencyUtils.SCALA3_ARTIFACT}:$version"
+    "org.scala-lang:scala3-library_3:$version"
   }
 }
