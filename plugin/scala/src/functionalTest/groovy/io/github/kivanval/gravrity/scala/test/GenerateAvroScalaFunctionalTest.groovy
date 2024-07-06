@@ -23,8 +23,10 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.TempDir
+import spock.lang.Title
+import spock.lang.Unroll
 
-
+@Title("GenerateAvroScala task")
 class GenerateAvroScalaFunctionalTest extends Specification {
   @TempDir
   Path projectDir
@@ -41,24 +43,28 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     buildFile << TestUtils.resource("sample.gradle")
   }
 
-  def "run task without source"() {
+  @Unroll
+  def "without avro sources is not executed [Gradle: #gradleVersion]"() {
     when:
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
 
     then:
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.NO_SOURCE
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.FAILED
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
-  def "run task with .avsc source"() {
+  @Unroll
+  def "with avro sources generates the corresponding scala file [Gradle: #gradleVersion]"() {
+    given:
+    def className = 'Name'
+    mainAvroSource.resolve("${className}.avsc") <<
+      TestUtils.resource(name: className, 'sample.avsc')
+
     when:
-    def file = mainAvroSource.resolve("sample.avsc")
-    def classname = 'Name'
-    file << TestUtils.resource(name: classname, 'sample.avsc')
     def buildResult = TestUtils
       .gradleRunner(projectDir, gradleVersion, "generateAvroScala")
       .build()
@@ -67,7 +73,8 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
     Files.list(generatedOutputDir)
       .findFirst()
-      .isPresent()
+      .map { generatedOutputDir.relativize(it) == Path.of("${className}.scala") }
+      .orElse(false)
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS

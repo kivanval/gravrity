@@ -28,9 +28,7 @@ class LogicalAvroScalaTypeValuesTest extends Specification {
     def project = ProjectBuilder.builder().build()
 
     when:
-    project.pluginManager.with {
-      apply(GravrityScalaPlugin)
-    }
+    project.pluginManagerapply(GravrityScalaPlugin)
 
     then:
     with(project.gravrity.scala) {

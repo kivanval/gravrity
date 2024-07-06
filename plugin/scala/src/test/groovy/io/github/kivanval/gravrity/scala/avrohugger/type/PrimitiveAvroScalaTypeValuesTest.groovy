@@ -26,9 +26,7 @@ class PrimitiveAvroScalaTypeValuesTest extends Specification {
     def project = ProjectBuilder.builder().build()
 
     when:
-    project.pluginManager.with {
-      apply(GravrityScalaPlugin)
-    }
+    project.pluginManager.apply(GravrityScalaPlugin)
 
     then:
     with(project.gravrity.scala) {
