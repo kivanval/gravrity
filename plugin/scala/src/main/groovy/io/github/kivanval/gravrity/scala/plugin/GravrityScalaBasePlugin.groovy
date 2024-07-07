@@ -68,7 +68,6 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
   }
 
   private SourceDirectorySet configureAvroSourceDirectorySet(SourceSet sourceSet) {
-    // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
     final def avro = sourceSet.extensions.getByType(AvroSourceDirectorySet)
 
     final def generatedDir = project.layout.buildDirectory
