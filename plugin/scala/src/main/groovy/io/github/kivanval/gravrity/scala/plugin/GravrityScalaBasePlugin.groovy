@@ -20,6 +20,7 @@ import io.github.kivanval.gravrity.extension.GravrityExtension
 import io.github.kivanval.gravrity.plugin.GravrityBasePlugin
 import io.github.kivanval.gravrity.scala.extension.AvrohuggerExtension
 import io.github.kivanval.gravrity.scala.task.GenerateAvroScala
+import io.github.kivanval.gravrity.source.AvroSourceDirectorySet
 import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -68,7 +69,7 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
 
   private SourceDirectorySet configureAvroSourceDirectorySet(SourceSet sourceSet) {
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
-    final def avro = sourceSet.extensions.getByType(SourceDirectorySet)
+    final def avro = sourceSet.extensions.getByType(AvroSourceDirectorySet)
 
     final def generatedDir = project.layout.buildDirectory
       .dir("generated/sources/${GravrityBasePlugin.PLUGIN_NAME}/scala/${sourceSet.name}")
@@ -78,25 +79,24 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
       Cast.cast(DefaultSourceSetOutput, sourceSet.output).generatedSourcesDirs.from(it)
       sourceSet.extensions.getByType(ScalaSourceDirectorySet).srcDir(it)
     }
-
-    avro.srcDir("src/${sourceSet.name}/${avro.name}")
+    avro
   }
 
   private void createGenerateAvroScalaTask(
     final SourceSet sourceSet,
-    final SourceDirectorySet avroSource,
+    final SourceDirectorySet avro,
     final AvrohuggerExtension avrohuggerExtension
   ) {
     final def generateAvroScala = project.tasks
       .register(sourceSet.getTaskName("generate", "AvroScala"), GenerateAvroScala) {
-        it.description = "Generates the $avroSource."
+        it.description = "Generates the $avro."
         it.format.set(avrohuggerExtension.format)
         it.namespaceMapping.set(avrohuggerExtension.namespaceMapping)
         it.restrictedFieldNumber.set(avrohuggerExtension.restrictedFieldNumber)
-        it.source(avroSource.srcDirs)
+        it.source(avro)
       }
 
-    avroSource.compiledBy(generateAvroScala, {it.destinationDirectory})
+    avro.compiledBy(generateAvroScala, {it.destinationDirectory})
 
     project.tasks.named(sourceSet.getCompileTaskName("scala")).configure {
       it.dependsOn(generateAvroScala)

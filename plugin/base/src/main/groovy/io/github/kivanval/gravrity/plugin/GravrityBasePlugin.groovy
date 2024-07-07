@@ -17,6 +17,7 @@ package io.github.kivanval.gravrity.plugin
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gravrity.extension.GravrityExtension
+import io.github.kivanval.gravrity.source.AvroSourceDirectorySet
 import io.github.kivanval.gravrity.task.AvroExtract
 import javax.inject.Inject
 import org.gradle.api.Plugin
@@ -26,6 +27,7 @@ import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSet
+import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.util.internal.GUtil
 
 @CompileStatic
@@ -77,12 +79,14 @@ class GravrityBasePlugin implements Plugin<Project> {
   private SourceDirectorySet createAvroSourceDirectorySet(SourceSet sourceSet) {
     final def displayName = "${GUtil.toWords(sourceSet.name)} Avro source"
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
-    final def avro = project.objects.sourceDirectorySet("avro", displayName)
+    final def avro = project.objects.newInstance(
+      AvroSourceDirectorySet, project.objects.sourceDirectorySet("avro", displayName))
     avro.include("**./*.avdl", "**./*.avpr", "**/*.avsc")
     avro.srcDir("src/${sourceSet.name}/${avro.name}")
 
-    sourceSet.extensions.add(SourceDirectorySet, avro.name, avro)
+    sourceSet.extensions.add(AvroSourceDirectorySet, avro.name, avro)
     sourceSet.allJava.source(avro)
+    sourceSet.resources.source(avro)
 
     avro
   }
@@ -100,7 +104,10 @@ class GravrityBasePlugin implements Plugin<Project> {
         it.destinationDirectory.convention(extractedDir)
         it.source(config)
       }
-    avro.srcDir(avroExtract)
+    project.tasks.named(sourceSet.getTaskName("process", "resources"), ProcessResources).configure {
+      it.mustRunAfter(avroExtract)
+    }
+    avro.srcDir(extractedDir)
 
     avroExtract
   }

@@ -25,11 +25,10 @@ import org.gradle.testkit.runner.GradleRunner
 class TestUtils {
 
   static final List<String> GRADLE_VERSIONS = [
-    "7.2",
-    "7.3",
-    "7.4.2",
+    "8.0",
     "8.2",
-    "8.5"
+    "8.4",
+    "8.8"
   ]
 
   static GradleRunner gradleRunner(

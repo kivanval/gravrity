@@ -33,8 +33,7 @@ class AvroExtractFunctionalTest extends Specification {
   Path extractedOutputDir
 
   def setup() {
-    extractedOutputDir = Files
-      .createDirectories(projectDir.resolve("build/extracted/sources/gravrity/avro/main"))
+    extractedOutputDir = projectDir.resolve("build/extracted/sources/gravrity/avro/main")
     buildFile = projectDir.resolve("build.gradle")
     buildFile << TestUtils.resource("sample.gradle")
   }

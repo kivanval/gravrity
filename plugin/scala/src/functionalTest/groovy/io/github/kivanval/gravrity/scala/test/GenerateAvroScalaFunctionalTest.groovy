@@ -37,8 +37,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
   def setup() {
     mainAvroSource = Files
       .createDirectories(projectDir.resolve("src/main/avro"))
-    generatedOutputDir = Files
-      .createDirectories(projectDir.resolve("build/generated/sources/gravrity/scala/main"))
+    generatedOutputDir = projectDir.resolve("build/generated/sources/gravrity/scala/main")
     buildFile = projectDir.resolve("build.gradle")
     buildFile << TestUtils.resource("sample.gradle")
   }
@@ -144,8 +143,8 @@ class GenerateAvroScalaFunctionalTest extends Specification {
       .build()
 
     then:
-    buildResult.task(":generateAvroScala").outcome == TaskOutcome.SUCCESS
-    Files.list(generatedOutputDir).findAny().isEmpty()
+    buildResult.task(":generateAvroScala").outcome == TaskOutcome.NO_SOURCE
+    !Files.exists(generatedOutputDir)
 
     where:
     gradleVersion << TestUtils.GRADLE_VERSIONS
@@ -171,7 +170,7 @@ class GenerateAvroScalaFunctionalTest extends Specification {
     gradleVersion << TestUtils.GRADLE_VERSIONS
   }
 
-  def "build compiles generated avrohugger sources"() {
+  def "build compiles generated scala sources"() {
     when:
     buildFile << '''   
       dependencies {
