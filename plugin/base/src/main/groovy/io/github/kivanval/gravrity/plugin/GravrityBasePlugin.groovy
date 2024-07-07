@@ -56,12 +56,8 @@ class GravrityBasePlugin implements Plugin<Project> {
     project.extensions.getByType(JavaPluginExtension)
       .sourceSets.configureEach { SourceSet sourceSet ->
         final def avro = createAvroSourceDirectorySet(sourceSet)
-
-        sourceSet.extensions.add(SourceDirectorySet, avro.name, avro)
-        sourceSet.allJava.source(avro)
-
-        Configuration config = createAvroConfiguration(sourceSet)
-        createAvroExtractTask(sourceSet, avro,  config)
+        final def config = createAvroConfiguration(sourceSet)
+        createAvroExtractTask(sourceSet, avro, config)
       }
   }
 
@@ -83,23 +79,29 @@ class GravrityBasePlugin implements Plugin<Project> {
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
     final def avro = project.objects.sourceDirectorySet("avro", displayName)
     avro.include("**./*.avdl", "**./*.avpr", "**/*.avsc")
-
     avro.srcDir("src/${sourceSet.name}/${avro.name}")
+
+    sourceSet.extensions.add(SourceDirectorySet, avro.name, avro)
+    sourceSet.allJava.source(avro)
+
+    avro
   }
 
 
   private void createAvroExtractTask(
     SourceSet sourceSet,
-    SourceDirectorySet avroSource,
+    SourceDirectorySet avro,
     Configuration config) {
-    final def extractedAvrohuggerDir = project.layout.buildDirectory
+    final def extractedDir = project.layout.buildDirectory
       .dir("${project.buildDir}/extracted/sources/$PLUGIN_NAME/avro/${sourceSet.name}")
     final def avroExtract = project.tasks
       .register(sourceSet.getTaskName("extract", "Avro"), AvroExtract) {
         it.description = "Extracts avro files/dependencies specified by configuration"
-        it.destinationDirectory.convention(extractedAvrohuggerDir)
+        it.destinationDirectory.convention(extractedDir)
         it.source(config)
       }
-    avroSource.srcDir(avroExtract)
+    avro.srcDir(avroExtract)
+
+    avroExtract
   }
 }

@@ -70,11 +70,11 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
     // TODO Use a custom SourceDirectorySet when versions < 8.0 will not be supported
     final def avro = sourceSet.extensions.getByType(SourceDirectorySet)
 
-    final def generatedAvrohuggerDir = project.layout.buildDirectory
+    final def generatedDir = project.layout.buildDirectory
       .dir("generated/sources/${GravrityBasePlugin.PLUGIN_NAME}/scala/${sourceSet.name}")
-    avro.destinationDirectory.convention(generatedAvrohuggerDir)
 
     avro.destinationDirectory.with {
+      it.convention(generatedDir)
       Cast.cast(DefaultSourceSetOutput, sourceSet.output).generatedSourcesDirs.from(it)
       sourceSet.extensions.getByType(ScalaSourceDirectorySet).srcDir(it)
     }
