@@ -1,0 +1,34 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'groovy'
+    id 'com.diffplug.spotless' version '6.24.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation('org.spockframework:spock-core:2.3-groovy-3.0') {
+        exclude group: 'org.codehaus.groovy'
+    }
+}
+
+group = "io.github.kivanval"
+version = "1.0.0-SNAPSHOT"
+
+spotless {
+    groovy {
+        importOrder()
+        removeSemicolons()
+        greclipse().configFile(rootProject.file('greclipse.properties'))
+        excludeJava()
+        licenseHeaderFile(rootProject.file('copyright.txt'))
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -17,10 +17,10 @@ package io.github.kivanval.gravrity.scala.plugin
 
 import groovy.transform.CompileStatic
 import io.github.kivanval.gravrity.extension.GravrityExtension
-import io.github.kivanval.gravrity.plugin.GravrityBasePlugin
+import io.github.kivanval.gravrity.plugin.GravrityCoreBasePlugin
 import io.github.kivanval.gravrity.scala.extension.AvrohuggerExtension
 import io.github.kivanval.gravrity.scala.task.GenerateAvroScala
-import io.github.kivanval.gravrity.source.AvroSourceDirectorySet
+import io.github.kivanval.gravrity.source.DefaultAvroSourceDirectorySet
 import javax.inject.Inject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -44,7 +44,7 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
     project.pluginManager.with {
-      it.apply(GravrityBasePlugin)
+      it.apply(GravrityCoreBasePlugin)
       it.apply(ScalaBasePlugin)
     }
 
@@ -68,13 +68,13 @@ class GravrityScalaBasePlugin implements Plugin<Project> {
   }
 
   private SourceDirectorySet configureAvroSourceDirectorySet(SourceSet sourceSet) {
-    final def avro = sourceSet.extensions.getByType(AvroSourceDirectorySet)
+    final def avro = sourceSet.extensions.getByType(DefaultAvroSourceDirectorySet)
 
-    final def generatedDir = project.layout.buildDirectory
-      .dir("generated/sources/${GravrityBasePlugin.PLUGIN_NAME}/scala/${sourceSet.name}")
+    final def generatedOutputDir = project.layout.buildDirectory
+      .dir("generated/sources/${GravrityCoreBasePlugin.PLUGIN_NAME}/scala/${sourceSet.name}")
 
     avro.destinationDirectory.with {
-      it.convention(generatedDir)
+      it.convention(generatedOutputDir)
       Cast.cast(DefaultSourceSetOutput, sourceSet.output).generatedSourcesDirs.from(it)
       sourceSet.extensions.getByType(ScalaSourceDirectorySet).srcDir(it)
     }

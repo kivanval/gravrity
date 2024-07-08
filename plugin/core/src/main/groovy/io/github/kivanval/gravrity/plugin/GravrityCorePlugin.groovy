@@ -13,22 +13,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package io.github.kivanval.gravrity.scala.avrohugger.format
+package io.github.kivanval.gravrity.plugin
 
-import avrohugger.format.SpecificRecord$
-import avrohugger.format.abstractions.SourceFormat as OriginSourceFormat
 import groovy.transform.CompileStatic
-import io.github.kivanval.gravrity.scala.avrohugger.type.AvroScalaTypes
+import javax.inject.Inject
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPlugin
 
 @CompileStatic
-class SpecificRecord implements SourceFormat {
-  final AvroScalaTypes types
+class GravrityCorePlugin implements Plugin<Project> {
+  private final Project project
 
-  SpecificRecord() {
-    this.types = new AvroScalaTypes(origin.defaultTypes())
+  @Inject
+  GravrityCorePlugin(Project project) {
+    this.project = project
   }
 
-  OriginSourceFormat getOrigin() {
-    SpecificRecord$.MODULE$
+  @Override
+  void apply(final Project project) {
+    project.pluginManager.with {
+      it.apply(GravrityCoreBasePlugin)
+      it.apply(JavaPlugin)
+    }
   }
 }

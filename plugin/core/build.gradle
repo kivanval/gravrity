@@ -17,11 +17,6 @@ sourceSets {
 
 dependencies {
     implementation(project(':util'))
-    implementation(project(':core'))
-
-    implementation 'com.julianpeeters:avrohugger-core_2.13:2.8.3'
-    implementation 'com.julianpeeters:avrohugger-filesorter_2.13:2.8.3'
-
     testImplementation('org.spockframework:spock-core:2.3-groovy-3.0') {
         exclude group: 'org.codehaus.groovy'
     }
@@ -36,13 +31,13 @@ version = "1.0.0-SNAPSHOT"
 
 gradlePlugin {
     plugins {
-        gravrityScalaBase {
-            id = 'io.github.kivanval.gravrity.scala.base'
-            implementationClass = 'io.github.kivanval.gravrity.scala.plugin.GravrityScalaBasePlugin'
+        gravrityCoreBase {
+            id = 'io.github.kivanval.gravrity.core.base'
+            implementationClass = 'io.github.kivanval.gravrity.plugin.GravrityCoreBasePlugin'
         }
-        gravrityScala {
-            id = 'io.github.kivanval.gravrity.scala'
-            implementationClass = 'io.github.kivanval.gravrity.scala.plugin.GravrityScalaPlugin'
+        gravrityCore {
+            id = 'io.github.kivanval.gravrity.core'
+            implementationClass = 'io.github.kivanval.gravrity.plugin.GravrityCorePlugin'
         }
     }
     testSourceSets(sourceSets.functionalTest)

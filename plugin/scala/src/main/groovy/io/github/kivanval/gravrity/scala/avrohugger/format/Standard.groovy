@@ -23,7 +23,7 @@ import io.github.kivanval.gravrity.scala.avrohugger.type.AvroScalaTypes
 
 @CompileStatic
 class Standard implements SourceFormat {
-  AvroScalaTypes types
+  final AvroScalaTypes types
 
   Standard() {
     this.types = new AvroScalaTypes(origin.defaultTypes())

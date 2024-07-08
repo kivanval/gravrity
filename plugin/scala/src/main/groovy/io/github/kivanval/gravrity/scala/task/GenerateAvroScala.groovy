@@ -21,7 +21,7 @@ import avrohugger.filesorter.AvscFileSorter
 import groovy.transform.CompileStatic
 import io.github.kivanval.gravrity.scala.avrohugger.format.SourceFormat
 import io.github.kivanval.gravrity.scala.avrohugger.format.Standard
-import io.github.kivanval.gravrity.scala.util.DependencyUtils
+import io.github.kivanval.gravrity.util.DependencyUtils
 import javax.inject.Inject
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
@@ -58,9 +58,9 @@ class GenerateAvroScala extends SourceTask {
 
   @TaskAction
   generate() {
-    def format = format.get()
+    final def format = format.get()
 
-    def generator = new Generator(
+    final def generator = new Generator(
       format.origin,
       Option.apply(format.types.origin),
       ScalaMap.from(CollectionConverters.asScala(namespaceMapping.get())),
@@ -69,12 +69,12 @@ class GenerateAvroScala extends SourceTask {
       DependencyUtils.findScalaVersion(project)
       )
 
-    def destinationDirectory = destinationDirectory
+    final def destinationDirectory = destinationDirectory
       .asFile
       .get()
       .toString()
 
-    def sortedSources = [
+    final def sortedSources = [
       AvscFileSorter.sortSchemaFiles(Seq.from(CollectionConverters.asScala(source.matching {
         include "**/*.avsc"
       }))),
