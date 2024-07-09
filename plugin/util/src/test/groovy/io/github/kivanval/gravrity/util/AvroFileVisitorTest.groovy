@@ -15,6 +15,8 @@ limitations under the License.
 */
 package io.github.kivanval.gravrity.util
 
+import spock.lang.Title
+
 import java.nio.file.Files
 import java.nio.file.Path
 import org.gradle.api.file.RelativePath
@@ -23,19 +25,20 @@ import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.TempDir
 
+@Title("Avro file visitor")
 class AvroFileVisitorTest extends Specification {
 
   @TempDir
-  Path tmp
+  Path projectDir
 
-  def "file visitor collects all avro files"() {
+  def "collects all avro files"() {
     given:
     def project = ProjectBuilder.builder().build()
-    def archive = Files.createFile(tmp.resolve('avro.zip'))
+    def archive = Files.createFile(projectDir.resolve('avro.zip'))
     def resPath = Path.of(Resources.getResource('nestedSample.zip').toURI())
     archive << Files.readAllBytes(resPath)
 
-    def inputFiles = project.objects.fileTree().from(tmp)
+    def inputFiles = project.objects.fileTree().from(projectDir)
     def avroVisitor = project.objects.newInstance(AvroFileVisitor)
     when:
     inputFiles.visit(avroVisitor)
@@ -49,5 +52,25 @@ class AvroFileVisitorTest extends Specification {
     relativePaths.contains(new RelativePath(true, 'user_profile.avsc'))
     relativePaths.contains(new RelativePath(true, 'user_activity.avsc'))
     relativePaths.contains(new RelativePath(true, 'page_view.avsc'))
+  }
+
+  def "collects nested archive with avro files with fileTree"() {
+    given:
+    def project = ProjectBuilder.builder().build()
+    def libDir1 = Files.createDirectories(projectDir.resolve("lib/directory1"))
+    def libDir2 = Files.createDirectories(projectDir.resolve("lib/directory2"))
+    Files.createFile(libDir1.resolve('sample.avsc'))
+    Files.createFile(libDir2.resolve('sample.avsc'))
+
+    def inputFiles = project.objects.fileTree().from(projectDir)
+    def avroVisitor = project.objects.newInstance(AvroFileVisitor)
+    when:
+    inputFiles.visit(avroVisitor)
+
+    then:
+    avroVisitor.targetFiles.size() == 2
+    def relativePaths = avroVisitor.targetFiles.values()
+    relativePaths.contains(new RelativePath(true, 'lib', 'directory1', 'sample.avsc'))
+    relativePaths.contains(new RelativePath(true, 'lib', 'directory2', 'sample.avsc'))
   }
 }
