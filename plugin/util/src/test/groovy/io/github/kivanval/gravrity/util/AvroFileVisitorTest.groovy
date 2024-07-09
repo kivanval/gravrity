@@ -62,7 +62,7 @@ class AvroFileVisitorTest extends Specification {
     Files.createFile(libDir1.resolve('sample.avsc'))
     Files.createFile(libDir2.resolve('sample.avsc'))
 
-    def inputFiles = project.objects.fileTree().from(projectDir)
+    def inputFiles = project.fileTree(projectDir.resolve('lib'))
     def avroVisitor = project.objects.newInstance(AvroFileVisitor)
     when:
     inputFiles.visit(avroVisitor)
@@ -70,7 +70,7 @@ class AvroFileVisitorTest extends Specification {
     then:
     avroVisitor.targetFiles.size() == 2
     def relativePaths = avroVisitor.targetFiles.values()
-    relativePaths.contains(new RelativePath(true, 'lib', 'directory1', 'sample.avsc'))
-    relativePaths.contains(new RelativePath(true, 'lib', 'directory2', 'sample.avsc'))
+    relativePaths.contains(new RelativePath(true, 'directory1', 'sample.avsc'))
+    relativePaths.contains(new RelativePath(true, 'directory2', 'sample.avsc'))
   }
 }
