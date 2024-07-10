@@ -15,6 +15,7 @@ limitations under the License.
 */
 package io.github.kivanval.gravrity.util
 
+import spock.lang.Ignore
 import spock.lang.Title
 
 import java.nio.file.Files
@@ -40,6 +41,7 @@ class AvroFileVisitorTest extends Specification {
 
     def inputFiles = project.objects.fileTree().from(projectDir)
     def avroVisitor = project.objects.newInstance(AvroFileVisitor)
+
     when:
     inputFiles.visit(avroVisitor)
 
@@ -54,16 +56,21 @@ class AvroFileVisitorTest extends Specification {
     relativePaths.contains(new RelativePath(true, 'page_view.avsc'))
   }
 
-  def "collects nested archive with avro files with fileTree"() {
+  @Ignore("Gradle builds files in a way that makes it impossible to preserve the file structure")
+  def "collects avro files from configuration with fileTree dependency notation"() {
     given:
     def project = ProjectBuilder.builder().build()
-    def libDir1 = Files.createDirectories(projectDir.resolve("lib/directory1"))
-    def libDir2 = Files.createDirectories(projectDir.resolve("lib/directory2"))
-    Files.createFile(libDir1.resolve('sample.avsc'))
-    Files.createFile(libDir2.resolve('sample.avsc'))
+    def lib = projectDir.resolve('lib')
+    Files.createFile(Files.createDirectories(lib.resolve('directory1')).resolve('sample.avsc'))
+    Files.createFile(Files.createDirectories(lib.resolve('directory2')).resolve('sample.avsc'))
 
-    def inputFiles = project.fileTree(projectDir.resolve('lib'))
+    def testConfigurationName = 'test'
+    def testConfiguration = project.configurations.create(testConfigurationName)
+    project.dependencies.add(testConfigurationName, project.files(lib))
+    def inputFiles = testConfiguration.asFileTree
+
     def avroVisitor = project.objects.newInstance(AvroFileVisitor)
+
     when:
     inputFiles.visit(avroVisitor)
 
